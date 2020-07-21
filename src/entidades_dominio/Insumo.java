@@ -6,5 +6,5 @@ public class Insumo {
 	protected String id;
 	protected String descripcion;
 	protected Unidad unidadDeMedida;
-	protected Double costo;
+	protected Double costoPorUnidad;
 }

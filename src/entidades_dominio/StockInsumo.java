@@ -8,4 +8,12 @@ public class StockInsumo {
 	private Integer stock;
 	private Integer puntoDePedido;
 	private List<Registro> historial;
+	
+	public StockInsumo(Planta planta, Insumo insumo, Integer stock, Integer puntoDePedido) {
+		super();
+		this.planta = planta;
+		this.insumo = insumo;
+		this.stock = stock;
+		this.puntoDePedido = puntoDePedido;	
+	}
 }
