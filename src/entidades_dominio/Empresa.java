@@ -1,15 +1,14 @@
 package entidades_dominio;
 
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.TreeSet;
+import java.util.TreeMap;
+
 
 public class Empresa {
 	private String id_empresa;
@@ -134,5 +133,67 @@ public class Empresa {
     	
     	return ans;
     }
+	
+	public void plantRank() {
+		Double d=0.85D;
+		Map<Planta,Integer> m = new HashMap<Planta,Integer>();
+		Map<Integer,Planta> m2 = new HashMap<Integer,Planta>();
+		Map<Double,Planta> ans = new TreeMap<Double,Planta>();
+		Double[] actual = new Double[this.plantas.size()];
+		Double[] pageRank = new Double[this.plantas.size()];
+		Double[] gradoNegativo = new Double[this.plantas.size()];
+		Double[][] mat = new Double[this.plantas.size()][this.plantas.size()];
+		
+		for(int i=0;i<this.plantas.size();i++){
+			m2.put(i,this.plantas.get(i));
+			m.put(this.plantas.get(i),i);
+			gradoNegativo[i]=0D;
+			pageRank[i]=1D;
+			actual[i]=0D;
+		}
+		
+		for(int i=0;i<mat.length;i++) {
+			for(int j=0;j<mat.length;j++) {
+				mat[i][j]=0D;
+			}
+		}
+		
+		for(int i=0;i<this.rutas.size();i++) {
+			gradoNegativo[m.get(rutas.get(i).getOrigen())]+=1D;
+		}
+		
+		for(int i=0;i<this.rutas.size();i++) {
+			Integer c = m.get(rutas.get(i).getOrigen());
+			Integer f = m.get(rutas.get(i).getDestino());
+			mat[f][c]+=1D/gradoNegativo[c];
+		}
+		
+		Boolean corte = true;
+		while(corte) {
+			corte=false;
+			for(int j=0;j<mat.length;j++) {
+				for(int k=0;k<mat.length;k++) {
+					actual[j] += mat[j][k]*pageRank[k];
+				}
+				actual[j] = (1-d) + d*actual[j];
+			}
+			
+			for(int j=0;j<actual.length;j++) {
+				if(Double.max(actual[j],pageRank[j])-Double.min(actual[j],pageRank[j])>0.0000000001D){
+					corte=true;
+				}
+			}
+			for(int i=0;i<pageRank.length;i++) {
+				pageRank[i]=actual[i];
+				actual[i]=0D;
+			}
+		}
+		
+		for(int i=0;i<pageRank.length;i++) {
+			m2.get(i).setPlantRank(pageRank[i]);
+			ans.put(pageRank[i],m2.get(i));
+		}
+		
+	}
 	
 }

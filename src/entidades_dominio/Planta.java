@@ -7,6 +7,7 @@ import java.util.List;
 public class Planta implements Registrable{
 	private String id_planta;
 	private String nombre;
+	private Double plantRank;
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
@@ -71,6 +72,10 @@ public class Planta implements Registrable{
 
 	public boolean nombreIgual(String nombre_planta) {
 		return this.nombre==nombre_planta;
+	}
+
+	public void setPlantRank(Double plantRank) {
+		this.plantRank=plantRank;
 	}
 	
 	
