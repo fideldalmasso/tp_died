@@ -1,8 +1,7 @@
---https://www.tutorialspoint.com/how-to-run-sql-script-using-jdbc
-
 CREATE SCHEMA tp;
 CREATE TABLE tp.Planta(
-	id_planta varchar(16) primary key
+	id_planta varchar(16) primary key,
+	nombre varchar(64)
 );
 CREATE TABLE tp.Ruta(
 	id_ruta varchar(16) primary key,
