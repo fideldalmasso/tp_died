@@ -11,6 +11,14 @@ public class Planta implements Registrable{
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
 
+	public Planta(String nombre) {
+		super();
+		this.nombre = nombre;
+		this.lista_camiones = new ArrayList<Camion>();
+		this.lista_stock_insumos = new ArrayList<StockInsumo>();
+		this.lista_pedidos = new ArrayList<Pedido>();
+	}
+	
 	public Planta(String id, String nombre) {
 		this.id_planta = id;
 		this.nombre = nombre;
@@ -60,7 +68,10 @@ public class Planta implements Registrable{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	public boolean nombreIgual(String nombre_planta) {
+		return this.nombre==nombre_planta;
+	}
 	
 	
 }
