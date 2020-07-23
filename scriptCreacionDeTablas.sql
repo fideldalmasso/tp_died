@@ -29,12 +29,14 @@ CREATE TABLE tp.Camion(
 );
 CREATE TABLE tp.Envio(
 	id_envio varchar(16) primary key,
-	id_camion varchar(16) references tp.Camion(id_camion) on update cascade on delete cascade
+	id_camion varchar(16) references tp.Camion(id_camion) on update cascade on delete cascade,
+	costo_envio double precision
 );
 CREATE TABLE tp.ASeguirEn(
 	id_envio varchar(16) references tp.Envio(id_envio) on update cascade on delete cascade,
 	id_ruta varchar(16) references tp.Ruta(id_ruta) on update cascade on delete cascade,
-	orden integer
+	orden integer,
+	primary key (id_envio, id_ruta)
 );
 CREATE TYPE tp.EstadoPedido AS ENUM('CREADA','PROCESADA','ENTREGADA','CANCELADA');
 CREATE TABLE tp.Pedido(
@@ -46,7 +48,7 @@ CREATE TABLE tp.Pedido(
 	fecha_entrega date,
 	fecha_maxima date,
 	estado_pedido tp.EstadoPedido,
-	costo double precision
+	costo_pedido double precision
 );
 CREATE TYPE tp.UnidadDeMedida AS ENUM('KILO','PIEZA','GRAMO','METRO','LITRO','METROCUADRADO','METROCUBICO');
 CREATE TABLE tp.Insumo(
@@ -63,7 +65,8 @@ CREATE TABLE tp.InsumoGeneral(
 CREATE TABLE tp.InsumoLiquido(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
 	id_insumo_liquido varchar(16),
-	densidad double precision
+	densidad double precision,
+	primary key (id_insumo,id_insumo_liquido)
 );
 CREATE TABLE tp.Detallepedido(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
@@ -83,5 +86,6 @@ CREATE TABLE tp.Registro(
 	id_insumo varchar(16) references tp.StockInsumo(id_insumo) on update cascade on delete cascade,
 	fecha_registro date,
 	stock integer,
-	puntod_de_pedido integer
+	puntod_de_pedido integer,
+	primary key (id_planta,id_insumo)
 );

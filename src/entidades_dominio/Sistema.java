@@ -41,7 +41,7 @@ public class Sistema {
 	public Optional<Marca> agregarMarca(String nombre) {
 		Optional<Marca> salida = Optional.empty();
 		Marca m = new Marca(nombre);
-		if(this.marcaDAO.getMarca(nombre).isEmpty()) {
+		if(this.marcaDAO.get(nombre).isEmpty()) {
 			this.marcaDAO.add(m);
 			salida = Optional.of(m);
 			System.out.println(m.toString()+" INSERT SUCCESS");
@@ -53,7 +53,7 @@ public class Sistema {
 	}
 	
 	public void eliminarMarca(String nombre) {
-		Optional<Marca> m = this.marcaDAO.getMarca(nombre);
+		Optional<Marca> m = this.marcaDAO.get(nombre);
 		if(!m.isEmpty()) {
 			this.marcaDAO.delete(nombre);
 			System.out.println(m.get().toString()+" DELETE SUCCESS ");
@@ -65,7 +65,7 @@ public class Sistema {
 	public Optional<Modelo> agregarModelo(String nombre, Marca marca) {	
 		Optional<Modelo> salida = Optional.empty();
 		Modelo m = new Modelo(nombre, marca);
-		if(this.modeloDAO.getModelo(nombre).isEmpty()) {
+		if(this.modeloDAO.get(nombre).isEmpty()) {
 			this.modeloDAO.add(m);
 			salida = Optional.of(m);
 			System.out.println(m.toString()+" INSERT SUCCESS ");
@@ -80,7 +80,7 @@ public class Sistema {
 		
 		
 		
-		Optional<Modelo> m = this.modeloDAO.getModelo(nombre);
+		Optional<Modelo> m = this.modeloDAO.get(nombre);
 		if(!m.isEmpty()) {
 			this.modeloDAO.delete(nombre);
 			System.out.println(m.get().toString()+" DELETE SUCCESS ");

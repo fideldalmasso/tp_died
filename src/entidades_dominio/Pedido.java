@@ -13,14 +13,14 @@ public class Pedido {
 	private LocalDateTime fechaEntrega;
 	private LocalDateTime fechaMaxima;
 	private Estado estado;
-	private Double costo;
+	private Double costo_pedido;
 	private List<DetallePedido> lista_detalle_pedidos;
 	private Envio envio;
 	private Planta plantaOrigen;
 	private Planta plantaDestino;
 	
 	public Pedido(String id, LocalDateTime fechaEntrega, LocalDateTime fechaMaxima,
-			 Double costo, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen,
+			 Double costo_pedido, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen,
 			Planta plantaDestino) {
 		super();
 		this.id = id;
@@ -28,7 +28,7 @@ public class Pedido {
 		this.fechaEntrega = fechaEntrega;
 		this.fechaMaxima = fechaMaxima;
 		this.estado = Estado.CREADA;
-		this.costo = costo;
+		this.costo_pedido = costo_pedido;
 		this.lista_detalle_pedidos = insumos;
 		this.envio = envio;
 		this.plantaOrigen = plantaOrigen;
@@ -85,10 +85,10 @@ public class Pedido {
 		this.estado = estado;
 	}
 	public Double getCosto() {
-		return costo;
+		return costo_pedido;
 	}
-	public void setCosto(Double costo) {
-		this.costo = costo;
+	public void setCosto(Double costo_pedido) {
+		this.costo_pedido = costo_pedido;
 	}
 	public List<DetallePedido> getLista_detalle_pedidos() {
 		return lista_detalle_pedidos;

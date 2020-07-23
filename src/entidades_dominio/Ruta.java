@@ -4,26 +4,27 @@ import java.time.Duration;
 
 public class Ruta {
 	private String id_ruta;
-	private Double distancia_en_km;
-	private Double duracion_en_minutos;
-	private Double peso_maximo_dia;
-	private Double peso_utilizado;
 	private Planta planta_origen;
 	private Planta planta_destino;
+	private Double distancia_en_km;
+	private Double duracion_en_minutos;
+	private Double peso_maximo_por_dia_en_kg;
+	private Double peso_utilizado;
 	
-	public Ruta(String id,Double distancia,Double duracion,Double peso_maximo_dia,Double peso_utilizado,Planta planta_origen,Planta planta_destino) {
-		super();
-		this.id_ruta=id;
-		this.distancia_en_km=distancia;
-		this.duracion_en_minutos=duracion;
-		this.peso_maximo_dia=peso_maximo_dia;
-		this.peso_utilizado=peso_utilizado;
-		this.planta_origen=planta_origen;
-		this.planta_destino=planta_destino;
+	
+	public Ruta(String id_ruta, Planta planta_origen, Planta planta_destino, Double distancia_en_km,
+			Double duracion_en_minutos, Double peso_maximo_por_dia_en_kg) {
+		this.id_ruta = id_ruta;
+		this.planta_origen = planta_origen;
+		this.planta_destino = planta_destino;
+		this.distancia_en_km = distancia_en_km;
+		this.duracion_en_minutos = duracion_en_minutos;
+		this.peso_maximo_por_dia_en_kg = peso_maximo_por_dia_en_kg;
+
 	}
 	
 	public Double getPeso() {
-		return this.peso_maximo_dia-this.peso_utilizado;
+		return this.peso_maximo_por_dia_en_kg-this.peso_utilizado;
 	}
 	public void setUtilizado() {
 		this.peso_utilizado=0D;
@@ -71,12 +72,12 @@ public class Ruta {
 		this.duracion_en_minutos = duracion_en_minutos;
 	}
 
-	public Double getPeso_maximo_dia() {
-		return peso_maximo_dia;
+	public Double getPeso_maximo_por_dia_en_kg() {
+		return peso_maximo_por_dia_en_kg;
 	}
 
 	public void setPeso_maximo_dia(Double peso_maximo_dia) {
-		this.peso_maximo_dia = peso_maximo_dia;
+		this.peso_maximo_por_dia_en_kg = peso_maximo_dia;
 	}
 
 	public Double getPeso_utilizado() {

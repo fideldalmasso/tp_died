@@ -9,12 +9,13 @@ import java.util.Optional;
 
 import entidades_dominio.*;
 
-public class ModeloDAO {
+public class ModeloDAO implements Registrable<Modelo>{
 	
 	public ModeloDAO() {
 		super();
 	}
 	
+	@Override
 	public Boolean add(Modelo m) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -34,13 +35,14 @@ public class ModeloDAO {
 		return false;
 	}
 	
-	public Boolean delete(String nombre) {
+	@Override
+	public Boolean delete(String ...nombre) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
 					"DELETE FROM tp.Modelo WHERE nombre=?;");
-			pstm.setString(1, nombre);
+			pstm.setString(1, nombre[0]);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -52,6 +54,7 @@ public class ModeloDAO {
 		return false;
 	}
 	
+	@Override
 	public Boolean update(Modelo original, Modelo nuevo) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -72,7 +75,8 @@ public class ModeloDAO {
 		return false;
 	}
 	
-	public Optional<Modelo> getModelo(String nombre) {
+	@Override
+	public Optional<Modelo> get(String ...nombre) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -80,7 +84,7 @@ public class ModeloDAO {
 		try {
 			pstm = con.prepareStatement(
 					"SELECT * FROM tp.Modelo WHERE nombre=?;");
-			pstm.setString(1, nombre);
+			pstm.setString(1, nombre[0]);
 			rs = pstm.executeQuery();
 			if(rs.next()) {
 				Marca marcaTemp = new Marca(rs.getString(2));
@@ -97,7 +101,8 @@ public class ModeloDAO {
 		return m;
 	}
 	
-	public List<Modelo> getModelos(){
+	@Override
+	public List<Modelo> getAll(){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -105,7 +110,7 @@ public class ModeloDAO {
 		try {
 			pstm = con.prepareStatement(
 					"SELECT * FROM tp.Modelo;");
-			 rs = pstm.executeQuery();
+			rs = pstm.executeQuery();
 			while(rs.next()) {
 				Marca marcaTemp = new Marca(rs.getString(2));
 				lista.add(new Modelo(rs.getString(1),marcaTemp));

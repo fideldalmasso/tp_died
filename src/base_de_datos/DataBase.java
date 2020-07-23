@@ -2,7 +2,12 @@ package base_de_datos;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import entidades_dominio.Marca;
+import entidades_dominio.Modelo;
 
 public abstract class DataBase {
 
@@ -22,6 +27,40 @@ public abstract class DataBase {
 				System.out.println(e.getMessage());		
 			}
 			return con;
+		}
+		
+		public static List<String> select(String consulta){
+			//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
+			
+			List<String> lista = new ArrayList<String>();
+			PreparedStatement pstm = null;
+			ResultSet rs = null;
+			Connection con = DataBase.getConexion();
+		
+			String[] columnas = consulta.
+							replace(" ", " ").
+							replace("SELECT", "").
+							split("FROM")[0].
+							split(",");
+			
+			try {
+				pstm = con.prepareStatement(consulta);
+				rs = pstm.executeQuery();
+				while(rs.next()) {
+					//Marca marcaTemp = new Marca(rs.getString(2));
+					//lista.add(new Modelo(rs.getString(1),marcaTemp));
+				}
+			}catch(Exception e){
+				System.out.println(e.getMessage());	
+			}finally {
+				DataBase.cerrarRs(rs);
+				DataBase.cerrarPstm(pstm);
+				DataBase.cerrarConexion(con);
+			}
+			
+			
+			
+			return lista;
 		}
 		
 //		public static PreparedStatement getPstm(Connection con,String sql) {
