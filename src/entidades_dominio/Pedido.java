@@ -1,7 +1,9 @@
 package entidades_dominio;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import enumerados.Estado;
 
@@ -31,6 +33,25 @@ public class Pedido {
 		this.envio = envio;
 		this.plantaOrigen = plantaOrigen;
 		this.plantaDestino = plantaDestino;
+	}
+	//recibe como parametro una lista con todas las plantas del sistema
+	public void buscarPlantasConStock(List<Planta> plantas){
+		List<Planta> listaDePlantasConStock = new ArrayList<>();// Lista q retorna (falta modificar retorno)
+		List<Insumo> listaDeInsumosPedido = new ArrayList<>();// En esta lista se guardan los insumos del pedido
+		for (DetallePedido detalle : this.insumos) {
+			listaDeInsumosPedido.add(detalle.getInsumo()); //Guarda los insumos del pedido
+		}
+		for(Planta planta : plantas) {
+			List<Insumo> listaDeInsumosPlanta = new ArrayList<>();
+			// se guardan los insumos de la planta
+			for(StockInsumo stock : planta.getLista_stock_insumos()) {
+				listaDeInsumosPlanta.add(stock.getInsumo());
+			}
+			 if(listaDeInsumosPlanta.containsAll(listaDeInsumosPedido)) {
+				 listaDePlantasConStock.add(planta);
+			 }
+		}
+		
 	}
 	
 	

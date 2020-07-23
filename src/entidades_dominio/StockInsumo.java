@@ -25,4 +25,21 @@ public class StockInsumo {
 		this.stock = stockNuevo;
 		this.puntoDePedido = puntoDePedido;
 	}
+
+	public Insumo getInsumo() {
+		return insumo;
+	}
+
+	public void setInsumo(Insumo insumo) {
+		this.insumo = insumo;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+	
 }
