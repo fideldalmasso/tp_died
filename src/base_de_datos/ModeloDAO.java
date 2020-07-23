@@ -7,21 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import entidades_dominio.Marca;
+import entidades_dominio.*;
 
-public class MarcaDAO {
+public class ModeloDAO {
 	
-	public MarcaDAO() {
+	public ModeloDAO() {
 		super();
 	}
 	
-	public Boolean add(Marca m) {
+	public Boolean add(Modelo m) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Marca VALUES (?);");
+					"INSERT INTO tp.Modelo VALUES (?,?);");
 			pstm.setString(1, m.getNombre());
+			pstm.setString(2, m.getMarca().getNombre());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -38,7 +39,7 @@ public class MarcaDAO {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.Marca WHERE nombre=?;");
+					"DELETE FROM tp.Modelo WHERE nombre=?;");
 			pstm.setString(1, nombre);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -51,14 +52,15 @@ public class MarcaDAO {
 		return false;
 	}
 	
-	public Boolean update(Marca moriginal, Marca mnueva) {
+	public Boolean update(Modelo original, Modelo nuevo) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Marca SET nombre=? WHERE nombre=?");
-			pstm.setString(1, mnueva.getNombre());
-			pstm.setString(2, moriginal.getNombre());
+					"UPDATE tp.Modelo SET nombre=?, marca=? WHERE nombre=?");
+			pstm.setString(1, nuevo.getNombre());
+			pstm.setString(2, nuevo.getMarca().getNombre());
+			pstm.setString(3, original.getNombre());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -70,18 +72,20 @@ public class MarcaDAO {
 		return false;
 	}
 	
-	public Optional<Marca> getMarca(String nombre) {
+	public Optional<Modelo> getModelo(String nombre) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		Optional<Marca> m = Optional.empty();
+		Optional<Modelo> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Marca WHERE nombre=?;");
+					"SELECT * FROM tp.Modelo WHERE nombre=?;");
 			pstm.setString(1, nombre);
 			rs = pstm.executeQuery();
-			if(rs.next())
-				return  Optional.of(new Marca(rs.getString(1)));
+			if(rs.next()) {
+				Marca marcaTemp = new Marca(rs.getString(2));
+				return  Optional.of(new Modelo(rs.getString(1),marcaTemp));
+			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
 		}
@@ -93,17 +97,18 @@ public class MarcaDAO {
 		return m;
 	}
 	
-	public List<Marca> getMarcas(){
+	public List<Modelo> getModelos(){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		List<Marca> lista = new ArrayList<Marca>();
+		List<Modelo> lista = new ArrayList<Modelo>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Marca;");
-			rs = pstm.executeQuery();
+					"SELECT * FROM tp.Modelo;");
+			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				lista.add(new Marca(rs.getString(1)));
+				Marca marcaTemp = new Marca(rs.getString(2));
+				lista.add(new Modelo(rs.getString(1),marcaTemp));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

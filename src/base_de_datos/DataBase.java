@@ -1,25 +1,79 @@
 package base_de_datos;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
-public class BaseDeDatos {
+public abstract class DataBase {
 
-	Connection con;
-	static final String driver = "org.postgresql.Driver";
-	static final String url = "***REMOVED***";
-	static final String user = "***REMOVED***";
-	static final String password = "***REMOVED***";
+	//private static Connection con = null;
+		//private static PreparedStatement pstm = null;
+		static final String driver = "org.postgresql.Driver";
+		static final String url = "***REMOVED***";
+		static final String user = "***REMOVED***";
+		static final String password = "***REMOVED***";
+		
+		public static Connection getConexion() {
+			Connection con = null;
+			try{
+				Class.forName(driver);
+				con =DriverManager.getConnection(url,user,password);
+			}catch(Exception e) {
+				System.out.println(e.getMessage());		
+			}
+			return con;
+		}
+		
+//		public static PreparedStatement getPstm(Connection con,String sql) {
+//			PreparedStatement pstm = null;
+//			try{
+//				pstm = con.prepareStatement(sql);
+//			}catch(Exception e) {
+//				System.out.println(e.getMessage());	
+//			}
+//			return pstm;
+//		}
+		
+//		public static Boolean ejecutar(PreparedStatement pstm) {
+//			try {
+//				return pstm.executeUpdate() == 1;
+//			} catch (SQLException e) {
+//				System.out.println(e.getMessage());	
+//			}
+//			return false;
+//		}
+		
+		public static void cerrarConexion(Connection con) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());	
+			}
+		}
+		
+		public static void cerrarPstm(PreparedStatement pstm) {
+			try {
+				pstm.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());	
+			}
+		}
+		
+		public static void cerrarRs(ResultSet rs) {
+			try {
+				rs.close();
+			}catch(Exception e) {
+				System.out.println(e.getMessage());	
+			}
+		}
+//----------------------------------------------------------------------------------
+//	Connection con;
+//	static final String driver = "org.postgresql.Driver";
+//	static final String url = "***REMOVED***";
+//	static final String user = "***REMOVED***";
+//	static final String password = "***REMOVED***";
 	
-	public BaseDeDatos() {
-		super();
-	}
+
 
 //	void conectarDB() {
 //		try{
@@ -40,9 +94,9 @@ public class BaseDeDatos {
 //		}
 //	}
 	
-	private void ejecutarScript(String nombreArchivo) {
+	private static void ejecutarScript(String nombreArchivo) {
 		//https://stackoverflow.com/questions/1497569/how-to-execute-sql-script-file-using-jdbc
-		Connection con = ConexionDB.getConexion();
+		Connection con = DataBase.getConexion();
 		Scanner s = null;
 		Statement st = null;
 		File f = null;
@@ -67,7 +121,7 @@ public class BaseDeDatos {
 				
 				s.close();
 				st.close();
-				ConexionDB.cerrarConexion(con);
+				DataBase.cerrarConexion(con);
 			}
 			catch(Exception e){
 				System.out.println(e.getMessage());
@@ -76,9 +130,9 @@ public class BaseDeDatos {
 		}
 	}
 	
-	public void cargarDB() {
+	public static void cargarDB() {
 		//checkea si existe el schema correspondiente, y si no existe lo crea
-		Connection con = ConexionDB.getConexion();
+		Connection con = DataBase.getConexion();
 		Boolean existe_schema = false;
 		ResultSet rs = null;
 		try {
@@ -95,7 +149,7 @@ public class BaseDeDatos {
 		finally {
 			try {
 				rs.close();
-				ConexionDB.cerrarConexion(con);
+				DataBase.cerrarConexion(con);
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 			}
@@ -106,7 +160,22 @@ public class BaseDeDatos {
 		
 	}
 	
-
+	public static void resetDB() {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(
+					"DROP SCHEMA IF EXISTS tp CASCADE");
+			pstm.executeUpdate();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		ejecutarScript("scriptCreacionDeTablas.sql");
+	}
 	
 //	void ejecutarSentencia(String sentencia) {
 //		Connection con = ConexionDB.getConexion();

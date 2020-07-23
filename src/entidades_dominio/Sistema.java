@@ -1,14 +1,14 @@
 package entidades_dominio;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import base_de_datos.*;
 
 
 public class Sistema {
-	BaseDeDatos db;
+	//BaseDeDatos db;
 	List<Camion> lista_camiones;
 	List<Planta> lista_plantas;
 	List<Insumo> lista_insumos;
@@ -18,6 +18,8 @@ public class Sistema {
 	List<Pedido> lista_pedidos;
 	List<Ruta>   lista_rutas;
 	MarcaDAO marcaDAO;
+	ModeloDAO modeloDAO;
+	
 	
 	public Sistema() {
 		lista_camiones = new ArrayList<Camion>();
@@ -30,20 +32,60 @@ public class Sistema {
 		lista_rutas    = new ArrayList<Ruta>();
 		
 		marcaDAO = new MarcaDAO();	
+		modeloDAO = new ModeloDAO();	
 		//db = new BaseDeDatos();
-		//db.inicializarDB();
+		DataBase.cargarDB();
+		DataBase.resetDB();
 	}
 	
-	
-	
-	public void agregarMarca(String nombre) {
-		
+	public Optional<Marca> agregarMarca(String nombre) {
+		Optional<Marca> salida = Optional.empty();
 		Marca m = new Marca(nombre);
-		if(this.marcaDAO.getMarca(nombre).isEmpty())
+		if(this.marcaDAO.getMarca(nombre).isEmpty()) {
 			this.marcaDAO.add(m);
-		System.out.println("Marca #"+nombre+" agregada con exito");
-
+			salida = Optional.of(m);
+			System.out.println(m.toString()+" INSERT SUCCESS");
+		}
+		else
+			System.out.println(m.toString()+" INSERT ERROR: ya existe en la db");
+		
+		return salida;
 	}
+	
+	public void eliminarMarca(String nombre) {
+		Optional<Marca> m = this.marcaDAO.getMarca(nombre);
+		if(!m.isEmpty()) {
+			this.marcaDAO.delete(nombre);
+			System.out.println(m.get().toString()+" DELETE SUCCESS ");
+		}
+		else
+			System.out.println("DELETE ERROR: no existe marca con nombre "+nombre);
+	}
+	
+	public Optional<Modelo> agregarModelo(String nombre, Marca marca) {	
+		Optional<Modelo> salida = Optional.empty();
+		Modelo m = new Modelo(nombre, marca);
+		if(this.modeloDAO.getModelo(nombre).isEmpty()) {
+			this.modeloDAO.add(m);
+			salida = Optional.of(m);
+			System.out.println(m.toString()+" INSERT SUCCESS ");
+		}
+		else
+			System.out.println(m.toString()+" INSERT ERROR: ya existe en la db");
+		
+		return salida;
+	}
+	
+	public void eliminarModelo(String nombre) {
+		Optional<Modelo> m = this.modeloDAO.getModelo(nombre);
+		if(!m.isEmpty()) {
+			this.modeloDAO.delete(nombre);
+			System.out.println(m.get().toString()+" DELETE SUCCESS ");
+		}
+		else
+			System.out.println("DELETE ERROR: no existe modelo con nombre "+nombre);
+	}
+	
 //	public String agregarPlanta(String id, String nombre) {
 //		if(db.existe("Planta", "id_planta", id)) 
 //			return "La planta #"+id+" ya existe en la bd";
