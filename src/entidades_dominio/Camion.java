@@ -25,6 +25,8 @@ public class Camion{
 		this.fecha_de_compra = fecha_de_compra;
 	}
 	
+	//GETTERS Y SETTERS-----------------------------------------------
+	
 	public String getId_camion() {
 		return id_camion;
 	}
@@ -67,8 +69,5 @@ public class Camion{
 	public void setFecha_de_compra(LocalDateTime fecha_de_compra) {
 		this.fecha_de_compra = fecha_de_compra;
 	}
-	
-
-
 	
 }

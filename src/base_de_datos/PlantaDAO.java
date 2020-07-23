@@ -79,12 +79,12 @@ public class PlantaDAO {
 		Optional<Planta> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Planta WHERE id_planta=?;");
+					"SELECT * FROM tp.Planta WHERE id_planta=?;"); 
 			pstm.setString(1, id_planta);
 			rs = pstm.executeQuery();
 			if(rs.next()) {
-				Planta marcaTemp = new Planta(rs.getString(2));
-				return  Optional.of(new Planta(rs.getString(1),marcaTemp));
+				//Planta marcaTemp = new Planta(rs.getString(2));
+				return  Optional.of(new Planta(rs.getString(1),rs.getString(2)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -107,8 +107,7 @@ public class PlantaDAO {
 					"SELECT * FROM tp.Planta;");
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				Planta marcaTemp = new Planta(rs.getString(2));
-				lista.add(new Planta(rs.getString(1),marcaTemp));
+				lista.add(new Planta(rs.getString(1),rs.getString(2)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

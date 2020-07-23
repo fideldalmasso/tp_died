@@ -7,6 +7,7 @@ public class Marca{
 		this.nombre = nombre;
 	}
 	
+	//GETTERS Y SETTERS-----------------------------------------------
 	public String getNombre() {
 		return nombre;
 	}

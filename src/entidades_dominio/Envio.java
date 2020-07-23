@@ -14,7 +14,7 @@ public class Envio {
 		this.camion = camion;
 		this.lista_caminos = lista_caminos;
 	}
-	
+	//GETTERS Y SETTERS-----------------------------------------------	
 	public String getId_envio() {
 		return id_envio;
 	}

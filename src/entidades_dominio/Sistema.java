@@ -77,6 +77,9 @@ public class Sistema {
 	}
 	
 	public void eliminarModelo(String nombre) {
+		
+		
+		
 		Optional<Modelo> m = this.modeloDAO.getModelo(nombre);
 		if(!m.isEmpty()) {
 			this.modeloDAO.delete(nombre);
@@ -85,6 +88,7 @@ public class Sistema {
 		else
 			System.out.println("DELETE ERROR: no existe modelo con nombre "+nombre);
 	}
+	
 	
 //	public String agregarPlanta(String id, String nombre) {
 //		if(db.existe("Planta", "id_planta", id)) 

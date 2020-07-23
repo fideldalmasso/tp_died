@@ -9,7 +9,7 @@ public class Modelo{
 		this.marca = marca;
 	}
 	
-	
+	//GETTERS Y SETTERS-----------------------------------------------
 	public String getNombre() {
 		return nombre;
 	}
