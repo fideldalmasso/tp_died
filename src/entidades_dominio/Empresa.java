@@ -243,8 +243,8 @@ public class Empresa {
 	public List<List<Ruta>> caminoMinimo(String origen, String destino){
 		List<List<Ruta>> caminoMinimo = new ArrayList<List<Ruta>>();
 		
-		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),1));//Distancia
-		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),0));//Tiempo
+		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),0));//Distancia
+		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),4));//Tiempo
 		
 		return caminoMinimo;
 	}
@@ -262,8 +262,8 @@ public class Empresa {
 		origen.setPeso(0D);
 		heap.add(origen);
 		while(!heap.isEmpty()) {
-			List<Ruta> adyacentes = new ArrayList<Ruta>();
 			Planta actual=heap.poll();
+			List<Ruta> adyacentes = this.getRutas(actual);
 			for(int i=0;i<adyacentes.size();i++){
 				Ruta ruta = adyacentes.get(i);
 				Planta nodo = ruta.getDestino();
@@ -271,8 +271,11 @@ public class Empresa {
 				if(!marcados.containsKey(nodo)) {
 					heap.add(nodo);
 				}
-				if(modo==1) peso=ruta.getDistancia();
-				else peso=ruta.getTiempo();
+				if(modo==0) {
+					peso=ruta.getDistancia();
+				}else{
+					peso=ruta.getTiempo();
+				}
 				if(actual.getPeso()+peso<nodo.getPeso()) {
 					nodo.setPeso(peso);
 					marcados.put(nodo,ruta);
@@ -283,11 +286,12 @@ public class Empresa {
 		if(marcados.containsKey(destino)) {
     		Planta act = destino;
     		while(marcados.containsKey(act)) {
+    			System.out.print(act.getPeso()+" ");
     			caminoMinimo.add(marcados.get(act));
     			act = marcados.get(act).getOrigen();
     		}
     	}
-		
+		System.out.println();
 		Collections.reverse(caminoMinimo);
 		
 		return caminoMinimo;

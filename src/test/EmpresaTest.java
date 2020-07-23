@@ -25,5 +25,28 @@ public class EmpresaTest {
 		meli.agregarRuta("r7", 2000D, 2D, 4D, 0D, "p5", "p1");
 		assertTrue(meli.flujoMaximo("p1","p5")==4D);
 	}
+	
+	@Test
+	public void testDijkstra() {
+		Empresa meli = new Empresa("meli");
+		meli.agregarPlanta("p1");
+		meli.agregarPlanta("p2");
+		meli.agregarPlanta("p3");
+		meli.agregarPlanta("p4");
+		meli.agregarPlanta("p5");
+		meli.agregarRuta("r1", 1001D, 2D, 4D, 0D, "p1", "p2");
+		meli.agregarRuta("r2", 504D, 1D, 1D, 0D, "p1", "p3");
+		meli.agregarRuta("r3", 1006D, 3D, 1D, 0D, "p1", "p4");
+		meli.agregarRuta("r4", 507D, 2D, 2D, 0D, "p2", "p5");
+		meli.agregarRuta("r7", 508D, 1D, 4D, 0D, "p3", "p4");
+		meli.agregarRuta("r5", 509D, 3D, 2D, 0D, "p3", "p5");
+		meli.agregarRuta("r6", 1002D, 1D, 1D, 0D, "p4", "p5");
+		
+		System.out.println(meli.caminoMinimo("p1","p5").get(0));
+		System.out.println(meli.caminoMinimo("p1","p5").get(1));
+		
+		assertTrue(meli.flujoMaximo("p1","p5")==4D);
+	}
+	
 
 }
