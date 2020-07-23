@@ -6,7 +6,7 @@ import java.util.List;
 
 import base_de_datos.Registrable;
 
-public class Planta implements Registrable{
+public class Planta{
 	private String id_planta;
 	private String nombre;
 	private Double plant_rank;
@@ -63,23 +63,6 @@ public class Planta implements Registrable{
 		return this.peso;
 	}
 
-	@Override
-	public String getSentenciaInsert() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSentenciaDelete() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSentenciaUpdate(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public boolean nombreIgual(String nombre_planta) {
 		return this.nombre==nombre_planta;
