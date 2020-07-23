@@ -14,7 +14,18 @@ public class InsumoGeneral extends Insumo{
 		this.pesoPorUnidad = pesoPorUnidad;
 	}
 	
+	@Override
 	public Double pesoPorUnidad() {
 		return this.pesoPorUnidad;
 	}
+	
+	//GETTERS Y SETTERS-----------------------------------------------
+	
+	public Double getPesoPorUnidad() {
+		return pesoPorUnidad;
+	}
+	public void setPesoPorUnidad(Double pesoPorUnidad) {
+		this.pesoPorUnidad = pesoPorUnidad;
+	}
+	
 }

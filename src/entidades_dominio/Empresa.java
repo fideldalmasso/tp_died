@@ -28,7 +28,8 @@ public class Empresa {
 	}
 	
 	public void agregarRuta(String id,Double distancia,Double duracion,Double peso_maximo_dia,Double peso_utilizado,String planta_origen,String planta_destino) {
-		rutas.add(new Ruta(id,distancia,duracion,peso_maximo_dia,peso_utilizado,this.getPlanta(planta_origen),this.getPlanta(planta_destino)));
+		rutas.add(new Ruta(id,this.getPlanta(planta_origen),this.getPlanta(planta_destino),distancia,duracion,peso_maximo_dia));
+		//rutas.add(new Ruta(id,distancia,duracion,peso_maximo_dia,peso_utilizado,this.getPlanta(planta_origen),this.getPlanta(planta_destino)));
 	}
 	
 	public void agregarPlanta(String nombre){

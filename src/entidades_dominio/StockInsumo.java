@@ -25,4 +25,47 @@ public class StockInsumo {
 		this.stock = stockNuevo;
 		this.puntoDePedido = puntoDePedido;
 	}
+	
+	
+	//GETTERS Y SETTERS-----------------------------------------------
+	
+	public Planta getPlanta() {
+		return planta;
+	}
+
+	public void setPlanta(Planta planta) {
+		this.planta = planta;
+	}
+
+	public Insumo getInsumo() {
+		return insumo;
+	}
+
+	public void setInsumo(Insumo insumo) {
+		this.insumo = insumo;
+	}
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
+	public Integer getPuntoDePedido() {
+		return puntoDePedido;
+	}
+
+	public void setPuntoDePedido(Integer puntoDePedido) {
+		this.puntoDePedido = puntoDePedido;
+	}
+
+	public List<Registro> getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(List<Registro> historial) {
+		this.historial = historial;
+	}
 }

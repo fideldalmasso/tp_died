@@ -4,17 +4,25 @@ import java.util.List;
 
 public class Envio {
 	private String id_envio;
-	private Double costo_envio;
 	private Camion camion;
+	private Double costo_envio;
 	private List<Ruta> lista_caminos;
 	
-	public Envio(String id_envio, Double costo_envio, Camion camion, List<Ruta> lista_caminos) {
+	
+	
+	public Envio(String id_envio, Camion camion, Double costo_envio) {
+		this.id_envio = id_envio;
+		this.camion = camion;
+		this.costo_envio = costo_envio;
+	}
+	
+	public Envio(String id_envio, Camion camion, Double costo_envio, List<Ruta> lista_caminos) {
 		this.id_envio = id_envio;
 		this.costo_envio = costo_envio;
 		this.camion = camion;
 		this.lista_caminos = lista_caminos;
 	}
-	
+	//GETTERS Y SETTERS-----------------------------------------------	
 	public String getId_envio() {
 		return id_envio;
 	}

@@ -1,6 +1,6 @@
 package entidades_dominio;
 
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,13 +9,13 @@ public class Camion{
 	private String id_camion;
 	private Planta planta;
 	private Modelo modelo;
-	private Integer distancia_recorrida_en_km;
+	private Double distancia_recorrida_en_km;
 	private Double costo_por_km;
 	private Double costo_por_hora;
-	private LocalDateTime fecha_de_compra;
+	private LocalDate fecha_de_compra;
 	
-	public Camion(String id_camion, Planta planta, Modelo modelo, Integer distancia_recorrida_en_km,
-			Double costo_por_km, Double costo_por_hora, LocalDateTime fecha_de_compra) {
+	public Camion(String id_camion, Planta planta, Modelo modelo, Double distancia_recorrida_en_km,
+			Double costo_por_km, Double costo_por_hora, LocalDate fecha_de_compra) {
 		this.id_camion = id_camion;
 		this.planta = planta;
 		this.modelo = modelo;
@@ -24,6 +24,8 @@ public class Camion{
 		this.costo_por_hora = costo_por_hora;
 		this.fecha_de_compra = fecha_de_compra;
 	}
+	
+	//GETTERS Y SETTERS-----------------------------------------------
 	
 	public String getId_camion() {
 		return id_camion;
@@ -43,10 +45,10 @@ public class Camion{
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
-	public Integer getDistancia_recorrida_en_km() {
+	public Double getDistancia_recorrida_en_km() {
 		return distancia_recorrida_en_km;
 	}
-	public void setDistancia_recorrida_en_km(Integer distancia_recorrida_en_km) {
+	public void setDistancia_recorrida_en_km(Double distancia_recorrida_en_km) {
 		this.distancia_recorrida_en_km = distancia_recorrida_en_km;
 	}
 	public Double getCosto_por_km() {
@@ -61,14 +63,11 @@ public class Camion{
 	public void setCosto_por_hora(Double costo_por_hora) {
 		this.costo_por_hora = costo_por_hora;
 	}
-	public LocalDateTime getFecha_de_compra() {
+	public LocalDate getFecha_de_compra() {
 		return fecha_de_compra;
 	}
-	public void setFecha_de_compra(LocalDateTime fecha_de_compra) {
+	public void setFecha_de_compra(LocalDate fecha_de_compra) {
 		this.fecha_de_compra = fecha_de_compra;
 	}
-	
-
-
 	
 }

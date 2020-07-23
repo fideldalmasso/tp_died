@@ -3,27 +3,31 @@ package base_de_datos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import entidades_dominio.*;
 
-public class ModeloDAO implements Registrable<Modelo>{
+public class RutaDAO {
 	
-	public ModeloDAO() {
+	public RutaDAO() {
 		super();
 	}
 	
-	@Override
-	public Boolean add(Modelo m) {
+	public Boolean add(Ruta r) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Modelo VALUES (?,?);");
-			pstm.setString(1, m.getNombre());
-			pstm.setString(2, m.getMarca().getNombre());
+					"INSERT INTO tp.Ruta VALUES (?,?,?,?,?,?);");
+			pstm.setString(1, r.getId_ruta());
+			pstm.setString(2, r.getPlanta_origen().getId_planta());
+			pstm.setString(3, r.getPlanta_destino().getId_planta());
+			pstm.setDouble(4, r.getDistancia_en_km());
+			pstm.setDouble(5, r.getDuracion_en_minutos());
+			pstm.setDouble(6, r.getPeso_maximo_por_dia_en_kg());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -35,14 +39,13 @@ public class ModeloDAO implements Registrable<Modelo>{
 		return false;
 	}
 	
-	@Override
-	public Boolean delete(String ...nombre) {
+	public Boolean delete(String id_ruta) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.Modelo WHERE nombre=?;");
-			pstm.setString(1, nombre[0]);
+					"DELETE FROM tp.Ruta WHERE id_ruta=?;");
+			pstm.setString(1, id_ruta);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -54,16 +57,25 @@ public class ModeloDAO implements Registrable<Modelo>{
 		return false;
 	}
 	
-	@Override
-	public Boolean update(Modelo original, Modelo nuevo) {
+	public Boolean update(Ruta original, Ruta nueva) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Modelo SET nombre=?, marca=? WHERE nombre=?");
-			pstm.setString(1, nuevo.getNombre());
-			pstm.setString(2, nuevo.getMarca().getNombre());
-			pstm.setString(3, original.getNombre());
+					"UPDATE tp.Ruta SET id_ruta=?, "
+					+ "id_planta_origen=?, "
+					+ "id_planta_destino=?, "
+					+ "distancia_en_km=?, "
+					+ "duracion_en_minutos=?, "
+					+ "peso_maximo_por_dia_en_kg=? "
+					+ "WHERE id_ruta=?");
+			pstm.setString(1, nueva.getId_ruta());
+			pstm.setString(2, nueva.getPlanta_origen().getId_planta());
+			pstm.setString(3, nueva.getPlanta_destino().getId_planta());
+			pstm.setDouble(4, nueva.getDistancia_en_km());
+			pstm.setDouble(5, nueva.getDuracion_en_minutos());
+			pstm.setDouble(6, nueva.getPeso_maximo_por_dia_en_kg());
+			pstm.setString(7, original.getId_ruta());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -75,20 +87,18 @@ public class ModeloDAO implements Registrable<Modelo>{
 		return false;
 	}
 	
-	@Override
-	public Optional<Modelo> get(String ...nombre) {
+	public Optional<Ruta> getRuta(String id_ruta) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		Optional<Modelo> m = Optional.empty();
+		Optional<Ruta> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Modelo WHERE nombre=?;");
-			pstm.setString(1, nombre[0]);
+					"SELECT * FROM tp.Ruta WHERE id_ruta=?;"); 
+			pstm.setString(1, id_ruta);
 			rs = pstm.executeQuery();
 			if(rs.next()) {
-				Marca marcaTemp = new Marca(rs.getString(2));
-				return  Optional.of(new Modelo(rs.getString(1),marcaTemp));
+				return Optional.of(parsearRS(rs));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -101,19 +111,17 @@ public class ModeloDAO implements Registrable<Modelo>{
 		return m;
 	}
 	
-	@Override
-	public List<Modelo> getAll(){
+	public List<Ruta> getRutas(){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		List<Modelo> lista = new ArrayList<Modelo>();
+		List<Ruta> lista = new ArrayList<Ruta>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Modelo;");
-			rs = pstm.executeQuery();
+					"SELECT * FROM tp.Ruta;");
+			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				Marca marcaTemp = new Marca(rs.getString(2));
-				lista.add(new Modelo(rs.getString(1),marcaTemp));
+				lista.add(parsearRS(rs));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -124,6 +132,16 @@ public class ModeloDAO implements Registrable<Modelo>{
 			DataBase.cerrarConexion(con);
 		}
 		return lista;
+	}
+	
+	
+	private Ruta parsearRS(ResultSet rs) throws SQLException {
+		return new Ruta(rs.getString(1),
+							new Planta(rs.getString(2)),
+							new Planta(rs.getString(3)),
+							rs.getDouble(4),
+							rs.getDouble(5),
+							rs.getDouble(6)); 
 	}
 	
 }
