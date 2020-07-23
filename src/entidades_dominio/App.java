@@ -5,6 +5,9 @@ public class App {
 	public static void main (String[] args){
 
 	Sistema sistema = new Sistema();
-	System.out.println(sistema.agregarMarca("Ferrari")); //hasta aca funciona
+	//sistema.eliminarMarca("Ferrari");
+	Marca marca1 = sistema.agregarMarca("Ferrari").get(); //hasta aca funciona
+	//sistema.eliminarModelo("Roma");
+	Modelo modelo1 = sistema.agregarModelo("Roma",marca1).get();
 	}
 }

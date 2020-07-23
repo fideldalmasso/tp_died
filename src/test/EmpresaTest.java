@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import entidades_dominio.Empresa;
-import entidades_dominio.Planta;
-import entidades_dominio.Ruta;
 
 public class EmpresaTest {
 	

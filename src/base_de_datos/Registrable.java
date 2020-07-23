@@ -1,4 +1,4 @@
-package entidades_dominio;
+package base_de_datos;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

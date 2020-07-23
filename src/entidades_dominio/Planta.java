@@ -4,9 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import base_de_datos.Registrable;
+
 public class Planta implements Registrable{
 	private String id_planta;
 	private String nombre;
+	private Double plant_rank;
+	private Double peso;
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
@@ -50,6 +54,14 @@ public class Planta implements Registrable{
 	public String getId_planta() {
 		return id_planta;
 	}
+	
+	public void setPeso(Double peso) {
+		this.peso=peso;
+	}
+	
+	public Double getPeso() {
+		return this.peso;
+	}
 
 	@Override
 	public String getSentenciaInsert() {
@@ -73,6 +85,7 @@ public class Planta implements Registrable{
 		return this.nombre==nombre_planta;
 	}
 
+<<<<<<< HEAD
 	public List<StockInsumo> getLista_stock_insumos() {
 		return lista_stock_insumos;
 	}
@@ -80,5 +93,11 @@ public class Planta implements Registrable{
 	public void setLista_stock_insumos(List<StockInsumo> lista_stock_insumos) {
 		this.lista_stock_insumos = lista_stock_insumos;
 	}
+=======
+	public void setPlantRank(Double plantRank) {
+		this.plant_rank=plantRank;
+	}
+	
+>>>>>>> c4d3d4d5856c2357788a034e43d735aa4cfa88db
 	
 }
