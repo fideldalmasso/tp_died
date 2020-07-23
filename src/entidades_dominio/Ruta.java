@@ -46,6 +46,26 @@ public class Ruta {
 		return this.planta_destino;
 	}
 
+	@Override
+	public String toString() {
+		return this.id_ruta;
+	}
+	
+	@Override
+	public boolean equals(Object r) {
+		Ruta r1;
+		if(r.getClass()==this.getClass()) {
+			r1 = (Ruta) r;
+		}else {
+			return false;
+		}
+		return this.id_ruta==r1.id_ruta /*&&
+		this.planta_origen==r1.planta_origen &&
+		this.planta_destino==r1.planta_destino &&
+		this.duracion_en_minutos==r1.duracion_en_minutos &&
+		this.distancia_en_km==r1.distancia_en_km &&
+		this.peso_maximo_por_dia_en_kg==r1.peso_maximo_por_dia_en_kg*/;
+	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	public String getId_ruta() {

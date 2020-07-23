@@ -66,6 +66,10 @@ public class Planta{
 		return contador.equals(p.getLista_detalle_pedidos().size());
 	}
 	
+	@Override
+	public String toString() {
+		return this.nombre;
+	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	

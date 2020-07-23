@@ -27,7 +27,7 @@ public class Empresa {
 		this.plantas = new ArrayList<Planta>();
 	}
 	
-	public void agregarRuta(String id,Double distancia,Double duracion,Double peso_maximo_dia,Double peso_utilizado,String planta_origen,String planta_destino) {
+	public void agregarRuta(String id,Double distancia,Double duracion,Double peso_maximo_dia,String planta_origen,String planta_destino) {
 		rutas.add(new Ruta(id,this.getPlanta(planta_origen),this.getPlanta(planta_destino),distancia,duracion,peso_maximo_dia));
 		//rutas.add(new Ruta(id,distancia,duracion,peso_maximo_dia,peso_utilizado,this.getPlanta(planta_origen),this.getPlanta(planta_destino)));
 	}
@@ -194,7 +194,7 @@ public class Empresa {
 		}
 		
 		for(int i=0;i<pageRank.length;i++) {
-			m2.get(i).setPlantRank(pageRank[i]);
+			m2.get(i).setPlant_rank(pageRank[i]);
 			ans.put(pageRank[i],m2.get(i));
 		}
 		
@@ -244,13 +244,13 @@ public class Empresa {
 	public List<List<Ruta>> caminoMinimo(String origen, String destino){
 		List<List<Ruta>> caminoMinimo = new ArrayList<List<Ruta>>();
 		
-		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),0));//Distancia
-		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),4));//Tiempo
+		caminoMinimo.add(this.dijsktra(this.getPlanta(origen),this.getPlanta(destino),0));//Distancia
+		caminoMinimo.add(this.dijsktra(this.getPlanta(origen),this.getPlanta(destino),1));//Tiempo
 		
 		return caminoMinimo;
 	}
 	
-	public List<Ruta> dijkstra(Planta origen, Planta destino, Integer modo){
+	public List<Ruta> dijsktra(Planta origen, Planta destino, Integer modo){
 		List<Ruta> caminoMinimo = new ArrayList<Ruta>();
 		Map<Planta,Ruta> marcados = new HashMap<Planta,Ruta>();
 		Map<Planta,Planta> m = new HashMap<Planta,Planta>();
@@ -278,7 +278,7 @@ public class Empresa {
 					peso=ruta.getTiempo();
 				}
 				if(actual.getPeso()+peso<nodo.getPeso()) {
-					nodo.setPeso(peso);
+					nodo.setPeso(actual.getPeso()+peso);
 					marcados.put(nodo,ruta);
 				}
 			}
@@ -287,12 +287,10 @@ public class Empresa {
 		if(marcados.containsKey(destino)) {
     		Planta act = destino;
     		while(marcados.containsKey(act)) {
-    			System.out.print(act.getPeso()+" ");
     			caminoMinimo.add(marcados.get(act));
     			act = marcados.get(act).getOrigen();
     		}
     	}
-		System.out.println();
 		Collections.reverse(caminoMinimo);
 		
 		return caminoMinimo;
