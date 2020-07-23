@@ -10,6 +10,7 @@ public class Planta implements Registrable{
 	private String id_planta;
 	private String nombre;
 	private Double plant_rank;
+	private Double peso;
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
@@ -52,6 +53,14 @@ public class Planta implements Registrable{
 	
 	public String getId_planta() {
 		return id_planta;
+	}
+	
+	public void setPeso(Double peso) {
+		this.peso=peso;
+	}
+	
+	public Double getPeso() {
+		return this.peso;
 	}
 
 	@Override

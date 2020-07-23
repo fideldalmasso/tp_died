@@ -1,11 +1,14 @@
 package entidades_dominio;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.TreeMap;
 
@@ -235,6 +238,59 @@ public class Empresa {
 		}
 		
 		return caminosMinimos;
+	}
+	
+	public List<List<Ruta>> caminoMinimo(String origen, String destino){
+		List<List<Ruta>> caminoMinimo = new ArrayList<List<Ruta>>();
+		
+		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),1));//Distancia
+		caminoMinimo.add(this.dijkstra(this.getPlanta(origen),this.getPlanta(destino),0));//Tiempo
+		
+		return caminoMinimo;
+	}
+	
+	public List<Ruta> dijkstra(Planta origen, Planta destino, Integer modo){
+		List<Ruta> caminoMinimo = new ArrayList<Ruta>();
+		Map<Planta,Ruta> marcados = new HashMap<Planta,Ruta>();
+		Map<Planta,Planta> m = new HashMap<Planta,Planta>();
+		Comparator<Planta> com = (p1,p2)->p1.getPeso().compareTo(p2.getPeso());
+		PriorityQueue<Planta> heap = new PriorityQueue(com);
+		
+		for(int i=0;i<this.plantas.size();i++){
+			plantas.get(i).setPeso(Double.MAX_VALUE);
+		}
+		origen.setPeso(0D);
+		heap.add(origen);
+		while(!heap.isEmpty()) {
+			List<Ruta> adyacentes = new ArrayList<Ruta>();
+			Planta actual=heap.poll();
+			for(int i=0;i<adyacentes.size();i++){
+				Ruta ruta = adyacentes.get(i);
+				Planta nodo = ruta.getDestino();
+				Double peso;
+				if(!marcados.containsKey(nodo)) {
+					heap.add(nodo);
+				}
+				if(modo==1) peso=ruta.getDistancia();
+				else peso=ruta.getTiempo();
+				if(actual.getPeso()+peso<nodo.getPeso()) {
+					nodo.setPeso(peso);
+					marcados.put(nodo,ruta);
+				}
+			}
+		}
+		
+		if(marcados.containsKey(destino)) {
+    		Planta act = destino;
+    		while(marcados.containsKey(act)) {
+    			caminoMinimo.add(marcados.get(act));
+    			act = marcados.get(act).getOrigen();
+    		}
+    	}
+		
+		Collections.reverse(caminoMinimo);
+		
+		return caminoMinimo;
 	}
 	
 }
