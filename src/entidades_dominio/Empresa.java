@@ -55,7 +55,7 @@ public class Empresa {
 		return ans;
 	}
 	
-	public List<Ruta> subgrafo(String plantaOrigen, String plantaDestino){
+	/*public List<Ruta> subgrafo(String plantaOrigen, String plantaDestino){
 		Double min;
 		List<Ruta> camino = new ArrayList<Ruta>();
 		Planta origen=this.getPlanta(plantaOrigen);
@@ -75,7 +75,7 @@ public class Empresa {
 		}
 		
 		return camino;
-	}
+	}*/
 	
 	public Double flujoMaximo(String plantaOrigen, String plantaDestino){
 		Double ans=0D;
@@ -194,6 +194,47 @@ public class Empresa {
 			ans.put(pageRank[i],m2.get(i));
 		}
 		
+	}
+	
+	public Double[][] matrizCaminoMinimo(Integer modo){
+		int tam=this.plantas.size();
+		Map<Planta,Integer> m = new HashMap<Planta,Integer>();
+		Double[][] caminosMinimos = new Double[tam][tam];
+		
+		for(int i=0;i<tam;i++) {
+			m.put(this.plantas.get(i),i);
+		}
+		
+		for(int i=0;i<tam;i++) {
+			for(int j=0;j<tam;j++) {
+				caminosMinimos[i][j]=Double.MAX_VALUE;
+			}
+		}
+		
+		for(int i=0;i<rutas.size();i++) {
+			Integer f=m.get(rutas.get(i).getOrigen());
+			Integer c=m.get(rutas.get(i).getDestino());
+			Double costo;
+			
+			if(modo==1) {
+				costo = rutas.get(i).getTiempo();
+			}else {
+				costo = rutas.get(i).getDistancia();
+			}
+			
+			if(costo<caminosMinimos[f][c]) caminosMinimos[f][c]=costo;
+		}
+		
+		for(int i=0;i<tam;i++) {
+			for(int j=0;j<tam;j++) {
+				for(int k=0;k<tam;k++) {
+					if(caminosMinimos[j][i]+caminosMinimos[i][k]<caminosMinimos[j][k])
+						caminosMinimos[j][k]=caminosMinimos[j][i]+caminosMinimos[i][k];
+				}
+			}
+		}
+		
+		return caminosMinimos;
 	}
 	
 }

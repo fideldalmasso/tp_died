@@ -21,7 +21,12 @@ public class Ruta {
 		this.planta_origen=planta_origen;
 		this.planta_destino=planta_destino;
 	}
-	
+	public Double getTiempo() {
+		return this.duracion;
+	}
+	public Double getDistancia() {
+		return this.distancia;
+	}
 	public Planta getOrigen() {
 		return this.planta_origen;
 	}

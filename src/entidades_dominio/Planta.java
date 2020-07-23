@@ -9,7 +9,7 @@ import base_de_datos.Registrable;
 public class Planta implements Registrable{
 	private String id_planta;
 	private String nombre;
-	private Double plantRank;
+	private Double plant_rank;
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
@@ -77,7 +77,7 @@ public class Planta implements Registrable{
 	}
 
 	public void setPlantRank(Double plantRank) {
-		this.plantRank=plantRank;
+		this.plant_rank=plantRank;
 	}
 	
 	
