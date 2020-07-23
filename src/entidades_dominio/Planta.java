@@ -15,6 +15,7 @@ public class Planta{
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
 
+
 	public Planta(String nombre) {
 		super();
 		this.nombre = nombre;
@@ -45,10 +46,9 @@ public class Planta{
 	}
 	
 	public void realizarPedido(String id, LocalDateTime fechaEntrega, LocalDateTime fechaMaxima,
-			 Double costo, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen,
-			Planta plantaDestino) {
+			 Double costo, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen) {
 		//Un usuario puede seleccionar una planta y registrar una orden de pedido donde se indique
-		this.lista_pedidos.add(new Pedido(id, fechaEntrega, fechaMaxima, costo, insumos, envio, plantaOrigen, plantaDestino));
+		this.lista_pedidos.add(new Pedido(id, fechaEntrega, fechaMaxima, costo, insumos, envio, plantaOrigen, this));
 	}
 	
 	public String getId_planta() {
@@ -68,9 +68,19 @@ public class Planta{
 		return this.nombre==nombre_planta;
 	}
 
+<<<<<<< HEAD
+	public List<StockInsumo> getLista_stock_insumos() {
+		return lista_stock_insumos;
+	}
+
+	public void setLista_stock_insumos(List<StockInsumo> lista_stock_insumos) {
+		this.lista_stock_insumos = lista_stock_insumos;
+	}
+=======
 	public void setPlantRank(Double plantRank) {
 		this.plant_rank=plantRank;
 	}
 	
+>>>>>>> c4d3d4d5856c2357788a034e43d735aa4cfa88db
 	
 }
