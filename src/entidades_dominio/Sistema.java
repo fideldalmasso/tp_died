@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import base_de_datos.*;
+
+
 public class Sistema {
 	BaseDeDatos db;
 	List<Camion> lista_camiones;
@@ -14,6 +17,7 @@ public class Sistema {
 	List<Envio>  lista_envios;
 	List<Pedido> lista_pedidos;
 	List<Ruta>   lista_rutas;
+	MarcaDAO marcaDAO;
 	
 	public Sistema() {
 		lista_camiones = new ArrayList<Camion>();
@@ -24,43 +28,45 @@ public class Sistema {
 		lista_envios   = new ArrayList<Envio>();
 		lista_pedidos  = new ArrayList<Pedido>();
 		lista_rutas    = new ArrayList<Ruta>();
-		db = new BaseDeDatos();
-		db.inicializarDB();
+		
+		marcaDAO = new MarcaDAO();	
+		//db = new BaseDeDatos();
+		//db.inicializarDB();
 	}
 	
-	public String agregarPlanta(String id, String nombre) {
-		if(db.existe("Planta", "id_planta", id)) 
-			return "La planta #"+id+" ya existe en la bd";
-		Planta temp = new Planta(id,nombre);
-		db.insert(temp);
-		this.lista_plantas.add(temp);
-		return "Planta #"+id+" agregada con exito";
-	}
 	
-	public String agregarMarca(String nombre) {
-		if(db.existe("Marca", "nombre", nombre))
-			return "La Marca #"+nombre+" ya existe en la bd";
-		Marca temp = new Marca(nombre);
-		db.insert(temp);
-		this.lista_marcas.add(temp);
-		return "Marca #"+nombre+" agregada con exito";
-	}
 	
-	public String agregarModelo(String nombre, Marca marca ) {
-		if(db.existe("Modelo", "nombre", nombre))
-			return "El Modelo #"+nombre+" ya existe en la bd";
-		Modelo temp = new Modelo(nombre, marca);
-		db.insert(temp);
-		this.lista_modelos.add(temp);
-		return "Modelo #"+nombre+" agregada con exito";
+	public void agregarMarca(String nombre) {
+		
+		Marca m = new Marca(nombre);
+		if(this.marcaDAO.getMarca(nombre).isEmpty())
+			this.marcaDAO.add(m);
+		System.out.println("Marca #"+nombre+" agregada con exito");
+
 	}
-	
-	public String agregarCamion(String id, Planta planta, Modelo modelo, Double costo_por_km, Double costo_por_hora, LocalDateTime fecha_de_compra) {
-		if(db.existe("Camion", "id_camion", id))
-			return "El camion #"+id+" ya existe en la bd";
-		Camion temp = new Camion(id,planta,modelo,costo_por_km,costo_por_hora,fecha_de_compra);
-		db.insert(temp);
-		this.lista_camiones.add(temp);
-		return "Camion #"+id+" agregado con exito";
-	}
+//	public String agregarPlanta(String id, String nombre) {
+//		if(db.existe("Planta", "id_planta", id)) 
+//			return "La planta #"+id+" ya existe en la bd";
+//		Planta temp = new Planta(id,nombre);
+//		db.insert(temp);
+//		this.lista_plantas.add(temp);
+//		return "Planta #"+id+" agregada con exito";
+//	}
+//	public String agregarModelo(String nombre, Marca marca ) {
+//		if(db.existe("Modelo", "nombre", nombre))
+//			return "El Modelo #"+nombre+" ya existe en la bd";
+//		Modelo temp = new Modelo(nombre, marca);
+//		db.insert(temp);
+//		this.lista_modelos.add(temp);
+//		return "Modelo #"+nombre+" agregada con exito";
+//	}
+//	
+//	public String agregarCamion(String id, Planta planta, Modelo modelo, Double costo_por_km, Double costo_por_hora, LocalDateTime fecha_de_compra) {
+//		if(db.existe("Camion", "id_camion", id))
+//			return "El camion #"+id+" ya existe en la bd";
+//		Camion temp = new Camion(id,planta,modelo,costo_por_km,costo_por_hora,fecha_de_compra);
+//		db.insert(temp);
+//		this.lista_camiones.add(temp);
+//		return "Camion #"+id+" agregado con exito";
+//	}
 }

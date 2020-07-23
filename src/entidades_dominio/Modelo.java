@@ -1,33 +1,27 @@
 package entidades_dominio;
 
-public class Modelo implements Registrable{
+public class Modelo{
 	private String nombre;
 	private Marca marca;
 	
-	public Modelo(String nombre,Marca marca) {
+	public Modelo(String nombre, Marca marca) {
 		this.nombre = nombre;
 		this.marca = marca;
 	}
 	
-	public String getNombre(){
-		return this.nombre;
+	
+	public String getNombre() {
+		return nombre;
 	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public Marca getMarca() {
+		return marca;
+	}
+	public void setMarca(Marca marca) {
+		this.marca = marca;
+	}
+	
 
-	@Override
-	public String getSentenciaInsert() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSentenciaDelete() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSentenciaUpdate(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

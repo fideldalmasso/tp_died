@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import base_de_datos.Registrable;
+
 public class Planta implements Registrable{
 	private String id_planta;
 	private String nombre;

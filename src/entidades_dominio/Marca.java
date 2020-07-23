@@ -1,26 +1,18 @@
 package entidades_dominio;
 
-public class Marca implements Registrable{
+public class Marca{
 	private String nombre;
 
 	public Marca(String nombre) {
 		this.nombre = nombre;
 	}
-
-	@Override
-	public String getSentenciaInsert() {
-		return "INSERT INTO tp.Marca VALUES ('"+this.nombre+"');";
+	
+	public String getNombre() {
+		return nombre;
 	}
 
-	@Override
-	public String getSentenciaDelete() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	@Override
-	public String getSentenciaUpdate(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
