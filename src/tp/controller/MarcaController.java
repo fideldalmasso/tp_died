@@ -14,6 +14,13 @@ public class MarcaController {
 		service = new MarcaService();
 	}
 	
+	public String update(String original, String nueva) {
+		if(nueva!=null && nueva.length()>0) {
+			//
+		}
+		return "xd";
+	}
+	
 	public List<Marca> getAll(){
 		return service.getAll();
 	}

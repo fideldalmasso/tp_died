@@ -13,6 +13,8 @@ public class MarcaService {
 		dao = new MarcaDAO();
 	}
 	
+	
+	
 	public List<Marca> getAll(){
 		return dao.getAll();
 	}
