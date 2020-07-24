@@ -31,7 +31,7 @@ public class EmpresaTest {
 	}
 	
 	@Test
-	public void testDijkstra() {
+	public void testCaminosMinimos() {
 		Empresa meli = new Empresa("meli");
 		meli.agregarPlanta("p1");
 		meli.agregarPlanta("p2");
@@ -51,17 +51,20 @@ public class EmpresaTest {
 		Ruta r6 = new Ruta("r6",meli.getPlanta("p4"),meli.getPlanta("p5"),1002D, 1D, 1D);
 		Ruta r7 = new Ruta("r7",meli.getPlanta("p3"),meli.getPlanta("p4"),508D, 1D, 4D);
 		
-		List<Ruta> ans1 = new ArrayList<Ruta>();
-		List<Ruta> ans2 = new ArrayList<Ruta>();
+		List<List<Ruta>> ans1 = new ArrayList<List<Ruta>>();
+		List<List<Ruta>> ans2 = new ArrayList<List<Ruta>>();
+		List<Ruta> ans3 = new ArrayList<Ruta>();
+		List<Ruta> ans4 = new ArrayList<Ruta>();
+		ans3.add(r2);
+		ans3.add(r5);
+		ans4.add(r2);
+		ans4.add(r7);
+		ans4.add(r6);
+		ans1.add(ans3);
+		ans2.add(ans4);
 		
-		ans1.add(r2);
-		ans1.add(r5);
-		ans2.add(r2);
-		ans2.add(r7);
-		ans2.add(r6);
-		
-		assertEquals(meli.caminoMinimo("p1","p5").get(0),ans1);
-		assertEquals(meli.caminoMinimo("p1","p5").get(1),ans2);
+		assertEquals(meli.caminosMinimos("p1","p5",0),ans1);
+		assertEquals(meli.caminosMinimos("p1","p5",1),ans2);
 	}
 	
 

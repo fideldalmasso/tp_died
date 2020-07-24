@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 public class Empresa {
@@ -241,59 +244,49 @@ public class Empresa {
 		return caminosMinimos;
 	}
 	
-	public List<List<Ruta>> caminoMinimo(String origen, String destino){
-		List<List<Ruta>> caminoMinimo = new ArrayList<List<Ruta>>();
+	public List<List<Ruta>> caminosMinimos(String nombre_origen, String nombre_destino, Integer modo){
+		Planta origen = this.getPlanta(nombre_origen);
+		Planta destino = this.getPlanta(nombre_destino);
+		Double min=Double.MAX_VALUE;
 		
-		caminoMinimo.add(this.dijsktra(this.getPlanta(origen),this.getPlanta(destino),0));//Distancia
-		caminoMinimo.add(this.dijsktra(this.getPlanta(origen),this.getPlanta(destino),1));//Tiempo
+		List<List<Ruta>> caminos = new ArrayList<List<Ruta>>();
+		List<List<Ruta>> salida = new ArrayList<List<Ruta>>();
+		List<Ruta> marcados = new ArrayList<Ruta>();
 		
-		return caminoMinimo;
-	}
-	
-	public List<Ruta> dijsktra(Planta origen, Planta destino, Integer modo){
-		List<Ruta> caminoMinimo = new ArrayList<Ruta>();
-		Map<Planta,Ruta> marcados = new HashMap<Planta,Ruta>();
-		Map<Planta,Planta> m = new HashMap<Planta,Planta>();
-		Comparator<Planta> com = (p1,p2)->p1.getPeso().compareTo(p2.getPeso());
-		PriorityQueue<Planta> heap = new PriorityQueue(com);
+		this.buscarCaminosAuxiliares(origen,destino,marcados,caminos);
 		
-		for(int i=0;i<this.plantas.size();i++){
-			plantas.get(i).setPeso(Double.MAX_VALUE);
-		}
-		origen.setPeso(0D);
-		heap.add(origen);
-		while(!heap.isEmpty()) {
-			Planta actual=heap.poll();
-			List<Ruta> adyacentes = this.getRutas(actual);
-			for(int i=0;i<adyacentes.size();i++){
-				Ruta ruta = adyacentes.get(i);
-				Planta nodo = ruta.getDestino();
-				Double peso;
-				if(!marcados.containsKey(nodo)) {
-					heap.add(nodo);
-				}
+		for(int i=0;i<caminos.size();i++) {
+			Double suma=0D;
+			for(int j=0;j<caminos.get(i).size();j++) {
 				if(modo==0) {
-					peso=ruta.getDistancia();
-				}else{
-					peso=ruta.getTiempo();
-				}
-				if(actual.getPeso()+peso<nodo.getPeso()) {
-					nodo.setPeso(actual.getPeso()+peso);
-					marcados.put(nodo,ruta);
+					suma+=caminos.get(i).get(j).getDistancia();
+				}else {
+					suma+=caminos.get(i).get(j).getDuracion_en_minutos();
 				}
 			}
+			if(suma==min) {
+				salida.add(caminos.get(i));
+			}else if(suma<min){
+				min=suma;
+				salida.clear();
+				salida.add(caminos.get(i));
+			}
 		}
-		
-		if(marcados.containsKey(destino)) {
-    		Planta act = destino;
-    		while(marcados.containsKey(act)) {
-    			caminoMinimo.add(marcados.get(act));
-    			act = marcados.get(act).getOrigen();
-    		}
-    	}
-		Collections.reverse(caminoMinimo);
-		
-		return caminoMinimo;
+		return salida;
+	}
+	
+	public void buscarCaminosAuxiliares(Planta origen, Planta destino, List<Ruta> marcados, List<List<Ruta>> salida){
+		List<Ruta> adyacentes = this.getRutas(origen);
+		for(int i=0;i<adyacentes.size();i++) {
+			List<Ruta> copiaMarcados = marcados.stream().collect(Collectors.toList());
+			if(adyacentes.get(i).getDestino()==destino) {
+				copiaMarcados.add(adyacentes.get(i));
+				salida.add(copiaMarcados);
+			}else if(!copiaMarcados.contains(adyacentes.get(i))){
+				copiaMarcados.add(adyacentes.get(i));
+				this.buscarCaminosAuxiliares(adyacentes.get(i).getDestino(), destino, copiaMarcados, salida);
+			}
+		}
 	}
 	
 }
