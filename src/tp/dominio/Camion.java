@@ -29,6 +29,9 @@ public class Camion{
 		this.costo_por_hora = costo_por_hora;
 		this.fecha_de_compra = fecha_de_compra;
 	}
+	public void agregarKm(Double kilometers) {// le suma kilometros
+		this.distancia_recorrida_en_km += kilometers;
+	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	

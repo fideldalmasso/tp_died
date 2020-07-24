@@ -52,8 +52,20 @@ public class Pedido {
 	}
 	
 	public void crearEnvio(){
-		// el usuario selecciona entre dos botones si quiere la ruta mas rapida o mas corta
-		//this.envio = new Envio("un id", this.plantaOrigen.getCamionConPrioridad(), aca va el costo del envio) 
+		//falta crear metodo CalcularCostoEnvio
+		Boolean eligeLaMasCorta = null;
+		Boolean eligeLaMasRapida = null;
+		List<Ruta> rutaSeleccionada = null ;
+		Double costoEnvio = 0d;
+		Camion camionConPrioridad = this.plantaOrigen.getCamionConPrioridad();
+		if(eligeLaMasCorta) {
+		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
+		}else if (eligeLaMasRapida) {
+		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
+		}
+		this.envio = new Envio("un id", camionConPrioridad, costoEnvio , rutaSeleccionada) ;
+		//camionConPrioridad.agregarKm(kilometers); agrega los kilometros del camino
+		this.estado = Estado.PROCESADA;
 	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
