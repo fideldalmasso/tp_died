@@ -72,8 +72,8 @@ public class App extends JFrame {
 					App app = new App();
 					app.setTitle("Titulo");
 					app.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-					app.setPreferredSize(new Dimension(400, 300));
-					app.setSize(400, 300);
+					app.setPreferredSize(new Dimension(800, 600));
+					app.setSize(800, 600);
 					app.run();
 					//app.setExtendedState(app.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 					app.setVisible(true);
