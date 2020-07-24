@@ -29,6 +29,8 @@ public abstract class DataBase {
 			return con;
 		}
 		
+		
+		// NO USAR ESTE MÉTODO, NO ESTÁ TERMINADO
 		public static List<String> select(String consulta){
 			//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
 			

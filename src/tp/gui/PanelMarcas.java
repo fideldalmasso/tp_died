@@ -17,8 +17,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import tp.controller.MarcaController;
+import tp.controller.Mensaje;
 
 public class PanelMarcas extends JPanel {
 
@@ -28,16 +31,23 @@ public class PanelMarcas extends JPanel {
 	
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
-	private JScrollPane scrollPane;
+	private JScrollPane scroll_pane;
 	private JTable tabla;
 	
 	private JLabel nombre = new JLabel("Nombre:",SwingConstants.RIGHT);
 	private JTextField campo_nombre = new JTextField();
-	private JButton btn1 = new JButton("+ Agregar");
+	private JButton boton_agregar = new JButton("+ Agregar");
 	
 	public PanelMarcas() {
 		super();
 		this.armarPanel();
+	}
+	
+	private void popUp(Mensaje m) {
+		if(m.exito()) 
+			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE);			
+		else
+			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.WARNING_MESSAGE);
 	}
 	
     private void colocar( 
@@ -76,7 +86,7 @@ public class PanelMarcas extends JPanel {
 		
 		titulo.setFont(new Font("Calibri", Font.BOLD, 24));
 		
-		tableModel = new MarcaTM(controller.getAll());
+		tableModel = new MarcaTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		
@@ -87,13 +97,19 @@ public class PanelMarcas extends JPanel {
 		               int row = target.getSelectedRow(); // select a row
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
-		               String result = JOptionPane.showInputDialog(null, "Ingrese otro valor para: "+tabla.getValueAt(row, column)); // get the value of a row and column.
-		               //controller.add();
+		               String original = (String)tabla.getValueAt(row, column);
+		               String nuevo  = JOptionPane.showInputDialog(null, "Ingrese otro valor para: "+original); // get the value of a row and column.
+		               
+		               if(nuevo!=null && nuevo.length()>0) {
+		            	   popUp(controller.update(original,nuevo));
+		            	   tableModel.recargarTabla();
+		               }
+		               //tabla.repaint();
 		               //campo_nombre.setText(tabla.getValueAt(row,0).toString()); 
 		            }
 			}
 		});
-		scrollPane = new JScrollPane(tabla);
+		scroll_pane = new JScrollPane(tabla);
 		//tabla.setFillsViewportHeight(true);
 
 		nombre.setFont(new Font("Calibri", Font.BOLD, 16));
@@ -102,11 +118,24 @@ public class PanelMarcas extends JPanel {
 		
 		//titulo.setBorder(new LineBorder(Color.BLUE));
 		
+		boton_agregar.addActionListener( e ->
+		{
+			Mensaje m = controller.add(campo_nombre.getText());
+			popUp(m);
+			if(m.exito()) {
+				tableModel.recargarTabla();
+				this.repaint();
+			}
+				
+			
+		}
+	);
+		
 		colocar(titulo,0,0,3,1,0,0,0,50,0,10);
-		colocar(scrollPane,0,1,3,1,1,1,0,0,1,10);
+		colocar(scroll_pane,0,1,3,1,1,1,0,0,1,10);
 		colocar(nombre,0,2,1,1,0,0,0,0,0,10);
 		colocar(campo_nombre,1,2,1,1,1,0,0,0,2,10);
-		colocar(btn1,2,2,1,1,0,0,0,0,0,10);
+		colocar(boton_agregar,2,2,1,1,0,0,0,0,0,10);
 		
 	}
 	
