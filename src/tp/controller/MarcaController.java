@@ -14,11 +14,19 @@ public class MarcaController {
 		service = new MarcaService();
 	}
 	
-	public String update(String original, String nueva) {
-		if(nueva!=null && nueva.length()>0) {
-			//
-		}
-		return "xd";
+	public Mensaje add(String nombre) {
+		if(nombre!=null && nombre.length()>0) 
+			return service.add(nombre);
+		else
+			return new Mensaje(false,"Error: nombre inválido");
+			
+	}
+	
+	public Mensaje update(String original, String nueva) {
+		if(nueva!=null && nueva.length()>0) 
+			return service.update(original,nueva);
+		else 
+			return new Mensaje(false,"Error: nombre inválido");
 	}
 	
 	public List<Marca> getAll(){

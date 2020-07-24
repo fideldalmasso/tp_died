@@ -2,18 +2,29 @@ package tp.gui;
 
 import java.util.List;
 
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
+import tp.controller.MarcaController;
 import tp.dominio.Marca;
 
 public class MarcaTM extends AbstractTableModel {
 
+	MarcaController controller;
 	
 	private List<Marca> data;
 	private String[] columnNames = {"Nombre"};
 	
-	public MarcaTM(List<Marca> lista) {
-		this.data = lista;
+	public MarcaTM() {
+		recargarTabla();
+		
+	}
+	
+	public void recargarTabla() {
+		controller = new MarcaController();
+		this.data = controller.getAll();
 	}
 	
 	@Override
@@ -52,3 +63,6 @@ public class MarcaTM extends AbstractTableModel {
 	}
 
 }
+
+
+
