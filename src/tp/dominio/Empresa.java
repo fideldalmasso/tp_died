@@ -23,6 +23,7 @@ public class Empresa {
 	private Planta planta_puerto;
 	private Planta planta_final;
 	
+	
 	public Empresa(String id) {
 		super();
 		this.id_empresa=id;

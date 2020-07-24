@@ -43,14 +43,18 @@ public class Pedido {
 			}
 		}
 		/*Si no existe una planta que tenga disponible stock de
-		todos los productos se mostrará un mensaje de error y el pedido
+		todos los productos se mostrarï¿½ un mensaje de error y el pedido
 		pasa a estado CANCELADO*/
 		if(plantasConStock.isEmpty()){
 			this.estado = Estado.CANCELADA;
-		}	
+		}
 		return plantasConStock;
 	}
 	
+	public void crearEnvio(){
+		// el usuario selecciona entre dos botones si quiere la ruta mas rapida o mas corta
+		//this.envio = new Envio("un id", this.plantaOrigen.getCamionConPrioridad(), aca va el costo del envio) 
+	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	

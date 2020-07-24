@@ -2,7 +2,9 @@ package tp.dominio;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import tp.dao.Registrable;
 
@@ -14,7 +16,8 @@ public class Planta{
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
-
+	Comparator<Camion> comparaCamion = Comparator.comparing(Camion:: getDistancia_recorrida_en_km);
+	PriorityQueue<Camion> priorityQueue = new PriorityQueue<Camion>( comparaCamion );
 
 	public Planta(String nombre) {
 		super();
@@ -129,6 +132,8 @@ public class Planta{
 		this.lista_pedidos = lista_pedidos;
 	} 
 	
-	
+	public Camion getCamionConPrioridad(){
+		return this.priorityQueue.poll();
+	}
 	
 }

@@ -8,8 +8,6 @@ public class Envio {
 	private Double costo_envio;
 	private List<Ruta> lista_caminos;
 	
-	
-	
 	public Envio(String id_envio, Camion camion, Double costo_envio) {
 		this.id_envio = id_envio;
 		this.camion = camion;

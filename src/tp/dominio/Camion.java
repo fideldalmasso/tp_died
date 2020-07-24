@@ -14,6 +14,11 @@ public class Camion{
 	private Double costo_por_hora;
 	private LocalDate fecha_de_compra;
 	
+	public Camion(String id, Double distancia) {
+		this.id_camion = id;
+		this.distancia_recorrida_en_km = distancia;
+	}
+	
 	public Camion(String id_camion, Planta planta, Modelo modelo, Double distancia_recorrida_en_km,
 			Double costo_por_km, Double costo_por_hora, LocalDate fecha_de_compra) {
 		this.id_camion = id_camion;
