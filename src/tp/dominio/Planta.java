@@ -1,5 +1,6 @@
 package tp.dominio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,10 +49,10 @@ public class Planta{
 		this.lista_stock_insumos.add(new StockInsumo(this, insumo, stock, puntoDePedido));
 	}
 	
-	public void realizarPedido(String id, LocalDateTime fechaEntrega, LocalDateTime fechaMaxima,
+	public void realizarPedido(String id, LocalDate fechaEntrega, LocalDate fechaMaxima,
 			 Double costo, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen) {
 		//Un usuario puede seleccionar una planta y registrar una orden de pedido donde se indique
-		this.lista_pedidos.add(new Pedido(id, fechaEntrega, fechaMaxima, costo, insumos, envio, plantaOrigen, this));
+		this.lista_pedidos.add(new Pedido(id,LocalDate.now(), fechaEntrega, fechaMaxima, costo, insumos, envio, plantaOrigen, this));
 	}
 	
 	public boolean nombreIgual(String nombre_planta) {

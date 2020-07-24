@@ -1,5 +1,6 @@
 package tp.dominio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,9 @@ import tp.enumerados.Estado;
 
 public class Pedido {
 	private String id;
-	private LocalDateTime fechaSolicitud;
-	private LocalDateTime fechaEntrega;
-	private LocalDateTime fechaMaxima;
+	private LocalDate fechaSolicitud;
+	private LocalDate fechaEntrega;
+	private LocalDate fechaMaxima;
 	private Estado estado;
 	private Double costo_pedido;
 	private List<DetallePedido> lista_detalle_pedidos;
@@ -19,12 +20,12 @@ public class Pedido {
 	private Planta plantaOrigen;
 	private Planta plantaDestino;
 	
-	public Pedido(String id, LocalDateTime fechaEntrega, LocalDateTime fechaMaxima,
+	public Pedido(String id,LocalDate fechaSolicitud, LocalDate fechaEntrega, LocalDate fechaMaxima,
 			 Double costo_pedido, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen,
 			Planta plantaDestino) {
 		super();
 		this.id = id;
-		this.fechaSolicitud = LocalDateTime.now();
+		this.fechaSolicitud = fechaSolicitud;
 		this.fechaEntrega = fechaEntrega;
 		this.fechaMaxima = fechaMaxima;
 		this.estado = Estado.CREADA;
@@ -76,22 +77,22 @@ public class Pedido {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public LocalDateTime getFechaSolicitud() {
+	public LocalDate getFechaSolicitud() {
 		return fechaSolicitud;
 	}
-	public void setFechaSolicitud(LocalDateTime fechaSolicitud) {
+	public void setFechaSolicitud(LocalDate fechaSolicitud) {
 		this.fechaSolicitud = fechaSolicitud;
 	}
-	public LocalDateTime getFechaEntrega() {
+	public LocalDate getFechaEntrega() {
 		return fechaEntrega;
 	}
-	public void setFechaEntrega(LocalDateTime fechaEntrega) {
+	public void setFechaEntrega(LocalDate fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
-	public LocalDateTime getFechaMaxima() {
+	public LocalDate getFechaMaxima() {
 		return fechaMaxima;
 	}
-	public void setFechaMaxima(LocalDateTime fechaMaxima) {
+	public void setFechaMaxima(LocalDate fechaMaxima) {
 		this.fechaMaxima = fechaMaxima;
 	}
 	public Estado getEstado() {
