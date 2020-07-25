@@ -20,7 +20,7 @@ public class StockInsumo {
 	
 	public void modificarStock(Integer stockNuevo, Integer puntoDePedido) {
 		//Crea un registro donde guarda los datos q se modifican y lo agrega a la lista de registros
-		this.historial.add(new Registro("Generar ID", LocalDateTime.now(), this.stock , stockNuevo - this.stock ));
+		this.historial.add(new Registro("Generar ID", this.insumo, LocalDateTime.now() , this.stock, stockNuevo - this.stock, puntoDePedido ));
 		//modifica el Stock
 		this.stock = stockNuevo;
 		this.puntoDePedido = puntoDePedido;

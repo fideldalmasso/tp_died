@@ -20,7 +20,7 @@ public class Ruta {
 		this.distancia_en_km = distancia_en_km;
 		this.duracion_en_minutos = duracion_en_minutos;
 		this.peso_maximo_por_dia_en_kg = peso_maximo_por_dia_en_kg;
-
+		this.peso_utilizado = 0.0;
 	}
 	
 	public Double getPeso() {

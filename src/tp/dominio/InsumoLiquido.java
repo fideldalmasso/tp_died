@@ -6,10 +6,10 @@ public class InsumoLiquido extends Insumo{
 	private Double densidad;
 	
 	public InsumoLiquido(String id, String descripcion, Unidad unidadDeMedida, Double costoPorUnidad, Double densidad) {
-		this.id = id;
+		this.id_insumo = id;
 		this.descripcion = descripcion;
-		this.unidadDeMedida = unidadDeMedida;
-		this.costoPorUnidad = costoPorUnidad;
+		this.unidad_de_medida = unidadDeMedida;
+		this.costo_por_unidad = costoPorUnidad;
 		this.densidad = densidad;
 	}
 	

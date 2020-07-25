@@ -55,7 +55,7 @@ CREATE TABLE tp.Insumo(
 	id_insumo varchar(16) primary key,
 	descripcion varchar(256),
 	unidad_de_medida tp.unidadDeMedida,
-	costo_unidad double precision
+	costo_por_unidad double precision
 	);
 CREATE TABLE tp.InsumoGeneral(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
@@ -86,6 +86,6 @@ CREATE TABLE tp.Registro(
 	id_insumo varchar(16) references tp.StockInsumo(id_insumo) on update cascade on delete cascade,
 	fecha_registro date,
 	stock integer,
-	puntod_de_pedido integer,
+	punto_de_pedido integer,
 	primary key (id_planta,id_insumo)
 );

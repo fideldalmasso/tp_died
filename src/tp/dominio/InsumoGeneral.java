@@ -3,29 +3,31 @@ package tp.dominio;
 import tp.enumerados.Unidad;
 
 public class InsumoGeneral extends Insumo{
-	private Double pesoPorUnidad;
+	
+	
+	private Double peso_por_unidad;
 
 
 	public InsumoGeneral(String id, String descripcion, Unidad unidadDeMedida, Double costoPorUnidad, Double pesoPorUnidad) {
-		this.id = id;
+		this.id_insumo = id;
 		this.descripcion = descripcion;
-		this.unidadDeMedida = unidadDeMedida;
-		this.costoPorUnidad = costoPorUnidad;
-		this.pesoPorUnidad = pesoPorUnidad;
+		this.unidad_de_medida = unidadDeMedida;
+		this.costo_por_unidad = costoPorUnidad;
+		this.peso_por_unidad = pesoPorUnidad;
 	}
 	
 	@Override
 	public Double pesoPorUnidad() {
-		return this.pesoPorUnidad;
+		return this.peso_por_unidad;
 	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
 	public Double getPesoPorUnidad() {
-		return pesoPorUnidad;
+		return peso_por_unidad;
 	}
 	public void setPesoPorUnidad(Double pesoPorUnidad) {
-		this.pesoPorUnidad = pesoPorUnidad;
+		this.peso_por_unidad = pesoPorUnidad;
 	}
 	
 }

@@ -3,14 +3,16 @@ package tp.dominio;
 import java.time.LocalDateTime;
 
 public class Registro {
-	private String id;
-	private LocalDateTime fechaRegistro;
+	private String id_planta;
+	private Insumo insumo;
+	private LocalDateTime fecha_registro;
 	private Integer stock;
+	private Integer punto_de_pedido;
 	private Integer variacion;
 	
-	public Registro(String id, LocalDateTime fechaRegistro, Integer stock, Integer variacion) {
-		this.id = id;
-		this.fechaRegistro = fechaRegistro;
+	public Registro(String id, Insumo insumo, LocalDateTime fechaRegistro, Integer stock, Integer variacion, Integer punto_de_pedido) {
+		this.id_planta = id;
+		this.fecha_registro = fechaRegistro;
 		this.stock = stock;
 		this.variacion = variacion;
 	}
@@ -18,19 +20,19 @@ public class Registro {
 	//GETTERS Y SETTERS-----------------------------------------------
 	
 	public String getId() {
-		return id;
+		return id_planta;
 	}
 
 	public void setId(String id) {
-		this.id = id;
+		this.id_planta = id;
 	}
 
 	public LocalDateTime getFechaRegistro() {
-		return fechaRegistro;
+		return fecha_registro;
 	}
 
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
+		this.fecha_registro = fechaRegistro;
 	}
 
 	public Integer getStock() {

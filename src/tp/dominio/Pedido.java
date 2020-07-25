@@ -9,31 +9,34 @@ import java.util.Optional;
 import tp.enumerados.Estado;
 
 public class Pedido {
-	private String id;
-	private LocalDate fechaSolicitud;
-	private LocalDate fechaEntrega;
-	private LocalDate fechaMaxima;
-	private Estado estado;
-	private Double costo_pedido;
-	private List<DetallePedido> lista_detalle_pedidos;
+	private String id_pedido;
+	private Planta planta_origen;
+	private Planta planta_destino;
 	private Envio envio;
-	private Planta plantaOrigen;
-	private Planta plantaDestino;
+	private LocalDate fecha_solicitud;
+	private LocalDate fecha_entrega;
+	private LocalDate fecha_maxima;
+	private Estado estado_pedido;
+	private Double costo_pedido;
 	
-	public Pedido(String id,LocalDate fechaSolicitud, LocalDate fechaEntrega, LocalDate fechaMaxima,
-			 Double costo_pedido, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen,
-			Planta plantaDestino) {
+	private List<DetallePedido> lista_detalle_pedidos;
+	
+	public Pedido() {}
+	
+	public Pedido(String id_pedido,Planta planta_origen, Planta planta_destino, Envio envio,
+			 LocalDate fecha_solicitud, LocalDate fecha_entrega, LocalDate fecha_maxima, Estado estado_pedido,
+			Double costo_pedido) {
 		super();
-		this.id = id;
-		this.fechaSolicitud = fechaSolicitud;
-		this.fechaEntrega = fechaEntrega;
-		this.fechaMaxima = fechaMaxima;
-		this.estado = Estado.CREADA;
+		this.id_pedido = id_pedido;
+		this.fecha_solicitud = fecha_solicitud;
+		this.fecha_entrega = fecha_entrega;
+		this.fecha_maxima = fecha_maxima;
+		this.estado_pedido = estado_pedido;
 		this.costo_pedido = costo_pedido;
-		this.lista_detalle_pedidos = insumos;
 		this.envio = envio;
-		this.plantaOrigen = plantaOrigen;
-		this.plantaDestino = plantaDestino;
+		this.planta_origen = planta_origen;
+		this.planta_destino = planta_destino;
+		this.lista_detalle_pedidos = new ArrayList<DetallePedido>();
 	}
 	//recibe como parametro una lista con todas las plantas del sistema
 	public List<Planta> buscarPlantasConStock(List<Planta> plantas){
@@ -47,7 +50,7 @@ public class Pedido {
 		todos los productos se mostrar� un mensaje de error y el pedido
 		pasa a estado CANCELADO*/
 		if(plantasConStock.isEmpty()){
-			this.estado = Estado.CANCELADA;
+			this.estado_pedido = Estado.CANCELADA;
 		}
 		return plantasConStock;
 	}
@@ -58,7 +61,7 @@ public class Pedido {
 		Boolean eligeLaMasRapida = null;
 		List<Ruta> rutaSeleccionada = null ;
 		Double costoEnvio = 0d;
-		Camion camionConPrioridad = this.plantaOrigen.getCamionConPrioridad();
+		Camion camionConPrioridad = this.planta_origen.getCamionConPrioridad();
 		if(eligeLaMasCorta) {
 		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
 		}else if (eligeLaMasRapida) {
@@ -66,45 +69,45 @@ public class Pedido {
 		}
 		this.envio = new Envio("un id", camionConPrioridad, costoEnvio , rutaSeleccionada) ;
 		//camionConPrioridad.agregarKm(kilometers); agrega los kilometros del camino
-		this.estado = Estado.PROCESADA;
+		this.estado_pedido = Estado.PROCESADA;
 	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
-	public String getId() {
-		return id;
+	public String getId_pedido() {
+		return id_pedido;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setId_pedido(String id) {
+		this.id_pedido = id;
 	}
-	public LocalDate getFechaSolicitud() {
-		return fechaSolicitud;
+	public LocalDate getFecha_solicitud() {
+		return fecha_solicitud;
 	}
-	public void setFechaSolicitud(LocalDate fechaSolicitud) {
-		this.fechaSolicitud = fechaSolicitud;
+	public void setFecha_solicitud(LocalDate fechaSolicitud) {
+		this.fecha_solicitud = fechaSolicitud;
 	}
-	public LocalDate getFechaEntrega() {
-		return fechaEntrega;
+	public LocalDate getFecha_entrega() {
+		return fecha_entrega;
 	}
-	public void setFechaEntrega(LocalDate fechaEntrega) {
-		this.fechaEntrega = fechaEntrega;
+	public void setFecha_entrega(LocalDate fechaEntrega) {
+		this.fecha_entrega = fechaEntrega;
 	}
-	public LocalDate getFechaMaxima() {
-		return fechaMaxima;
+	public LocalDate getFecha_maxima() {
+		return fecha_maxima;
 	}
-	public void setFechaMaxima(LocalDate fechaMaxima) {
-		this.fechaMaxima = fechaMaxima;
+	public void setFecha_maxima(LocalDate fechaMaxima) {
+		this.fecha_maxima = fechaMaxima;
 	}
-	public Estado getEstado() {
-		return estado;
+	public Estado getEstado_pedido() {
+		return estado_pedido;
 	}
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setEstado_pedido(Estado estado) {
+		this.estado_pedido = estado;
 	}
-	public Double getCosto() {
+	public Double getCosto_pedido() {
 		return costo_pedido;
 	}
-	public void setCosto(Double costo_pedido) {
+	public void setCosto_pedido(Double costo_pedido) {
 		this.costo_pedido = costo_pedido;
 	}
 	public List<DetallePedido> getLista_detalle_pedidos() {
@@ -119,17 +122,17 @@ public class Pedido {
 	public void setEnvio(Envio envio) {
 		this.envio = envio;
 	}
-	public Planta getPlantaOrigen() {
-		return plantaOrigen;
+	public Planta getPlanta_origen() {
+		return planta_origen;
 	}
-	public void setPlantaOrigen(Planta plantaOrigen) {
-		this.plantaOrigen = plantaOrigen;
+	public void setPlanta_origen(Planta plantaOrigen) {
+		this.planta_origen = plantaOrigen;
 	}
-	public Planta getPlantaDestino() {
-		return plantaDestino;
+	public Planta getPlanta_destino() {
+		return planta_destino;
 	}
-	public void setPlantaDestino(Planta plantaDestino) {
-		this.plantaDestino = plantaDestino;
+	public void setPlanta_destino(Planta plantaDestino) {
+		this.planta_destino = plantaDestino;
 	}
 	
 	

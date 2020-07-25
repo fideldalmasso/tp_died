@@ -25,15 +25,15 @@ public class PedidoDAO implements Registrable<Pedido>{
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.Pedido VALUES (?,?,?,?,?,?,?,?,?);");
-			pstm.setString(1, en.getId());
-			pstm.setString(2, en.getPlantaOrigen().getId_planta());
-			pstm.setString(3, en.getPlantaDestino().getId_planta());
+			pstm.setString(1, en.getId_pedido());
+			pstm.setString(2, en.getPlanta_origen().getId_planta());
+			pstm.setString(3, en.getPlanta_destino().getId_planta());
 			pstm.setString(4, en.getEnvio().getId_envio());
-			pstm.setDate(5,Date.valueOf(en.getFechaSolicitud()));
-			pstm.setDate(6, Date.valueOf(en.getFechaEntrega()));
-			pstm.setDate(7, Date.valueOf(en.getFechaMaxima()));
-			pstm.setString(8, en.getEstado().toString());
-			pstm.setDouble(9, en.getCosto());
+			pstm.setDate(5,Date.valueOf(en.getFecha_solicitud()));
+			pstm.setDate(6, Date.valueOf(en.getFecha_entrega()));
+			pstm.setDate(7, Date.valueOf(en.getFecha_maxima()));
+			pstm.setString(8, en.getEstado_pedido().toString());
+			pstm.setDouble(9, en.getCosto_pedido());
 			
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -73,16 +73,16 @@ public class PedidoDAO implements Registrable<Pedido>{
 			pstm = con.prepareStatement(
 					"UPDATE tp.Pedido SET id_Pedido=?, id_planta_origen=?, id_planta_destino=?, id_envio=?, "
 					+ "fecha_solicitud =?, fecha_entrega=?, fecha_maxima=?, estado_pedido=?, costo_pedido=? WHERE id_Pedido=?");
-			pstm.setString(1, nuevo.getId());
-			pstm.setString(2, nuevo.getPlantaOrigen().getId_planta());
-			pstm.setString(3, nuevo.getPlantaDestino().getId_planta());
+			pstm.setString(1, nuevo.getId_pedido());
+			pstm.setString(2, nuevo.getPlanta_origen().getId_planta());
+			pstm.setString(3, nuevo.getPlanta_destino().getId_planta());
 			pstm.setString(4, nuevo.getEnvio().getId_envio());
-			pstm.setDate(5,Date.valueOf(nuevo.getFechaSolicitud()));
-			pstm.setDate(6, Date.valueOf(nuevo.getFechaEntrega()));
-			pstm.setDate(7, Date.valueOf(nuevo.getFechaMaxima()));
-			pstm.setString(8, nuevo.getEstado().toString());
-			pstm.setDouble(9, nuevo.getCosto());
-			pstm.setString(1, original.getId());
+			pstm.setDate(5,Date.valueOf(nuevo.getFecha_solicitud()));
+			pstm.setDate(6, Date.valueOf(nuevo.getFecha_entrega()));
+			pstm.setDate(7, Date.valueOf(nuevo.getFecha_maxima()));
+			pstm.setString(8, nuevo.getEstado_pedido().toString());
+			pstm.setDouble(9, nuevo.getCosto_pedido());
+			pstm.setString(1, original.getId_pedido());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -145,10 +145,14 @@ public class PedidoDAO implements Registrable<Pedido>{
 	
 	Pedido parsearRS(ResultSet rs) throws SQLException {
 		
+		return new Pedido();
 		
-		return new Pedido(rs.getString(1), rs.getDate(5),rs.getDate(6),rs.getDate(7)
-				 rs.getDouble(9), /*invocar a envioDao y crear el envio*/, /* invocar a plantaDAO y crear las plantas*/,
-					Planta plantaDestino);
+//		return new Pedido(rs.getString(1), 
+//							rs.getDate(5),
+//							rs.getDate(6),
+//							rs.getDate(7)
+//							rs.getDouble(9), //invocar a envioDao y crear el envio invocar a plantaDAO y crear las plantas
+//							Planta plantaDestino);
 	}
 	
 }

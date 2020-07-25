@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import tp.dao.Registrable;
+import tp.enumerados.Estado;
 
 public class Planta{
 	private String id_planta;
@@ -17,8 +18,8 @@ public class Planta{
 	private List<Camion> lista_camiones;
 	private List<StockInsumo> lista_stock_insumos;
 	private List<Pedido> lista_pedidos;
-	Comparator<Camion> comparaCamion = Comparator.comparing(Camion:: getDistancia_recorrida_en_km);
-	PriorityQueue<Camion> priorityQueue = new PriorityQueue<Camion>( comparaCamion );
+	Comparator<Camion> compara_camion = Comparator.comparing(Camion:: getDistancia_recorrida_en_km);
+	PriorityQueue<Camion> priority_queue = new PriorityQueue<Camion>( compara_camion );
 
 	public Planta(String nombre) {
 		super();
@@ -52,7 +53,7 @@ public class Planta{
 	public void realizarPedido(String id, LocalDate fechaEntrega, LocalDate fechaMaxima,
 			 Double costo, List<DetallePedido> insumos, Envio envio, Planta plantaOrigen) {
 		//Un usuario puede seleccionar una planta y registrar una orden de pedido donde se indique
-		this.lista_pedidos.add(new Pedido(id,LocalDate.now(), fechaEntrega, fechaMaxima, costo, insumos, envio, plantaOrigen, this));
+		this.lista_pedidos.add(new Pedido(id,plantaOrigen, this, envio, LocalDate.now(), fechaEntrega, fechaMaxima, Estado.CREADA, costo));
 	}
 	
 	public boolean nombreIgual(String nombre_planta) {
@@ -63,7 +64,7 @@ public class Planta{
 		Integer contador = 0;
 		for(DetallePedido dp : p.getLista_detalle_pedidos()) {
 			for(StockInsumo si : this.lista_stock_insumos) {
-				if(si.getInsumo().equals(dp.getInsumo()) && si.getStock() > dp.getCantidad())
+				if(si.getInsumo().equals(dp.getInsumo()) && si.getStock() > dp.getCantidad_de_unidades())
 					contador++;
 			}
 		}
@@ -134,7 +135,7 @@ public class Planta{
 	} 
 	
 	public Camion getCamionConPrioridad(){
-		return this.priorityQueue.poll();
+		return this.priority_queue.poll();
 	}
 	
 }
