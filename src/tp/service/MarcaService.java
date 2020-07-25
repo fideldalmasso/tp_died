@@ -22,6 +22,13 @@ public class MarcaService {
 			return new Mensaje(false,"Nombre ya existente");
 	}
 	
+	public Mensaje delete(String nombre) {
+		if(dao.delete(nombre))
+			return new Mensaje(true,"");
+		else
+			return new Mensaje(false,"No se puede eliminar la fila (error en la DB).");
+	}
+	
 	public Mensaje update(String original, String nueva) {
 		Marca m1 = new Marca(original);
 		Marca m2 = new Marca(nueva);

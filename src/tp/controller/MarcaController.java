@@ -22,6 +22,10 @@ public class MarcaController {
 			
 	}
 	
+	public Mensaje delete(String nombre) {
+		return service.delete(nombre);
+	}
+	
 	public Mensaje update(String original, String nueva) {
 		if(nueva!=null && nueva.length()>0) 
 			return service.update(original,nueva);

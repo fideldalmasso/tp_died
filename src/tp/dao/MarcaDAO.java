@@ -105,7 +105,7 @@ public class MarcaDAO implements Registrable<Marca>{
 		List<Marca> lista = new ArrayList<Marca>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Marca;");
+					"SELECT * FROM tp.Marca ORDER BY 1;");
 			rs = pstm.executeQuery();
 			while(rs.next()) {
 				lista.add(new Marca(rs.getString(1)));
