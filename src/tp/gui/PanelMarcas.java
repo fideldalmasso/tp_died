@@ -31,7 +31,7 @@ public class PanelMarcas extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Marcas"+new String(Character.toChars(0x1F349)),SwingConstants.CENTER);
 	
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
@@ -50,7 +50,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = JOptionPane.showOptionDialog(null, "¿Quiere eliminar "+identificador+"?", "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, null, null, null);
+			int resultado = JOptionPane.showOptionDialog(null, "¿Eliminar "+identificador+"?", "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if(resultado == JOptionPane.YES_OPTION) {
 				popUp(controller.delete(identificador));
 				actualizarTabla();
@@ -60,8 +60,8 @@ public class PanelMarcas extends PanelPersonalizado {
 	
 	
 	private void actualizarTabla() {
-		tabla.repaint();
 		tableModel.recargarTabla();
+		tabla.repaint();
 	}
 	
 	public PanelMarcas() {
@@ -84,6 +84,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -93,7 +94,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               String nuevo  = JOptionPane.showInputDialog(null, "Ingrese otro valor para: "+original); // get the value of a row and column.
+		               String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
 		               
 		               if(nuevo!=null && nuevo.length()>0) {
 		            	   popUp(controller.update(original,nuevo));
@@ -126,6 +127,7 @@ public class PanelMarcas extends PanelPersonalizado {
 
 		
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
+		campo_nombre.setToolTipText("Presioná Enter para agregar");
 		campo_nombre.addActionListener( e->{
 			Mensaje m = controller.add(campo_nombre.getText());
 			popUp(m);
