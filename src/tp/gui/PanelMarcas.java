@@ -72,7 +72,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		titulo.setForeground(new Color(42, 12, 78));
+		titulo.setForeground(Color.WHITE);
 		
 	//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new MarcaTM();

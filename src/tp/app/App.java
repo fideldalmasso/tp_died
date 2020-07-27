@@ -38,13 +38,14 @@ public class App extends JFrame {
 		
 		
 		// Aca se crea el PANEL de HOME
-		JPanel panelHome = new JPanel();
+		JPanel panelHome = new PanelInsumos();
 		panelHome.setBackground(Color.BLUE);
 		actual = panelHome;
 		this.getContentPane().add(panelHome,BorderLayout.CENTER);
 		this.pack();
 		this.revalidate();
 		this.repaint();
+		
 		
 		//MENU------------------------------------------------------------------------------------------------
 		
