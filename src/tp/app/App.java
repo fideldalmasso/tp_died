@@ -65,11 +65,11 @@ public class App extends JFrame {
 		Image imagen = new ImageIcon("icon/335-home.png").getImage().getScaledInstance(24,24, Image.SCALE_SMOOTH);
 		ImageIcon icono = new ImageIcon(imagen);
 		//boton_home = new JButton("Home"+ new String(Character.toChars(0x1F349)),icono);
-		boton_home = new JButton("Home \uD83D\uDC7D",icono);
+		boton_home = new JButton("Home",icono);
 		boton_home.setBackground(new Color(250, 216, 214));
 		boton_home.setForeground(Color.BLACK);
 		boton_home.setFocusable(false);
-		boton_home.setFont(new Font("NotoColorEmoji", Font.PLAIN, 12));
+		boton_home.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 		System.out.println(boton_home.getFont().getName());
 		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
@@ -98,8 +98,8 @@ public class App extends JFrame {
 					//					  UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");			    
 					UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 					
-					GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-					ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,new File("font/NotoColorEmoji.ttf")));
+					//GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+					//ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,new File("font/NotoColorEmoji.ttf")));
 					
 				}
 				catch (Exception e) {
