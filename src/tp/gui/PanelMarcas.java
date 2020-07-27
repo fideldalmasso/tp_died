@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -23,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
 
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
@@ -32,7 +30,7 @@ public class PanelMarcas extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Marcas"+new String(Character.toChars(0x1F349)),SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
 	
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
@@ -41,19 +39,19 @@ public class PanelMarcas extends PanelPersonalizado {
 	
 	private JLabel texto_nombre = new JLabel("Nombre:",SwingConstants.RIGHT);
 	private JTextField campo_nombre = new JTextField();
-	private JButton boton_agregar = new JButton("Agregar Marca");
-	private JButton boton_eliminar = new JButton("Eliminar Marca seleccionada");
+	private JButton boton_agregar = botonAgregar("Agregar Marca");
+	private JButton boton_eliminar = botonEliminar("Eliminar Marca seleccionada");
 	
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
 		if(row == -1)
-			popUp(new Mensaje(false, "Ninguna fila seleccionada"));
+			notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = JOptionPane.showOptionDialog(null, "¿Eliminar "+identificador+"?", "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, null, null, null);
+			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
-				popUp(controller.delete(identificador));
+				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
 			}
 			}
@@ -74,17 +72,12 @@ public class PanelMarcas extends PanelPersonalizado {
 		
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		//titulo.setOpaque(true);
-		//titulo.setBackground(new Color(244,211,94));
 		titulo.setForeground(new Color(42, 12, 78));
 		
 	//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new MarcaTM();
 		tabla = new JTable();
-		//tabla.setPreferredSize(new Dimension(300,200));
 		tabla.setModel(tableModel);
-		//tabla.setAutoCreateRowSorter(true);
-		//tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tabla.setIgnoreRepaint(false);
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
@@ -99,10 +92,10 @@ public class PanelMarcas extends PanelPersonalizado {
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-		               
+		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
+		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
-		            	   popUp(controller.update(original,nuevo));
+		            	   notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
 		               }
 		            }
@@ -121,8 +114,8 @@ public class PanelMarcas extends PanelPersonalizado {
 		//tabla.setFillsViewportHeight(true);
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
-		boton_eliminar.setForeground(Color.WHITE);
-		boton_eliminar.setBackground(Color.RED);
+		//boton_eliminar.setForeground(Color.WHITE);
+		//boton_eliminar.setBackground(Color.RED);
 		boton_eliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -135,18 +128,18 @@ public class PanelMarcas extends PanelPersonalizado {
 		campo_nombre.setToolTipText("Presioná Enter para agregar");
 		campo_nombre.addActionListener( e->{
 			Mensaje m = controller.add(campo_nombre.getText());
-			popUp(m);
+			notificacionPopUp(m);
 			if(m.exito()) 
 				actualizarTabla();
 		});
 		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		boton_agregar.setForeground(Color.WHITE);
-		boton_agregar.setBackground(Color.BLUE);
+		//boton_agregar.setForeground(Color.WHITE);
+		//boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
 		{
 			Mensaje m = controller.add(campo_nombre.getText());
-			popUp(m);
+			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
 				}

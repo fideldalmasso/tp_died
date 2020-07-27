@@ -59,14 +59,13 @@ public class App extends JFrame {
 		this.setJMenuBar(menuBar);
 		
 		//TOOLBAR------------------------------------------------------------------------------------------------
-		Image imagen = new ImageIcon("icon/335-home.png").getImage().getScaledInstance(24,24, Image.SCALE_SMOOTH);
-		ImageIcon icono = new ImageIcon(imagen);
+		
 		//boton_home = new JButton("Home"+ new String(Character.toChars(0x1F349)),icono);
-		boton_home = new JButton("Home",icono);
-		boton_home.setBackground(new Color(250, 216, 214));
-		boton_home.setForeground(Color.BLACK);
+		boton_home = new JButton("Home",PanelPersonalizado.emoji("icon/home.png", 32,32));
+		//boton_home.setBackground(new Color(250, 216, 214));
+		//boton_home.setForeground(Color.BLACK);
 		boton_home.setFocusable(false);
-		boton_home.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
+		//boton_home.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
 		//System.out.println(boton_home.getFont().getName());
 		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
@@ -77,7 +76,7 @@ public class App extends JFrame {
 		});
 		toolBar = new JToolBar(JToolBar.HORIZONTAL);
 		toolBar.add(boton_home);
-		toolBar.add(new JButton("Home"));
+		//toolBar.add(new JButton("Home"));
 		
 		toolBar.setFloatable(false);
 		

@@ -1,8 +1,11 @@
 package tp.gui;
 
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,14 +17,39 @@ public abstract class PanelPersonalizado extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 
-	static public void popUp(Mensaje m) {
+	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
-			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE);			
+			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 24,24));			
 		else
-			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE,PanelPersonalizado.emoji("icon/error.png", 24,24));
 	}
-
 	
+	static public String ingresoPopUp(String mensaje) {
+		 return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 24,24), null, null);	 
+	}
+	
+	static public int eliminarPopUp(String mensaje) {
+		return JOptionPane.showOptionDialog(null, mensaje, "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, PanelPersonalizado.emoji("icon/warning.png", 24,24), null, null);
+	}
+	
+	static public String seleccionPopUp(String[] valores) {
+		return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 24,24), valores, null);
+	}
+	
+	static public JButton botonEliminar(String mensaje) {
+		return new JButton(mensaje,emoji("icon/trash.png", 24,24));
+	}
+	
+	static public JButton botonAgregar(String mensaje) {
+		return new JButton(mensaje,emoji("icon/save.png", 24,24));
+	}
+	
+	static public JButton botonEditar(String mensaje) {
+		return new JButton(mensaje,emoji("icon/pencil.png",24,24));
+	}
+	
+
+	//USAR ESTE MÉTODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
     static public void colocar(
     		int column,
     		int row, 
@@ -52,6 +80,11 @@ public abstract class PanelPersonalizado extends JPanel{
        //c.insets = new Insets( marginTop, marginLeft, marginBottom, marginRight );
        panel.add(comp,c1);  
        
+    }
+    
+    static public ImageIcon emoji(String fileName, int width, int height) {
+    	Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
+		return new ImageIcon(imagen);
     }
 	
 	
