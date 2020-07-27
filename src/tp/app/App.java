@@ -18,9 +18,12 @@ public class App extends JFrame {
 	JMenu menuEntidades;
 	JMenu menuAyuda;
 	JMenuItem menuItemMarcas;
+	JMenuItem menuItemInsumos;
 	JMenuItem menuItemSalir;
 	JToolBar toolBar;
 	JButton boton_home;
+	JPanel actual = null;
+	
 
 	private App() {
 		this.setTitle("App");
@@ -30,8 +33,19 @@ public class App extends JFrame {
 		this.setSize(800,600);
 		this.setLocationRelativeTo(null);
 		this.getContentPane().setBackground(new Color(8,61,119));
+		
 		//app.setExtendedState(app.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-
+		
+		
+		// Aca se crea el PANEL de HOME
+		JPanel panelHome = new JPanel();
+		panelHome.setBackground(Color.BLUE);
+		actual = panelHome;
+		this.getContentPane().add(panelHome,BorderLayout.CENTER);
+		this.pack();
+		this.revalidate();
+		this.repaint();
+		
 		//MENU------------------------------------------------------------------------------------------------
 		
 		this.menuBar = new JMenuBar();
@@ -43,15 +57,36 @@ public class App extends JFrame {
 
 		this.menuEntidades = new JMenu("Entidades");
 		this.menuItemMarcas = new JMenuItem("Marcas");
-		PanelMarcas panel = new PanelMarcas();
+		this.menuItemInsumos = new JMenuItem("Insumos");
+		
+		
+		
+		//Setea el boton "Marcas"
+		PanelMarcas panelMarcas = new PanelMarcas();
 		this.menuItemMarcas.addActionListener( e -> {
 			//this.setContentPane(panel);
-			this.add(panel,BorderLayout.CENTER);
+			this.remove(actual);
+			this.actual = panelMarcas;
+			this.add(panelMarcas);
 			this.pack();
 			this.revalidate();
 			this.repaint();
 		});
+		
+		//Setea el boton "Insumos"
+				PanelInsumos panelInsumos = new PanelInsumos();
+				this.menuItemInsumos.addActionListener( e -> {
+					//this.setContentPane(panel);
+					this.remove(actual);
+					this.actual = panelInsumos;
+					this.add(panelInsumos);
+					this.pack();
+					this.revalidate();
+					this.repaint();
+				});
+				
 		this.menuEntidades.add(menuItemMarcas);
+		this.menuEntidades.add(menuItemInsumos);
 
 		menuBar.add(this.menuArchivo);
 		menuBar.add(this.menuEntidades );
@@ -69,7 +104,9 @@ public class App extends JFrame {
 		//System.out.println(boton_home.getFont().getName());
 		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
-			this.remove(panel);
+			this.remove(actual);
+			actual = panelHome;
+			this.getContentPane().add(panelHome,BorderLayout.CENTER);
 			this.pack();
 			this.revalidate();
 			this.repaint();
