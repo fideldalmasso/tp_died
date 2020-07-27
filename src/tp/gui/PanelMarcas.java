@@ -150,10 +150,11 @@ public class PanelMarcas extends PanelPersonalizado {
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
-		panel1.setBackground(Color.WHITE);
+		panel1.setOpaque(false);
 		
-		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK);
-		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.DARK_GRAY);
+		
+		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
+		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel1.setBorder(borde1);
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
@@ -162,12 +163,12 @@ public class PanelMarcas extends PanelPersonalizado {
 	//PANEL2------------------------------------------------------------------------------------------------
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
-		panel2.setBackground(Color.WHITE);
+		panel2.setOpaque(false);
 		
-		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(48, 50, 61));
-		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.DARK_GRAY);
+		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
+		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel2.setBorder(borde2);
-
+		texto_nombre.setForeground(Color.white);
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_nombre);
 		colocar(1,0,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);

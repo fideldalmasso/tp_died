@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,9 +27,11 @@ import tp.controller.MarcaController;
 import tp.controller.Mensaje;
 
 public class PanelInsumos extends PanelPersonalizado {
-		
+
 	private static final long serialVersionUID = 1L;
+
 	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
+	
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
 	private JScrollPane scroll_pane;
@@ -38,8 +39,8 @@ public class PanelInsumos extends PanelPersonalizado {
 	
 	private JLabel texto_nombre = new JLabel("Nombre:",SwingConstants.RIGHT);
 	private JTextField campo_nombre = new JTextField();
-	private JButton boton_agregar = new JButton("Agregar Marca");
-	private JButton boton_eliminar = new JButton("Eliminar Marca seleccionada");
+	private JButton boton_agregar = botonAgregar("Agregar Marca");
+	private JButton boton_eliminar = botonEliminar("Eliminar Marca seleccionada");
 	
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
@@ -48,14 +49,13 @@ public class PanelInsumos extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = JOptionPane.showOptionDialog(null, "¿Eliminar "+identificador+"?", "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, null, null, null);
+			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
 			}
 			}
 	}
-	
 	
 	
 	private void actualizarTabla() {
@@ -71,19 +71,13 @@ public class PanelInsumos extends PanelPersonalizado {
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
 		
 	//TITULO------------------------------------------------------------------------------------------------
-
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		//titulo.setOpaque(true);
-		//titulo.setBackground(new Color(244,211,94));
-		titulo.setForeground(new Color(42, 12, 78));
+		titulo.setForeground(Color.WHITE);
 		
 	//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new MarcaTM();
 		tabla = new JTable();
-		//tabla.setPreferredSize(new Dimension(300,200));
 		tabla.setModel(tableModel);
-		//tabla.setAutoCreateRowSorter(true);
-		//tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tabla.setIgnoreRepaint(false);
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
@@ -98,8 +92,8 @@ public class PanelInsumos extends PanelPersonalizado {
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-		               
+		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
+		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
 		            	   notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
@@ -120,8 +114,8 @@ public class PanelInsumos extends PanelPersonalizado {
 		//tabla.setFillsViewportHeight(true);
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
-		boton_eliminar.setForeground(Color.WHITE);
-		boton_eliminar.setBackground(Color.RED);
+		//boton_eliminar.setForeground(Color.WHITE);
+		//boton_eliminar.setBackground(Color.RED);
 		boton_eliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -140,8 +134,8 @@ public class PanelInsumos extends PanelPersonalizado {
 		});
 		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		boton_agregar.setForeground(Color.WHITE);
-		boton_agregar.setBackground(Color.BLUE);
+		//boton_agregar.setForeground(Color.WHITE);
+		//boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
 		{
 			Mensaje m = controller.add(campo_nombre.getText());
@@ -156,10 +150,11 @@ public class PanelInsumos extends PanelPersonalizado {
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
-		panel1.setBackground(Color.WHITE);
+		panel1.setOpaque(false);
 		
-		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.BLACK);
-		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.DARK_GRAY);
+		
+		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
+		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel1.setBorder(borde1);
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
@@ -168,12 +163,12 @@ public class PanelInsumos extends PanelPersonalizado {
 	//PANEL2------------------------------------------------------------------------------------------------
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
-		panel2.setBackground(Color.WHITE);
+		panel2.setOpaque(false);
 		
-		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, new Color(48, 50, 61));
-		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.DARK_GRAY);
+		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
+		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel2.setBorder(borde2);
-
+		texto_nombre.setForeground(Color.white);
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_nombre);
 		colocar(1,0,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
@@ -186,4 +181,6 @@ public class PanelInsumos extends PanelPersonalizado {
 		
 	}
 	
+	
 }
+
