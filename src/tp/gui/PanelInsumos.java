@@ -30,7 +30,7 @@ import tp.controller.Mensaje;
 public class PanelInsumos extends PanelPersonalizado {
 		
 	private static final long serialVersionUID = 1L;
-	private JLabel titulo = new JLabel("Administración de Marcas"+new String(Character.toChars(0x1F349)),SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
 	private JScrollPane scroll_pane;
@@ -44,13 +44,13 @@ public class PanelInsumos extends PanelPersonalizado {
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
 		if(row == -1)
-			popUp(new Mensaje(false, "Ninguna fila seleccionada"));
+			notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
 			int resultado = JOptionPane.showOptionDialog(null, "¿Eliminar "+identificador+"?", "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if(resultado == JOptionPane.YES_OPTION) {
-				popUp(controller.delete(identificador));
+				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
 			}
 			}
@@ -101,7 +101,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		               String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
 		               
 		               if(nuevo!=null && nuevo.length()>0) {
-		            	   popUp(controller.update(original,nuevo));
+		            	   notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
 		               }
 		            }
@@ -134,7 +134,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		campo_nombre.setToolTipText("Presioná Enter para agregar");
 		campo_nombre.addActionListener( e->{
 			Mensaje m = controller.add(campo_nombre.getText());
-			popUp(m);
+			notificacionPopUp(m);
 			if(m.exito()) 
 				actualizarTabla();
 		});
@@ -145,7 +145,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.addActionListener( e ->
 		{
 			Mensaje m = controller.add(campo_nombre.getText());
-			popUp(m);
+			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
 				}
