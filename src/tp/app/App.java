@@ -1,13 +1,10 @@
 package tp.app;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.io.File;
 
 import javax.swing.*;
 
@@ -70,7 +67,7 @@ public class App extends JFrame {
 		boton_home.setForeground(Color.BLACK);
 		boton_home.setFocusable(false);
 		boton_home.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		System.out.println(boton_home.getFont().getName());
+		//System.out.println(boton_home.getFont().getName());
 		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
 			this.remove(panel);

@@ -66,7 +66,7 @@ public class EnvioDAO implements Registrable<Envio>{
 			pstm.setString(1, nuevo.getId_envio());
 			pstm.setString(2, nuevo.getCamion().getId_camion());
 			pstm.setDouble(3, nuevo.getCosto_envio());
-			pstm.setString(1, original.getId_envio());
+			pstm.setString(4, original.getId_envio());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

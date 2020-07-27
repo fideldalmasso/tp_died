@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.AbstractTableModel;
 
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
@@ -60,8 +61,10 @@ public class PanelMarcas extends PanelPersonalizado {
 	
 	
 	private void actualizarTabla() {
+		tableModel.fireTableDataChanged();
 		tableModel.recargarTabla();
 		tabla.repaint();
+		//tabla.validate();
 	}
 	
 	public PanelMarcas() {
@@ -80,6 +83,8 @@ public class PanelMarcas extends PanelPersonalizado {
 		tabla = new JTable();
 		//tabla.setPreferredSize(new Dimension(300,200));
 		tabla.setModel(tableModel);
+		//tabla.setAutoCreateRowSorter(true);
+		//tabla.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		tabla.setIgnoreRepaint(false);
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
@@ -142,8 +147,9 @@ public class PanelMarcas extends PanelPersonalizado {
 		{
 			Mensaje m = controller.add(campo_nombre.getText());
 			popUp(m);
-			if(m.exito()) 
+			if(m.exito()) { 
 				actualizarTabla();
+				}
 			
 		}
 	);

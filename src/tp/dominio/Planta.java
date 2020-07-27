@@ -21,12 +21,13 @@ public class Planta{
 	Comparator<Camion> compara_camion = Comparator.comparing(Camion:: getDistancia_recorrida_en_km);
 	PriorityQueue<Camion> priority_queue = new PriorityQueue<Camion>( compara_camion );
 
-	public Planta(String nombre) {
+	public Planta(String id_planta) {
 		super();
-		this.nombre = nombre;
+		this.nombre = null;
 		this.lista_camiones = new ArrayList<Camion>();
 		this.lista_stock_insumos = new ArrayList<StockInsumo>();
 		this.lista_pedidos = new ArrayList<Pedido>();
+		this.id_planta = id_planta;
 	}
 	
 	public Planta(String id, String nombre) {

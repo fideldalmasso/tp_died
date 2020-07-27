@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import tp.dominio.*;
+import tp.enumerados.Estado;
 
 public class PedidoDAO implements Registrable<Pedido>{
 	
@@ -82,7 +83,7 @@ public class PedidoDAO implements Registrable<Pedido>{
 			pstm.setDate(7, Date.valueOf(nuevo.getFecha_maxima()));
 			pstm.setString(8, nuevo.getEstado_pedido().toString());
 			pstm.setDouble(9, nuevo.getCosto_pedido());
-			pstm.setString(1, original.getId_pedido());
+			pstm.setString(10, original.getId_pedido());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -145,14 +146,22 @@ public class PedidoDAO implements Registrable<Pedido>{
 	
 	Pedido parsearRS(ResultSet rs) throws SQLException {
 		
-		return new Pedido();
+		PlantaDAO dao1 = new PlantaDAO();
+		EnvioDAO dao2 = new EnvioDAO();
+		Planta plantaTemp1 = dao1.get(rs.getString(2)).get();
+		Planta plantaTemp2 = dao1.get(rs.getString(3)).get();
+		Envio envioTemp = dao2.get(rs.getString(4)).get();
 		
-//		return new Pedido(rs.getString(1), 
-//							rs.getDate(5),
-//							rs.getDate(6),
-//							rs.getDate(7)
-//							rs.getDouble(9), //invocar a envioDao y crear el envio invocar a plantaDAO y crear las plantas
-//							Planta plantaDestino);
+		return new Pedido(rs.getString(1),
+							plantaTemp1,
+							plantaTemp2,
+							envioTemp,
+							rs.getDate(5).toLocalDate(),
+							rs.getDate(6).toLocalDate(),
+							rs.getDate(7).toLocalDate(),
+							Estado.valueOf(rs.getString(8)),
+							rs.getDouble(9));
+		
 	}
 	
 }
