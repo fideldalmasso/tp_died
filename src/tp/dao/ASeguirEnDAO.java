@@ -10,25 +10,22 @@ import java.util.Optional;
 
 import tp.dominio.*;
 
-public class RutaDAO implements Registrable<Ruta>{
-	
-	public RutaDAO() {
+public class ASeguirEnDAO implements Registrable<ASeguirEn>{
+
+	public ASeguirEnDAO() {
 		super();
 	}
-	
+
 	@Override
-	public Boolean add(Ruta r) {
+	public Boolean add(ASeguirEn a) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Ruta VALUES (?,?,?,?,?,?);");
-			pstm.setString(1, r.getId_ruta());
-			pstm.setString(2, r.getPlanta_origen().getId_planta());
-			pstm.setString(3, r.getPlanta_destino().getId_planta());
-			pstm.setDouble(4, r.getDistancia_en_km());
-			pstm.setDouble(5, r.getDuracion_en_minutos());
-			pstm.setDouble(6, r.getPeso_maximo_por_dia_en_kg());
+					"INSERT INTO tp.ASeguirEn VALUES (?,?,?);");
+			pstm.setString(1, a.getEnvio().getId_envio());
+			pstm.setString(2, a.getRuta().getId_ruta());
+			pstm.setInt(3,a.getOrden());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -39,15 +36,16 @@ public class RutaDAO implements Registrable<Ruta>{
 		}
 		return false;
 	}
-	
+
 	@Override
-	public Boolean delete(String ...id_ruta) {
+	public Boolean delete(String ...ids) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.Ruta WHERE id_ruta=?;");
-			pstm.setString(1, id_ruta[0]);
+					"DELETE FROM tp.ASeguirEn WHERE id_envio=? AND id_ruta=?;");
+			pstm.setString(1, ids[0]);
+			pstm.setString(2, ids[1]);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -58,27 +56,19 @@ public class RutaDAO implements Registrable<Ruta>{
 		}
 		return false;
 	}
-	
+
 	@Override
-	public Boolean update(Ruta original, Ruta nueva) {
+	public Boolean update(ASeguirEn original, ASeguirEn nuevo) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Ruta SET id_ruta=?, "
-					+ "id_planta_origen=?, "
-					+ "id_planta_destino=?, "
-					+ "distancia_en_km=?, "
-					+ "duracion_en_minutos=?, "
-					+ "peso_maximo_por_dia_en_kg=? "
-					+ "WHERE id_ruta=?");
-			pstm.setString(1, nueva.getId_ruta());
-			pstm.setString(2, nueva.getPlanta_origen().getId_planta());
-			pstm.setString(3, nueva.getPlanta_destino().getId_planta());
-			pstm.setDouble(4, nueva.getDistancia_en_km());
-			pstm.setDouble(5, nueva.getDuracion_en_minutos());
-			pstm.setDouble(6, nueva.getPeso_maximo_por_dia_en_kg());
-			pstm.setString(7, original.getId_ruta());
+					"UPDATE tp.ASeguirEn SET id_envio=?, id_ruta=?, orden=? WHERE id_envio=? AND id_ruta=?");
+			pstm.setString(1, nuevo.getEnvio().getId_envio());
+			pstm.setString(2, nuevo.getRuta().getId_ruta());
+			pstm.setInt(3,nuevo.getOrden());
+			pstm.setString(4, original.getEnvio().getId_envio());
+			pstm.setString(5, original.getRuta().getId_ruta());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -89,20 +79,22 @@ public class RutaDAO implements Registrable<Ruta>{
 		}
 		return false;
 	}
-	
+
 	@Override
-	public Optional<Ruta> get(String ...id_ruta) {
+	public Optional<ASeguirEn> get(String ...ids) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		Optional<Ruta> m = Optional.empty();
+		Optional<ASeguirEn> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Ruta WHERE id_ruta=?;"); 
-			pstm.setString(1, id_ruta[0]);
+					"SELECT * FROM tp.ASeguirEn WHERE id_envio=?, id_ruta=?;");
+			pstm.setString(1, ids[0]);
+			pstm.setString(2, ids[1]);
 			rs = pstm.executeQuery();
 			if(rs.next()) {
-				return Optional.of(parsearRS(rs));
+
+				return   Optional.of(this.parsearRS(rs));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -114,19 +106,19 @@ public class RutaDAO implements Registrable<Ruta>{
 		}
 		return m;
 	}
-	
+
 	@Override
-	public List<Ruta> getAll(){
+	public List<ASeguirEn> getAll(){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		List<Ruta> lista = new ArrayList<Ruta>();
+		List<ASeguirEn> lista = new ArrayList<ASeguirEn>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Ruta;");
-			 rs = pstm.executeQuery();
+					"SELECT * FROM tp.ASeguirEn;");
+			rs = pstm.executeQuery();
 			while(rs.next()) {
-				lista.add(parsearRS(rs));
+				lista.add(this.parsearRS(rs));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -138,17 +130,16 @@ public class RutaDAO implements Registrable<Ruta>{
 		}
 		return lista;
 	}
-	
-	
-	private Ruta parsearRS(ResultSet rs) throws SQLException {
-		return new Ruta(rs.getString(1),
-							new Planta(rs.getString(2)),
-							new Planta(rs.getString(3)),
-							rs.getDouble(4),
-							rs.getDouble(5),
-							rs.getDouble(6)); 
-	}
-	
-}
 
+	
+
+	ASeguirEn parsearRS(ResultSet rs) throws SQLException {
+
+		Envio envioTemp = new EnvioDAO().get(rs.getString(1)).get();
+
+		Ruta rutaTemp = new RutaDAO().get(rs.getString(2)).get();
+
+		return new ASeguirEn(envioTemp, rutaTemp, rs.getInt(3));
+	}
+}
 

@@ -23,10 +23,10 @@ public class Insumo {
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
-	public String getId() {
+	public String getId_insumo() {
 		return id_insumo;
 	}
-	public void setId(String id) {
+	public void setId_insumo(String id) {
 		this.id_insumo = id;
 	}
 	public String getDescripcion() {
