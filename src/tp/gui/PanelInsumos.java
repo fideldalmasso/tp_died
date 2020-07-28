@@ -23,17 +23,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import tp.controller.InsumoController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
+import tp.enumerados.Unidad;
 
 public class PanelInsumos extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.CENTER);
 	
-	private MarcaTM tableModel;
-	private MarcaController controller = new MarcaController();
+	private InsumoTM tableModel;
+	private InsumoController controller = new InsumoController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 	
@@ -75,7 +77,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		titulo.setForeground(Color.WHITE);
 		
 	//TABLA------------------------------------------------------------------------------------------------
-		tableModel = new MarcaTM();
+		tableModel = new InsumoTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		tabla.setIgnoreRepaint(false);
@@ -91,12 +93,19 @@ public class PanelInsumos extends PanelPersonalizado {
 		               int row = target.getSelectedRow(); // select a row
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
-		               String original = (String)tabla.getValueAt(row, column);
+		               Object original = (Object)tabla.getValueAt(row, column);
 		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
 		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
-		            	   notificacionPopUp(controller.update(original,nuevo));
-		            	   actualizarTabla();
+		            	  switch(column) {
+		            	  
+		            	  case 0:
+		            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),nuevo,(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3)));
+			            	   actualizarTabla();
+			            	   break;
+		            	  
+		            	  }
+		            	  
 		               }
 		            }
 			}
@@ -125,27 +134,27 @@ public class PanelInsumos extends PanelPersonalizado {
 
 		
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
-		campo_nombre.setToolTipText("Presioná Enter para agregar");
-		campo_nombre.addActionListener( e->{
-			Mensaje m = controller.add(campo_nombre.getText());
-			notificacionPopUp(m);
-			if(m.exito()) 
-				actualizarTabla();
-		});
+//		campo_nombre.setToolTipText("Presioná Enter para agregar");
+//		campo_nombre.addActionListener( e->{
+//			Mensaje m = controller.add(campo_nombre.getText());
+//			notificacionPopUp(m);
+//			if(m.exito()) 
+//				actualizarTabla();
+//		});
 		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
 		//boton_agregar.setForeground(Color.WHITE);
 		//boton_agregar.setBackground(Color.BLUE);
-		boton_agregar.addActionListener( e ->
-		{
-			Mensaje m = controller.add(campo_nombre.getText());
-			notificacionPopUp(m);
-			if(m.exito()) { 
-				actualizarTabla();
-				}
-			
-		}
-	);
+//		boton_agregar.addActionListener( e ->
+//		{
+//			Mensaje m = controller.add(campo_nombre.getText());
+//			notificacionPopUp(m);
+//			if(m.exito()) { 
+//				actualizarTabla();
+//				}
+//			
+//		}
+//	);
 	
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();

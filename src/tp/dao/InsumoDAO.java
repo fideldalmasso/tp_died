@@ -64,11 +64,12 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Insumo SET id_Insumo=?, descripcion=?, unidad_de_medida=?, costo_por_unidad=? WHERE id_Insumo=?");
+					"UPDATE tp.insumo SET id_insumo=?, descripcion=?, unidad_de_medida=?, costo_unidad=? WHERE id_insumo=?");
 			pstm.setString(1, nuevo.getId_insumo());
 			pstm.setString(2, nuevo.getDescripcion());
-			pstm.setString(3, nuevo.getUnidad_de_medida().toString());
+			pstm.setObject(3, nuevo.getUnidad_de_medida(), 1);;
 			pstm.setDouble(4, nuevo.getCosto_por_unidad());
+			pstm.setString(5, original.getId_insumo());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

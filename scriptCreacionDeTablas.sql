@@ -60,12 +60,12 @@ CREATE TABLE tp.Insumo(
 CREATE TABLE tp.InsumoGeneral(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
 	peso_por_unidad double precision,
-	primary key (id_insumo,id_insumo_general)
+	primary key (id_insumo)
 );
 CREATE TABLE tp.InsumoLiquido(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
 	densidad double precision,
-	primary key (id_insumo,id_insumo_liquido)
+	primary key (id_insumo)
 );
 CREATE TABLE tp.Detallepedido(
 	id_insumo varchar(16) references tp.Insumo(id_insumo) on update cascade on delete cascade,
