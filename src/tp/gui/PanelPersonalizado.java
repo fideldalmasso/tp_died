@@ -19,6 +19,10 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
+	public  PanelPersonalizado() {
+		super();
+	}
+	
 	//Este metodo dibuja la imagen de fondo
 	@Override
 	protected void paintComponent(Graphics g) {
