@@ -145,8 +145,9 @@ public class CamionDAO implements Registrable<Camion>{
 	
 	
 	private Camion parsearRS(ResultSet rs) throws SQLException {
-		ModeloDAO modeloDAOTemp = new ModeloDAO();
-		Modelo modeloTemp = modeloDAOTemp.get(rs.getString(4)).get();
+		//ModeloDAO modeloDAOTemp = new ModeloDAO();
+		String x = rs.getString(3);
+		Modelo modeloTemp = new ModeloDAO().get(rs.getString(3)).get();
 				
 		return new Camion(rs.getString(1),
 							new Planta(rs.getString(2)),

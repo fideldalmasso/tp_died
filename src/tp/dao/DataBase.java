@@ -13,11 +13,21 @@ public abstract class DataBase {
 
 	//private static Connection con = null;
 		//private static PreparedStatement pstm = null;
+	
+	
+//	NUESTRA DB
+//		static final String driver = "org.postgresql.Driver";
+//		static final String url = "***REMOVED***";
+//		static final String user = "***REMOVED***";
+//		static final String password = "***REMOVED***";
+	
+// DB DE ESTEBAN
 		static final String driver = "org.postgresql.Driver";
 		static final String url = "***REMOVED***";
-		static final String user = "***REMOVED***";
+		static final String user = "root";
 		static final String password = "***REMOVED***";
 		
+	
 		public static Connection getConexion() {
 			Connection con = null;
 			try{
@@ -29,60 +39,9 @@ public abstract class DataBase {
 			return con;
 		}
 		
+		//Quizás resulte útil:
+		//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
 		
-		// NO USAR ESTE MÉTODO, NO ESTÁ TERMINADO
-		public static List<String> select(String consulta){
-			//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
-			
-			List<String> lista = new ArrayList<String>();
-			PreparedStatement pstm = null;
-			ResultSet rs = null;
-			Connection con = DataBase.getConexion();
-		
-			String[] columnas = consulta.
-							replace(" ", " ").
-							replace("SELECT", "").
-							split("FROM")[0].
-							split(",");
-			
-			try {
-				pstm = con.prepareStatement(consulta);
-				rs = pstm.executeQuery();
-				while(rs.next()) {
-					//Marca marcaTemp = new Marca(rs.getString(2));
-					//lista.add(new Modelo(rs.getString(1),marcaTemp));
-				}
-			}catch(Exception e){
-				System.out.println(e.getMessage());	
-			}finally {
-				DataBase.cerrarRs(rs);
-				DataBase.cerrarPstm(pstm);
-				DataBase.cerrarConexion(con);
-			}
-			
-			
-			
-			return lista;
-		}
-		
-//		public static PreparedStatement getPstm(Connection con,String sql) {
-//			PreparedStatement pstm = null;
-//			try{
-//				pstm = con.prepareStatement(sql);
-//			}catch(Exception e) {
-//				System.out.println(e.getMessage());	
-//			}
-//			return pstm;
-//		}
-		
-//		public static Boolean ejecutar(PreparedStatement pstm) {
-//			try {
-//				return pstm.executeUpdate() == 1;
-//			} catch (SQLException e) {
-//				System.out.println(e.getMessage());	
-//			}
-//			return false;
-//		}
 		
 		public static void cerrarConexion(Connection con) {
 			try {
@@ -108,32 +67,7 @@ public abstract class DataBase {
 			}
 		}
 //----------------------------------------------------------------------------------
-//	Connection con;
-//	static final String driver = "org.postgresql.Driver";
-//	static final String url = "***REMOVED***";
-//	static final String user = "***REMOVED***";
-//	static final String password = "***REMOVED***";
-	
 
-
-//	void conectarDB() {
-//		try{
-//			Class.forName(driver);
-//			con=DriverManager.getConnection(url,user,password);
-//		}catch(ClassNotFoundException e) {
-//			System.out.println(e.getMessage());		
-//		}catch(SQLException e1) {
-//			System.out.println(e1.getMessage());	
-//		}
-//	}
-	
-//	void desconectarDB() {
-//		try {
-//			con.close();
-//		} catch (SQLException e) {
-//			System.out.println(e.getMessage());
-//		}
-//	}
 	
 	private static void ejecutarScript(String nombreArchivo) {
 		//https://stackoverflow.com/questions/1497569/how-to-execute-sql-script-file-using-jdbc
@@ -216,6 +150,7 @@ public abstract class DataBase {
 			DataBase.cerrarConexion(con);
 		}
 		ejecutarScript("scriptCreacionDeTablas.sql");
+		ejecutarScript("scriptPobladoDeTablas.sql");
 	}
 	
 //	void ejecutarSentencia(String sentencia) {

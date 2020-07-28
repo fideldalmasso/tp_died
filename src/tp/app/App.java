@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import tp.dao.DataBase;
 import tp.gui.*;
 
 public class App extends JFrame {
@@ -77,6 +78,10 @@ public class App extends JFrame {
 		//BOTONES DE HOME-------------------------------------------------------------------------------------
 		home.getBoton_insumos().addActionListener( e->
 			cambiarPanel(new PanelInsumos())
+		);
+		
+		home.getBoton_camiones().addActionListener( e->
+			cambiarPanel(new PanelCamiones())
 		);
 		
 		//MENU------------------------------------------------------------------------------------------------
@@ -154,8 +159,10 @@ public class App extends JFrame {
 				catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
+				
+				DataBase.resetDB();
 				new App().setVisible(true);
-
+				
 			}
 		});
 
