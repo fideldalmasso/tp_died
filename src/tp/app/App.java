@@ -5,13 +5,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import tp.dao.DataBase;
 import tp.gui.*;
 
 public class App extends JFrame {
 
+	
+	
+	
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
 	JMenu menuArchivo;
@@ -41,25 +47,32 @@ public class App extends JFrame {
 		this.setTitle("App");
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(800,600));
-		this.setSize(800,600);
+	//	this.setPreferredSize(new Dimension(800,600));
+		this.setMinimumSize(new Dimension(800,600));
+		//this.setSize(800,600);
 		this.setLocationRelativeTo(null);
-		this.actual = new JPanel();
-		PanelHome home =new PanelHome(); 
-		this.cambiarPanel(home);
-		//this.getContentPane().setBackground(new Color(8,61,119));
-
-		//app.setExtendedState(app.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-
+		
+		
+	
+		//https://stackoverflow.com/questions/2781939/setting-minimum-size-limit-for-a-window-in-java-swing
+		this.addComponentListener(new ComponentAdapter(){
+	        public void componentResized(ComponentEvent e){
+	            Dimension d=getSize();
+	            Dimension minD=getMinimumSize();
+	            if(d.width<minD.width)
+	                d.width=minD.width;
+	            if(d.height<minD.height)
+	                d.height=minD.height;
+	            setSize(d);
+	        }
+	    });
+		
 
 		// Aca se crea el PANEL de HOME
 		
-		//cambiarPanel(new PanelHome());
-//		actual = new PanelHome();
-//		this.getContentPane().add(panelHome,BorderLayout.CENTER);
-//		this.pack();
-//		this.revalidate();
-//		this.repaint();
+		this.actual = new JPanel();
+		PanelHome home =new PanelHome(); 
+		this.cambiarPanel(home);
 
 		
 		//BOTONES DE HOME-------------------------------------------------------------------------------------
@@ -69,6 +82,10 @@ public class App extends JFrame {
 		home.getBoton_camiones().addActionListener( e->
 		cambiarPanel(new PanelMarcas())
 	);
+		
+		home.getBoton_camiones().addActionListener( e->
+			cambiarPanel(new PanelCamiones())
+		);
 		
 		//MENU------------------------------------------------------------------------------------------------
 
@@ -145,8 +162,10 @@ public class App extends JFrame {
 				catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
+				
+				DataBase.resetDB();
 				new App().setVisible(true);
-
+				
 			}
 		});
 
