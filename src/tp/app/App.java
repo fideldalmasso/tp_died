@@ -44,7 +44,9 @@ public class App extends JFrame {
 		this.setPreferredSize(new Dimension(800,600));
 		this.setSize(800,600);
 		this.setLocationRelativeTo(null);
-		this.actual = new PanelHome();
+		this.actual = new JPanel();
+		PanelHome home =new PanelHome(); 
+		this.cambiarPanel(home);
 		//this.getContentPane().setBackground(new Color(8,61,119));
 
 		//app.setExtendedState(app.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -59,7 +61,12 @@ public class App extends JFrame {
 //		this.revalidate();
 //		this.repaint();
 
-
+		
+		//BOTONES DE HOME-------------------------------------------------------------------------------------
+		home.getBoton_insumos().addActionListener( e->
+			cambiarPanel(new PanelInsumos())
+		);
+		
 		//MENU------------------------------------------------------------------------------------------------
 
 		this.menuBar = new JMenuBar();
@@ -106,7 +113,7 @@ public class App extends JFrame {
 		//System.out.println(boton_home.getFont().getName());
 		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
-			cambiarPanel(new PanelHome());
+			cambiarPanel(home);
 		});
 		toolBar = new JToolBar(JToolBar.HORIZONTAL);
 		toolBar.add(boton_home);
