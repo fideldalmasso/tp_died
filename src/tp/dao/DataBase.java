@@ -12,27 +12,16 @@ import tp.dominio.Modelo;
 public abstract class DataBase {
 
 	//private static Connection con = null;
-		//private static PreparedStatement pstm = null;
-	
-	
-//	NUESTRA DB
-//		static final String driver = "org.postgresql.Driver";
-//		static final String url = "***REMOVED***";
-//		static final String user = "***REMOVED***";
-//		static final String password = "***REMOVED***";
-	
-// DB DE ESTEBAN
-		static final String driver = "org.postgresql.Driver";
-		static final String url = "***REMOVED***";
-		static final String user = "root";
-		static final String password = "***REMOVED***";
-		
+	//private static PreparedStatement pstm = null;
 	
 		public static Connection getConexion() {
 			Connection con = null;
+			Scanner s = null;
 			try{
-				Class.forName(driver);
-				con =DriverManager.getConnection(url,user,password);
+				s = new Scanner(new File("datosDB.txt"));
+				Class.forName("org.postgresql.Driver");
+				con =DriverManager.getConnection(s.nextLine(),s.nextLine(),s.nextLine());
+				s.close();
 			}catch(Exception e) {
 				System.out.println(e.getMessage());		
 			}
