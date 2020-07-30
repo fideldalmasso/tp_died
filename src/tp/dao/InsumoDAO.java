@@ -23,7 +23,7 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Insumo VALUES (?,?,?,?);");
+					"INSERT INTO tp.Insumo VALUES (?,?,CAST(? AS tp.unidaddemedida) ,?);");
 			pstm.setString(1, en.getId_insumo());
 			pstm.setString(2, en.getDescripcion());
 			pstm.setString(3, en.getUnidad_de_medida().toString());
@@ -45,7 +45,7 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.Insumo WHERE id_Insumo=?;");
+					"DELETE FROM tp.Insumo WHERE id_insumo=?;");
 			pstm.setString(1, id_Insumo[0]);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -64,10 +64,10 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.insumo SET id_insumo=?, descripcion=?, unidad_de_medida=?, costo_unidad=? WHERE id_insumo=?");
+					"UPDATE tp.Insumo SET id_insumo=?, descripcion=?, unidad_de_medida= CAST(? AS tp.UnidadDeMedida), costo_por_unidad=? WHERE id_insumo=?");
 			pstm.setString(1, nuevo.getId_insumo());
 			pstm.setString(2, nuevo.getDescripcion());
-			pstm.setObject(3, nuevo.getUnidad_de_medida(), 1);;
+			pstm.setString(3, nuevo.getUnidad_de_medida().toString());
 			pstm.setDouble(4, nuevo.getCosto_por_unidad());
 			pstm.setString(5, original.getId_insumo());
 			return pstm.executeUpdate() == 1;
@@ -89,7 +89,7 @@ public class InsumoDAO implements Registrable<Insumo>{
 		Optional<Insumo> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Insumo WHERE id_Insumo=?;");
+					"SELECT * FROM tp.Insumo WHERE id_insumo=?;");
 			pstm.setString(1, id_Insumo[0]);
 			rs = pstm.executeQuery();
 			if(rs.next()) {

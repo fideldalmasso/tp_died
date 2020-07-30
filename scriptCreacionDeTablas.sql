@@ -54,7 +54,7 @@ CREATE TYPE tp.UnidadDeMedida AS ENUM('KILO','PIEZA','GRAMO','METRO','LITRO','ME
 CREATE TABLE tp.Insumo(
 	id_insumo varchar(16) primary key,
 	descripcion varchar(256),
-	unidad_de_medida tp.unidadDeMedida,
+	unidad_de_medida tp.UnidadDeMedida,
 	costo_por_unidad double precision
 	);
 CREATE TABLE tp.InsumoGeneral(

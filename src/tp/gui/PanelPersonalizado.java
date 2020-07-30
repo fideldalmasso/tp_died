@@ -57,6 +57,9 @@ public abstract class PanelPersonalizado extends JPanel{
 	static public String ingresoPopUp(String mensaje) {
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), null, null);	 
 	}
+//	static public Double ingresoDoublePopUp(String mensaje) {
+//		return (Double) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), null, null);	 
+//	}
 
 	static public int eliminarPopUp(String mensaje) {
 		return JOptionPane.showOptionDialog(null, mensaje, "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, PanelPersonalizado.emoji("icon/warning.png", 32,32), null, null);
@@ -65,6 +68,9 @@ public abstract class PanelPersonalizado extends JPanel{
 	static public String seleccionPopUp(String[] valores) {
 		return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
 	}
+	
+	static public String ingresoComboPopUp(String mensaje, String []lista) { 		
+		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]); 	}
 
 	static public JButton botonEliminar(String mensaje) {
 		JButton boton = new JButton(mensaje,emoji("icon/trash.png", 24,24));
@@ -98,7 +104,8 @@ public abstract class PanelPersonalizado extends JPanel{
 			int fill, 
 			int anchor, 
 			JPanel panel, 
-			JComponent comp ){
+			JComponent comp/*,
+			int marginTop, int marginLeft, int marginBottom, int marginRight */){
 		//https://stackoverflow.com/questions/45175343/how-do-you-add-empty-cells-to-gridbaglayout
 		//GridBagConstraints constraints = new GridBagConstraints();
 		GridBagConstraints c1 = new GridBagConstraints();
@@ -113,7 +120,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		c1.fill = fill;         // 0 NONE, 1 BOTH, 2 HORIZONTAL, 3 VERTICAL
 		c1.anchor = anchor; 	  //10 CENTER
 		c1.insets = new Insets(5,10,5,10);
-		//c.insets = new Insets( marginTop, marginLeft, marginBottom, marginRight );
+//		c1.insets = new Insets( marginTop, marginLeft, marginBottom, marginRight );
 		panel.add(comp,c1);  
 
 	}

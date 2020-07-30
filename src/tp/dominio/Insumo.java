@@ -1,8 +1,14 @@
 package tp.dominio;
 
+import java.io.Serializable;
+
 import tp.enumerados.Unidad;
 
-public class Insumo {
+public class Insumo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String id_insumo;
 	protected String descripcion;
 	protected Unidad unidad_de_medida;
