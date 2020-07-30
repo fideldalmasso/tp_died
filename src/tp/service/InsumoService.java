@@ -17,8 +17,8 @@ public class InsumoService {
 		dao = new InsumoDAO();
 	}
 	
-	public Mensaje add(String id, String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
-		Insumo m1 = new Insumo(id, descripcion, unidadDeMedida, costoPorUnidad);
+	public Mensaje add(String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
+		Insumo m1 = new Insumo( descripcion, unidadDeMedida, costoPorUnidad);
 		if(dao.add(m1))
 			return new Mensaje(true,"");
 		else
@@ -35,7 +35,7 @@ public class InsumoService {
 	public Mensaje update(String id_original, String id_nuevo, String descripcion_nuevo, Unidad unidadDeMedida_nuevo, Double costoPorUnidad_nuevo) {
 		InsumoDAO insumoDAO = new InsumoDAO() ;
 		Insumo m1 = insumoDAO.get(id_original).get() ;
-		Insumo m2 = new Insumo(id_nuevo, descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo);
+		Insumo m2 = new Insumo( descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo);
 		
 		if(dao.update(m1,m2))
 			return new Mensaje(true,"");

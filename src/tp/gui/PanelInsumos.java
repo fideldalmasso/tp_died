@@ -44,8 +44,8 @@ public class PanelInsumos extends PanelPersonalizado {
 	private InsumoController controller = new InsumoController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
-	JComboBox<String> comboBox = new JComboBox<String>();
-	private JLabel texto_id = new JLabel("ID:",SwingConstants.RIGHT);
+	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
+	JComboBox<String> comboBoxAgregarInsumo = new JComboBox<String>(Utilidades.enumToStringArray(Unidad.class));//Es el dropDown de agregar Insumo
 	private JLabel texto_descripcion = new JLabel("Descripcion:",SwingConstants.RIGHT);
 	private JLabel texto_unidad = new JLabel("Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
@@ -53,8 +53,8 @@ public class PanelInsumos extends PanelPersonalizado {
 	private JTextField campo_descripcion = new JTextField();
 	private JTextField campo_unidad = new JTextField();
 	private JTextField campo_costo = new JTextField();
-	private JButton boton_agregar = botonAgregar("Agregar Marca");
-	private JButton boton_eliminar = botonEliminar("Eliminar Marca seleccionada");
+	private JButton boton_agregar = botonAgregar("Agregar Insumo");
+	private JButton boton_eliminar = botonEliminar("Eliminar Insumo seleccionado");
 	
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
@@ -96,16 +96,6 @@ public class PanelInsumos extends PanelPersonalizado {
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
-		
-//		TableColumn columnaUnidad = this.tabla.getColumnModel().getColumn(2);
-//		
-//		this.comboBox.addItem(Unidad.GRAMO.toString());
-//		this.comboBox.addItem(Unidad.KILO.toString());
-//		columnaUnidad.setCellEditor(new DefaultCellEditor(comboBox));
-//		 DefaultTableCellRenderer renderer =
-//	                new DefaultTableCellRenderer();
-//	        renderer.setToolTipText("Click for combo box");
-//	        columnaUnidad.setCellRenderer(renderer);
 	    
 		
 		tabla.addMouseListener( new MouseAdapter() {
@@ -119,10 +109,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		               Object nuevo = null;
 				
 		               switch(column) {
-		            	 
-//			            	  case 0:
-//			            		 
-//				            	   break;
+
 			            	  case 1:
 			            		 
 			            		  nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
@@ -136,7 +123,12 @@ public class PanelInsumos extends PanelPersonalizado {
 			            	  case 2: 
 			            		  
 			            		  nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
-			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3)));
+			            		 try {
+			            			 notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3)));
+			            		 }
+			            		 catch(Exception ex) {
+			            			 return;
+			            		 }
 			            		  
 				            	 break;  
 			            	  case 3:
@@ -193,8 +185,9 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.setForeground(Color.WHITE);
 		boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
-		{
-			Mensaje m = controller.add(campo_id.getText(),campo_descripcion.getText(),Unidad.valueOf(campo_unidad.getText()),Double.parseDouble(campo_costo.getText()));
+		{	
+			Object novo = this.comboBoxAgregarInsumo.getSelectedItem();
+			Mensaje m = controller.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
@@ -224,19 +217,18 @@ public class PanelInsumos extends PanelPersonalizado {
 		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
 		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar Insumo", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel2.setBorder(borde2);
-		texto_id.setForeground(Color.white);
 		texto_descripcion.setForeground(Color.white);
 		texto_unidad.setForeground(Color.white);
 		texto_costo.setForeground(Color.white);
-		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_id);
-		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
-		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_unidad);
-		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
-		colocar(1,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_id);
-		colocar(1,1,1,1,0,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_descripcion);
-		colocar(3,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_unidad);
-		colocar(3,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo);
-		colocar(4,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+		
+		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
+		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_unidad);
+		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
+		
+		colocar(1,0,1,1,0,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo);
+		colocar(1,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.comboBoxAgregarInsumo);
+		colocar(3,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_descripcion);
+		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
 		

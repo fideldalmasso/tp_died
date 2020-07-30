@@ -22,5 +22,5 @@ insert into tp.camion values
 
 
 insert into tp.insumo values 
-(1,'Arena','KILO',100);
+(default,'Arena','KILO',100);
 

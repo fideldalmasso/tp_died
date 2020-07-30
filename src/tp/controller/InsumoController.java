@@ -17,17 +17,15 @@ public class InsumoController {
 		service = new InsumoService();
 	}
 	
-	public Mensaje add(String id, String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
+	public Mensaje add(String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
 		if(unidadDeMedida == null) {
 			return new Mensaje(false,"Error: Unidad vacía");
 		}
 		if(costoPorUnidad == null && costoPorUnidad > 0) {
 			return new Mensaje(false,"Error: Costo vacío o nulo");
 		}
-		if(id!=null && id.length()>0) 
-			return service.add(id, descripcion, unidadDeMedida, costoPorUnidad);
-		else
-			return new Mensaje(false,"Error: nombre inválido");
+		
+			return service.add(descripcion, unidadDeMedida, costoPorUnidad);
 			
 	}
 	

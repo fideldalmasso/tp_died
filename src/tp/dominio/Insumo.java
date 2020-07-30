@@ -16,6 +16,13 @@ public class Insumo implements Serializable {
 	
 	public Insumo() {}
 	
+	public Insumo( String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
+	
+		this.descripcion = descripcion;
+		this.unidad_de_medida = unidadDeMedida;
+		this.costo_por_unidad = costoPorUnidad;
+	}
+	
 	public Insumo(String id, String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
 		this.id_insumo = id;
 		this.descripcion = descripcion;
