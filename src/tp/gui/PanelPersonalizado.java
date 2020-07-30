@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -57,9 +58,12 @@ public abstract class PanelPersonalizado extends JPanel{
 	static public String ingresoPopUp(String mensaje) {
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), null, null);	 
 	}
-//	static public Double ingresoDoublePopUp(String mensaje) {
-//		return (Double) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), null, null);	 
-//	}
+
+	
+	static public String ingresoComboPopUp(String mensaje, String []lista) {
+		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
+	}
+
 
 	static public int eliminarPopUp(String mensaje) {
 		return JOptionPane.showOptionDialog(null, mensaje, "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, PanelPersonalizado.emoji("icon/warning.png", 32,32), null, null);
@@ -68,9 +72,6 @@ public abstract class PanelPersonalizado extends JPanel{
 	static public String seleccionPopUp(String[] valores) {
 		return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
 	}
-	
-	static public String ingresoComboPopUp(String mensaje, String []lista) { 		
-		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]); 	}
 
 	static public JButton botonEliminar(String mensaje) {
 		JButton boton = new JButton(mensaje,emoji("icon/trash.png", 24,24));

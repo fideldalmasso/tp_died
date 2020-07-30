@@ -14,11 +14,13 @@ insert into tp.modelo values
 ('modelo1','Scania');
 
 insert into tp.planta values
-('111111', 'Planta1');
+(1, 'Planta1');
 
 insert into tp.camion values
-('123456','111111','modelo1',0.0,400,1000,'2017-01-10'),
-('123457','111111','modelo1',0.0,400,1000,'2020-01-17');
+('123456',1,'modelo1',0.0,400,1000,'2017-01-10'),
+('123457',1,'modelo1',0.0,400,1000,'2020-01-17');
 
-insert into tp.Insumo values
-('10', 'Arena','KILO',100);
+
+insert into tp.insumo values 
+(1,'Arena','KILO',100);
+

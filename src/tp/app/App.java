@@ -79,9 +79,7 @@ public class App extends JFrame {
 		home.getBoton_insumos().addActionListener( e->
 			cambiarPanel(new PanelInsumos())
 		);
-		home.getBoton_camiones().addActionListener( e->
-		cambiarPanel(new PanelMarcas())
-	);
+		
 		
 		home.getBoton_camiones().addActionListener( e->
 			cambiarPanel(new PanelCamiones())

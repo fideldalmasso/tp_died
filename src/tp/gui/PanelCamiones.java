@@ -10,9 +10,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,6 +29,12 @@ import javax.swing.border.TitledBorder;
 import tp.controller.CamionController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
+import tp.controller.Utilidades;
+import tp.dao.ModeloDAO;
+import tp.dao.PlantaDAO;
+import tp.dominio.Modelo;
+import tp.dominio.Planta;
+import tp.enumerados.Unidad;
 
 public class PanelCamiones extends PanelPersonalizado {
 
@@ -47,6 +56,17 @@ public class PanelCamiones extends PanelPersonalizado {
 	private JLabel fecha_de_compra = new JLabel("Fecha de compra:",SwingConstants.RIGHT);
 	
 	private JTextField campo_id_camion = new JTextField();
+	private JComboBox<String> campo_id_planta = null;
+	private JTextField campo_nombre_modelo = new JTextField();
+	private JTextField campo_distancia = new JTextField();
+	private JTextField campo_costo_por_km = new JTextField();
+	private JTextField campo_costo_por_hora = new JTextField();
+	private JTextField campo_fecha_de_compra = new JTextField();
+	
+	String []lista_plantas;
+	String []lista_modelos;
+	
+	
 	private JButton boton_agregar = botonAgregar("Agregar Camion");
 	private JButton boton_eliminar = botonEliminar("Eliminar Camion seleccionado");
 	
@@ -74,7 +94,24 @@ public class PanelCamiones extends PanelPersonalizado {
 	}
 	
 	public PanelCamiones() {
+		
 		super();
+		lista_plantas = new PlantaDAO()
+							.getAll()
+							.stream()
+							.map(p -> p.getId_planta().toString())
+							.collect(Collectors.toList())
+							.toArray(new String[0]);
+
+		
+		lista_modelos = new ModeloDAO()
+							.getAll()
+							.stream()
+							.map(m -> m.getNombre())
+							.collect(Collectors.toList())
+							.toArray(new String[0]);
+
+		
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
 		
@@ -177,9 +214,20 @@ public class PanelCamiones extends PanelPersonalizado {
 		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel2.setBorder(borde2);
 		texto_id_camion.setForeground(Color.white);
+		texto_id_planta.setForeground(Color.white);
+		
+//		campo_id_planta = new JComboBox<String>(lista_plantas);
+		campo_id_planta = new JComboBox<String>(Utilidades.enumToStringArray(Unidad.class));
+		//campo_nombre_modelo = new JComboBox<String>(lista_modelos);
+		
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_id_camion);
 		colocar(1,0,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_camion);
-		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+
+		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_id_planta);
+		colocar(1,1,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_planta);
+		
+		
+		colocar(0,2,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
 		

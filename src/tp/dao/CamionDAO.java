@@ -25,7 +25,7 @@ public class CamionDAO implements Registrable<Camion>{
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.Camion VALUES (?,?,?,?,?,?,?);");
 			pstm.setString(1, c.getId_camion());
-			pstm.setString(2, c.getPlanta().getId_planta());
+			pstm.setInt(2, Integer.parseInt(c.getPlanta().getId_planta()));
 			pstm.setString(3, c.getModelo().getNombre());
 			pstm.setDouble(4, c.getDistancia_recorrida_en_km());
 			pstm.setDouble(5, c.getCosto_por_hora());
@@ -67,22 +67,16 @@ public class CamionDAO implements Registrable<Camion>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Camion SET id_camion=?, "
-					+ "id_planta=?, "
-					+ "modelo=?, "
+					"UPDATE tp.Camion SET id_planta=?, "
 					+ "distancia_recorrida_en_km=?, "
 					+ "costo_por_km=?, "
 					+ "costo_por_hora=?, "
-					+ "fecha_de_compra=?, "
 					+ "WHERE id_camion=?");
-			pstm.setString(1, nuevo.getId_camion());
-			pstm.setString(2, nuevo.getPlanta().getId_planta());
-			pstm.setString(3, nuevo.getModelo().getNombre());
-			pstm.setDouble(4, nuevo.getDistancia_recorrida_en_km());
-			pstm.setDouble(5, nuevo.getCosto_por_hora());
-			pstm.setDouble(6, nuevo.getCosto_por_km());
-			pstm.setDate(7, Date.valueOf(nuevo.getFecha_de_compra()));
-			pstm.setString(8, original.getId_camion());
+			pstm.setInt(1, Integer.parseInt(nuevo.getPlanta().getId_planta()));
+			pstm.setDouble(2, nuevo.getDistancia_recorrida_en_km());
+			pstm.setDouble(3, nuevo.getCosto_por_hora());
+			pstm.setDouble(4, nuevo.getCosto_por_km());
+			pstm.setString(5, original.getId_camion());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -146,11 +140,10 @@ public class CamionDAO implements Registrable<Camion>{
 	
 	private Camion parsearRS(ResultSet rs) throws SQLException {
 		//ModeloDAO modeloDAOTemp = new ModeloDAO();
-		String x = rs.getString(3);
 		Modelo modeloTemp = new ModeloDAO().get(rs.getString(3)).get();
 				
 		return new Camion(rs.getString(1),
-							new Planta(rs.getString(2)),
+							new Planta(Integer.toString(rs.getInt(2))),
 							modeloTemp,
 							rs.getDouble(4),
 							rs.getDouble(5),

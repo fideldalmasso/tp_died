@@ -125,7 +125,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		            	   }
 		            	  
 		               }else if(column == 2){
-		            	   nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,);	
+		            	 // nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,);	
 		               } else{
 		            	   nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
 		            	   if(nuevo == null) {

@@ -23,11 +23,11 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Insumo VALUES (?,?,CAST(? AS tp.unidaddemedida) ,?);");
-			pstm.setString(1, en.getId_insumo());
-			pstm.setString(2, en.getDescripcion());
-			pstm.setString(3, en.getUnidad_de_medida().toString());
-			pstm.setDouble(4, en.getCosto_por_unidad());
+					"INSERT INTO tp.Insumo VALUES (default,?,CAST(? AS tp.unidaddemedida),?);");
+			pstm.setString(1, en.getDescripcion());
+			pstm.setString(2, en.getUnidad_de_medida().toString());
+			pstm.setDouble(3, en.getCosto_por_unidad());
+
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -45,8 +45,8 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.Insumo WHERE id_insumo=?;");
-			pstm.setString(1, id_Insumo[0]);
+					"DELETE FROM tp.Insumo WHERE id_Insumo=?;");
+			pstm.setInt(1, Integer.parseInt(id_Insumo[0]));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -64,12 +64,13 @@ public class InsumoDAO implements Registrable<Insumo>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Insumo SET id_insumo=?, descripcion=?, unidad_de_medida= CAST(? AS tp.UnidadDeMedida), costo_por_unidad=? WHERE id_insumo=?");
-			pstm.setString(1, nuevo.getId_insumo());
-			pstm.setString(2, nuevo.getDescripcion());
-			pstm.setString(3, nuevo.getUnidad_de_medida().toString());
-			pstm.setDouble(4, nuevo.getCosto_por_unidad());
-			pstm.setString(5, original.getId_insumo());
+
+					"UPDATE tp.insumo SET descripcion=?, unidad_de_medida=?, costo_unidad=? WHERE id_insumo=?");
+			pstm.setString(1, nuevo.getDescripcion());
+			pstm.setObject(2, nuevo.getUnidad_de_medida(), 1);;
+			pstm.setDouble(3, nuevo.getCosto_por_unidad());
+			pstm.setInt(4, Integer.parseInt(original.getId_insumo()));
+
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -89,8 +90,10 @@ public class InsumoDAO implements Registrable<Insumo>{
 		Optional<Insumo> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Insumo WHERE id_insumo=?;");
-			pstm.setString(1, id_Insumo[0]);
+
+					"SELECT * FROM tp.Insumo WHERE id_Insumo=?;");
+			pstm.setInt(1, Integer.parseInt(id_Insumo[0]));
+
 			rs = pstm.executeQuery();
 			if(rs.next()) {
 				return  Optional.of(parsearRS(rs));
@@ -132,7 +135,7 @@ public class InsumoDAO implements Registrable<Insumo>{
 	
 	Insumo parsearRS(ResultSet rs) throws SQLException {
 		
-		return new Insumo(rs.getString(1),
+		return new Insumo(Integer.toString(rs.getInt(1)),
 						rs.getString(2),
 						Unidad.valueOf(rs.getString(3)),
 						rs.getDouble(4));

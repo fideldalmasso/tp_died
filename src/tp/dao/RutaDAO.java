@@ -24,8 +24,8 @@ public class RutaDAO implements Registrable<Ruta>{
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.Ruta VALUES (?,?,?,?,?,?);");
 			pstm.setString(1, r.getId_ruta());
-			pstm.setString(2, r.getPlanta_origen().getId_planta());
-			pstm.setString(3, r.getPlanta_destino().getId_planta());
+			pstm.setInt(2, Integer.parseInt(r.getPlanta_origen().getId_planta()));
+			pstm.setInt(3, Integer.parseInt(r.getPlanta_destino().getId_planta()));
 			pstm.setDouble(4, r.getDistancia_en_km());
 			pstm.setDouble(5, r.getDuracion_en_minutos());
 			pstm.setDouble(6, r.getPeso_maximo_por_dia_en_kg());
@@ -65,20 +65,15 @@ public class RutaDAO implements Registrable<Ruta>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Ruta SET id_ruta=?, "
-					+ "id_planta_origen=?, "
-					+ "id_planta_destino=?, "
+					"UPDATE tp.Ruta SET "
 					+ "distancia_en_km=?, "
 					+ "duracion_en_minutos=?, "
 					+ "peso_maximo_por_dia_en_kg=? "
 					+ "WHERE id_ruta=?");
-			pstm.setString(1, nueva.getId_ruta());
-			pstm.setString(2, nueva.getPlanta_origen().getId_planta());
-			pstm.setString(3, nueva.getPlanta_destino().getId_planta());
-			pstm.setDouble(4, nueva.getDistancia_en_km());
-			pstm.setDouble(5, nueva.getDuracion_en_minutos());
-			pstm.setDouble(6, nueva.getPeso_maximo_por_dia_en_kg());
-			pstm.setString(7, original.getId_ruta());
+			pstm.setDouble(1, nueva.getDistancia_en_km());
+			pstm.setDouble(2, nueva.getDuracion_en_minutos());
+			pstm.setDouble(3, nueva.getPeso_maximo_por_dia_en_kg());
+			pstm.setString(4, original.getId_ruta());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -142,8 +137,8 @@ public class RutaDAO implements Registrable<Ruta>{
 	
 	private Ruta parsearRS(ResultSet rs) throws SQLException {
 		return new Ruta(rs.getString(1),
-							new Planta(rs.getString(2)),
-							new Planta(rs.getString(3)),
+							new Planta(Integer.toString(rs.getInt(2))),
+							new Planta(Integer.toString(rs.getInt(3))),
 							rs.getDouble(4),
 							rs.getDouble(5),
 							rs.getDouble(6)); 
