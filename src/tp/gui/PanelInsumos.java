@@ -31,6 +31,7 @@ import javax.swing.table.TableColumn;
 import tp.controller.InsumoController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
+import tp.controller.Utilidades;
 import tp.enumerados.Unidad;
 
 public class PanelInsumos extends PanelPersonalizado {
@@ -116,40 +117,36 @@ public class PanelInsumos extends PanelPersonalizado {
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               Object original = (Object)tabla.getValueAt(row, column);
 		               Object nuevo = null;
-		               if(column == 3) {
-		            	  try {
-		            	  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original)); 
-		            	  	  }
-		            	   catch(Exception ex) {
-		            		   return;// en caso de que seleccione cancelar
-		            	   }
-		            	  
-		               }else if(column == 2){
-		            	 // nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,);	
-		               } else{
-		            	   nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
-		            	   if(nuevo == null) {
-				            	 return ; // en caso de que seleccione cancelar
-				             }
-		               		}
 				
-			            
-			             
-		            	  switch(column) {
+		               switch(column) {
 		            	 
-			            	  case 0:
-			            		 
-			            			notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)nuevo,(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3)));
-			            		 
-				            	   break;
+//			            	  case 0:
+//			            		 
+//				            	   break;
 			            	  case 1:
 			            		 
+			            		  nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
+				            	   if(nuevo == null) {
+						            	 return ; // en caso de que seleccione cancelar
+						             }
 			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3)));
 			            		 
 				            	   break;
 				            	   
+			            	  case 2: 
+			            		  
+			            		  nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
+			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3)));
+			            		  
+				            	 break;  
 			            	  case 3:
 			            		 
+			            		  try {
+					            	  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original)); 
+					            	  	  }
+					            	   catch(Exception ex) {
+					            		   return;// en caso de que seleccione cancelar
+					            	   }
 			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo));
 			            		  
 			            		 

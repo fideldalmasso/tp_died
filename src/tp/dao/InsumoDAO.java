@@ -65,9 +65,9 @@ public class InsumoDAO implements Registrable<Insumo>{
 		try {
 			pstm = con.prepareStatement(
 
-					"UPDATE tp.insumo SET descripcion=?, unidad_de_medida=?, costo_unidad=? WHERE id_insumo=?");
+					"UPDATE tp.insumo SET descripcion=?, unidad_de_medida= (CAST(? AS tp.unidaddemedida)), costo_por_unidad=? WHERE id_insumo=?");
 			pstm.setString(1, nuevo.getDescripcion());
-			pstm.setObject(2, nuevo.getUnidad_de_medida(), 1);;
+			pstm.setString(2, nuevo.getUnidad_de_medida().toString());
 			pstm.setDouble(3, nuevo.getCosto_por_unidad());
 			pstm.setInt(4, Integer.parseInt(original.getId_insumo()));
 

@@ -50,7 +50,7 @@ CREATE TABLE tp.Pedido(
 	estado_pedido tp.EstadoPedido,
 	costo_pedido double precision
 );
-CREATE TYPE tp.UnidadDeMedida AS ENUM('KILO','PIEZA','GRAMO','METRO','LITRO','METROCUADRADO','METROCUBICO');
+CREATE TYPE tp.UnidadDeMedida AS ENUM('KILO','PIEZA','GRAMO','METRO','LITRO','METRO_CUADRADO','METRO_CUBICO');
 CREATE TABLE tp.Insumo(
 	id_insumo serial primary key,
 	descripcion varchar(256),
