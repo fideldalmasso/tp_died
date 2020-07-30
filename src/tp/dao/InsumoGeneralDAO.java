@@ -23,9 +23,8 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.InsumoGeneral VALUES (?,?);");
-			pstm.setString(1, en.getId_insumo());
-			pstm.setDouble(2, en.getPesoPorUnidad());
+					"INSERT INTO tp.InsumoGeneral VALUES (default,?);");
+			pstm.setDouble(1, en.getPesoPorUnidad());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -44,7 +43,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		try {
 			pstm = con.prepareStatement(
 					"DELETE FROM tp.InsumoGeneral WHERE id_InsumoGeneral=?;");
-			pstm.setString(1, id_InsumoGeneral[0]);
+			pstm.setInt(1, Integer.parseInt(id_InsumoGeneral[0]));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -62,9 +61,9 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.InsumoGeneral SET id_InsumoGeneral=?, descripcion=?, unidad_de_medida=?, costo_por_unidad=? WHERE id_InsumoGeneral=?");
-			pstm.setString(1, nuevo.getId_insumo());
-			pstm.setDouble(2, nuevo.getPesoPorUnidad());
+					"UPDATE tp.InsumoGeneral SET peso_por_unidad=? WHERE id_InsumoGeneral=?");
+			pstm.setDouble(1, nuevo.getPesoPorUnidad());
+			pstm.setInt(2, Integer.parseInt(original.getId_insumo()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -85,7 +84,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		try {
 			pstm = con.prepareStatement(
 					"SELECT * FROM tp.InsumoGeneral WHERE id_InsumoGeneral=?;");
-			pstm.setString(1, id_InsumoGeneral[0]);
+			pstm.setInt(1, Integer.parseInt(id_InsumoGeneral[0]));
 			rs = pstm.executeQuery();
 			if(rs.next()) {
 				return  Optional.of(parsearRS(rs));
@@ -127,7 +126,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 	
 	InsumoGeneral parsearRS(ResultSet rs) throws SQLException {
 		InsumoDAO insumodaoTemp = new InsumoDAO();
-		Insumo insumoTemp = insumodaoTemp.get(rs.getString(1)).get();
+		Insumo insumoTemp = insumodaoTemp.get(Integer.toString(rs.getInt(1))).get();
 		
 		return new InsumoGeneral(insumoTemp.getId_insumo(),
 						insumoTemp.getDescripcion(),

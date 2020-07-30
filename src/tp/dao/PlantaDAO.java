@@ -21,9 +21,8 @@ public class PlantaDAO implements Registrable<Planta> {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Planta VALUES (?,?);");
-			pstm.setString(1, p.getId_planta());
-			pstm.setString(2, p.getNombre());
+					"INSERT INTO tp.Planta VALUES (default,?);");
+			pstm.setString(1, p.getNombre());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -42,7 +41,7 @@ public class PlantaDAO implements Registrable<Planta> {
 		try {
 			pstm = con.prepareStatement(
 					"DELETE FROM tp.Planta WHERE id_planta=?;");
-			pstm.setString(1, id_planta[0]);
+			pstm.setInt(1, Integer.parseInt(id_planta[0]));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -60,10 +59,9 @@ public class PlantaDAO implements Registrable<Planta> {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Planta SET id_planta=?, nombre=?,WHERE id_planta=?");
-			pstm.setString(1, nuevo.getId_planta());
-			pstm.setString(2, nuevo.getNombre());
-			pstm.setString(3, original.getId_planta());
+					"UPDATE tp.Planta SET nombre=?,WHERE id_planta=?");
+			pstm.setString(1, nuevo.getNombre());
+			pstm.setInt(2, Integer.parseInt(original.getId_planta()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -84,11 +82,11 @@ public class PlantaDAO implements Registrable<Planta> {
 		try {
 			pstm = con.prepareStatement(
 					"SELECT * FROM tp.Planta WHERE id_planta=?;"); 
-			pstm.setString(1, id_planta[0]);
+			pstm.setInt(1, Integer.parseInt(id_planta[0]));
 			rs = pstm.executeQuery();
 			if(rs.next()) {
 				//Planta marcaTemp = new Planta(rs.getString(2));
-				return  Optional.of(new Planta(rs.getString(1),rs.getString(2)));
+				return  Optional.of(new Planta(Integer.toString(rs.getInt(1)),rs.getString(2)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -112,7 +110,7 @@ public class PlantaDAO implements Registrable<Planta> {
 					"SELECT * FROM tp.Planta;");
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				lista.add(new Planta(rs.getString(1),rs.getString(2)));
+				lista.add(new Planta(Integer.toString(rs.getInt(1)),rs.getString(2)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
