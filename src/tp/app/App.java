@@ -14,9 +14,6 @@ import tp.dao.DataBase;
 import tp.gui.*;
 
 public class App extends JFrame {
-
-	
-	
 	
 	private static final long serialVersionUID = 1L;
 	JMenuBar menuBar;
@@ -25,6 +22,7 @@ public class App extends JFrame {
 	JMenu menuAyuda;
 	JMenuItem menuItemMarcas;
 	JMenuItem menuItemInsumos;
+	JMenuItem menuItemPlantas;
 	JMenuItem menuItemSalir;
 	JToolBar toolBar;
 	JButton boton_home;
@@ -85,6 +83,10 @@ public class App extends JFrame {
 			cambiarPanel(new PanelCamiones())
 		);
 		
+		home.getBoton_plantas().addActionListener( e->
+			cambiarPanel(new PanelPlantas())
+		);
+		
 		//MENU------------------------------------------------------------------------------------------------
 
 		this.menuBar = new JMenuBar();
@@ -97,7 +99,7 @@ public class App extends JFrame {
 		this.menuEntidades = new JMenu("Entidades");
 		this.menuItemMarcas = new JMenuItem("Marcas");
 		this.menuItemInsumos = new JMenuItem("Insumos");
-
+		this.menuItemPlantas = new JMenuItem("Plantas");
 
 
 		//Setea el boton "Marcas"
@@ -111,9 +113,16 @@ public class App extends JFrame {
 		this.menuItemInsumos.addActionListener( e -> {
 			cambiarPanel(new PanelInsumos());
 		});
+		
+		
+		//Setea el botón "Plantas"
+		this.menuItemPlantas.addActionListener( e -> {
+			cambiarPanel(new PanelPlantas());
+		});
 
 		this.menuEntidades.add(menuItemMarcas);
 		this.menuEntidades.add(menuItemInsumos);
+		this.menuEntidades.add(menuItemPlantas);
 
 		menuBar.add(this.menuArchivo);
 		menuBar.add(this.menuEntidades );
