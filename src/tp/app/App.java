@@ -46,7 +46,7 @@ public class App extends JFrame {
 		this.setLayout(new BorderLayout());
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	//	this.setPreferredSize(new Dimension(800,600));
-		this.setMinimumSize(new Dimension(800,600));
+		this.setMinimumSize(new Dimension(800,800));
 		//this.setSize(800,600);
 		this.setLocationRelativeTo(null);
 		

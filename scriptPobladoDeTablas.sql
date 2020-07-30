@@ -11,14 +11,23 @@ insert into tp.marca values
 	('Mitsubishi');
 
 insert into tp.modelo values
-('modelo1','Scania');
+('modelo1','Scania'),
+('modelo2','Iveco'),
+('modelo3','Renault'),
+('modelo4','Volvo'),
+('modelo5','Man'),
+('modelo6','Daf');
 
 insert into tp.planta values
-(1, 'Planta1');
+(default, 'Planta1'),
+(default, 'Planta2'),
+(default, 'Planta3'),
+(default, 'Planta4'),
+(default, 'Planta5');
 
 insert into tp.camion values
-('123456',1,'modelo1',0.0,400,1000,'2017-01-10'),
-('123457',1,'modelo1',0.0,400,1000,'2020-01-17');
+('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
+('NIM094',2,'modelo2',0.0,400,1000,'2020-01-17');
 
 
 insert into tp.insumo values 
