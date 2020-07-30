@@ -29,7 +29,7 @@ import tp.controller.PlantaController;
 public class PanelPlantas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("AdministraciÃ³n de Plantas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Plantas",SwingConstants.CENTER);
 	
 	private PlantaTM tableModel;
 	private PlantaController controller = new PlantaController();
@@ -81,7 +81,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -91,8 +91,8 @@ public class PanelPlantas extends PanelPersonalizado{
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresï¿½ otro valor para: "+original); // get the value of a row and column.
-		               String nuevo = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
+		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
+		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
 		            	   notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
