@@ -1,6 +1,7 @@
 package tp.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,6 +14,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,9 +22,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
 import tp.dominio.Planta;
@@ -41,6 +45,13 @@ public class PanelPlantas extends PanelPersonalizado{
 	private JTextField campo_nombre = new JTextField();
 	private JButton boton_agregar = botonAgregar("Agregar Planta");
 	private JButton boton_eliminar = botonEliminar("Eliminar Planta seleccionada");
+	private JButton boton_stock_insumo = botonEditar("Ver Stock Insumo");
+	
+	private void cambiarPanel(PanelPersonalizado p1) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+        App app = (App) frame;
+        app.cambiarPanel(p1);
+	}
 	
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
@@ -56,7 +67,6 @@ public class PanelPlantas extends PanelPersonalizado{
 			}
 		}
 	}
-	
 	
 	private void actualizarTabla() {
 		tableModel.fireTableDataChanged();
@@ -165,7 +175,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		panel1.setBorder(borde1);
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
-		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
+		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_stock_insumo);
 		
 	//PANEL2------------------------------------------------------------------------------------------------
 		JPanel panel2 = new JPanel();

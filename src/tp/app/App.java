@@ -29,7 +29,7 @@ public class App extends JFrame {
 	JPanel actual = null;
 
 
-	private void cambiarPanel(PanelPersonalizado p) {
+	public void cambiarPanel(PanelPersonalizado p) {
 		//this.setContentPane(panel);
 		Dimension d = this.getSize();
 		this.remove(actual);
@@ -71,21 +71,6 @@ public class App extends JFrame {
 		this.actual = new JPanel();
 		PanelHome home =new PanelHome(); 
 		this.cambiarPanel(home);
-
-		
-		//BOTONES DE HOME-------------------------------------------------------------------------------------
-		home.getBoton_insumos().addActionListener( e->
-			cambiarPanel(new PanelInsumos())
-		);
-		
-		
-		home.getBoton_camiones().addActionListener( e->
-			cambiarPanel(new PanelCamiones())
-		);
-		
-		home.getBoton_plantas().addActionListener( e->
-			cambiarPanel(new PanelPlantas())
-		);
 		
 		//MENU------------------------------------------------------------------------------------------------
 

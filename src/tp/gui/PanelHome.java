@@ -5,7 +5,11 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import tp.app.App;
 
 public class PanelHome extends PanelPersonalizado {
 	
@@ -28,6 +32,11 @@ public class PanelHome extends PanelPersonalizado {
 		return boton;
 	}
 	
+	private void cambiarPanel(PanelPersonalizado p1) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+        App app = (App) frame;
+        app.cambiarPanel(p1);
+	}
 
 	public PanelHome() {
 		
@@ -42,7 +51,10 @@ public class PanelHome extends PanelPersonalizado {
 		this.add(boton_rutas);
 		this.add(boton_salir);
 		
-		//this.setBackground(Color.BLACK);
+		this.getBoton_insumos().addActionListener( e-> cambiarPanel(new PanelInsumos()));
+		this.getBoton_camiones().addActionListener( e-> cambiarPanel(new PanelCamiones()));
+		this.getBoton_plantas().addActionListener( e-> cambiarPanel(new PanelPlantas()));
+		
 	}
 
 
