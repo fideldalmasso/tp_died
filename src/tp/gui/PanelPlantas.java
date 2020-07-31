@@ -175,7 +175,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		panel1.setBorder(borde1);
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
-		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_stock_insumo);
+		colocar(1,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
 		
 	//PANEL2------------------------------------------------------------------------------------------------
 		JPanel panel2 = new JPanel();
