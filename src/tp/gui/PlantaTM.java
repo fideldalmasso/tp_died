@@ -23,6 +23,11 @@ public class PlantaTM extends AbstractTableModel{
 	}
 	
 	@Override
+	public String getColumnName(int col) {
+		return columnNames[col];
+	}
+	
+	@Override
 	public int getColumnCount() {
 		return this.columnNames.length;
 	}
@@ -48,6 +53,9 @@ public class PlantaTM extends AbstractTableModel{
 	public boolean isCellEditable(int row, int col) {
 		return false;
 	}
-
+	
+	public Planta getPlanta(Integer row) {
+		return data.get(row);
+	}
 
 }

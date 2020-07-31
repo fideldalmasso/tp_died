@@ -13,26 +13,24 @@ public class PlantaService {
 		dao = new PlantaDAO();
 	}
 	
-	public Mensaje add(String nombre) {
-		Planta m1 = new Planta(nombre);
-		if(dao.add(m1))
+	public Mensaje add(Planta p1) {
+		
+		if(dao.add(p1))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"Nombre ya existente");
 	}
 	
-	public Mensaje delete(String nombre) {
-		if(dao.delete(nombre))
+	public Mensaje delete(String id_planta) {
+		if(dao.delete(id_planta))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"No se puede eliminar la fila (error en la DB).");
 	}
 	
-	public Mensaje update(String original, String nueva) {
-		Planta m1 = new Planta(original);
-		Planta m2 = new Planta(nueva);
+	public Mensaje update(Planta original, Planta nueva) {
 		
-		if(dao.update(m1,m2))
+		if(dao.update(original,nueva))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"Nombre ya existente");

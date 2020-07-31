@@ -59,7 +59,7 @@ public class PlantaDAO implements Registrable<Planta> {
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Planta SET nombre=?,WHERE id_planta=?");
+					"UPDATE tp.Planta SET nombre=? WHERE id_planta=?");
 			pstm.setString(1, nuevo.getNombre());
 			pstm.setInt(2, Integer.parseInt(original.getId_planta()));
 			return pstm.executeUpdate() == 1;

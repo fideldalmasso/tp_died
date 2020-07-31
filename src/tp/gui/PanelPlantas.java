@@ -25,11 +25,12 @@ import javax.swing.border.TitledBorder;
 
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
+import tp.dominio.Planta;
 
 public class PanelPlantas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Plantas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administraciï¿½n de Plantas",SwingConstants.CENTER);
 	
 	private PlantaTM tableModel;
 	private PlantaController controller = new PlantaController();
@@ -46,7 +47,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		if(row == -1)
 			notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
 		else {
-			String identificador = (String) tabla.getValueAt(row, 1);
+			String identificador = (String) tabla.getValueAt(row, 0);
 			
 			int resultado = eliminarPopUp("Â¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
@@ -81,7 +82,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
+		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -91,13 +92,20 @@ public class PanelPlantas extends PanelPersonalizado{
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
-		               if(nuevo!=null && nuevo.length()>0) {
-		            	   notificacionPopUp(controller.update(original,nuevo));
-		            	   actualizarTabla();
+		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresï¿½ otro valor para: "+original); // get the value of a row and column.
+		               
+		               switch(column) {
+		               case 0:
+		            	   break;
+		               case 1:
+		            	   String nuevo = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
+			               if(nuevo!=null && nuevo.length()>0) {
+			            	   notificacionPopUp(controller.update(tableModel.getPlanta(row),new Planta(null,nuevo)));
+			            	   actualizarTabla();
+			               }
+			               break;
 		               }
-		            }
+				}
 			}
 		});
 		
@@ -126,7 +134,7 @@ public class PanelPlantas extends PanelPersonalizado{
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
 		campo_nombre.setToolTipText("Presione Enter para agregar");
 		campo_nombre.addActionListener( e->{
-			Mensaje m = controller.add(campo_nombre.getText());
+			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) 
 				actualizarTabla();
@@ -137,7 +145,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		//boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
 		{
-			Mensaje m = controller.add(campo_nombre.getText());
+			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
