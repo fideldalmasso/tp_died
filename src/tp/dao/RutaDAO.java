@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import tp.controller.PlantaController;
 import tp.dominio.*;
 
 public class RutaDAO implements Registrable<Ruta>{
@@ -112,6 +113,8 @@ public class RutaDAO implements Registrable<Ruta>{
 	
 	@Override
 	public List<Ruta> getAll(){
+		PlantaController plantaController = new PlantaController();
+		List<Planta> plantas = plantaController.getAll();
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -121,7 +124,18 @@ public class RutaDAO implements Registrable<Ruta>{
 					"SELECT * FROM tp.Ruta;");
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				lista.add(parsearRS(rs));
+				String id_origen = Integer.toString(rs.getInt(2));
+				String id_destino = Integer.toString(rs.getInt(3));
+				Planta origen = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+						.findFirst().orElse(new Planta(id_origen));
+				Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+						.findFirst().orElse(new Planta(id_destino));
+				lista.add(new Ruta(rs.getString(1),
+						origen,
+						destino,
+						rs.getDouble(4),
+						rs.getDouble(5),
+						rs.getDouble(6)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -134,11 +148,18 @@ public class RutaDAO implements Registrable<Ruta>{
 		return lista;
 	}
 	
-	
 	private Ruta parsearRS(ResultSet rs) throws SQLException {
+		PlantaController plantaController = new PlantaController();
+		List<Planta> plantas = plantaController.getAll();
+		String id_origen = Integer.toString(rs.getInt(2));
+		String id_destino = Integer.toString(rs.getInt(3));
+		Planta origen = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+				.findFirst().orElse(new Planta(id_origen));
+		Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+				.findFirst().orElse(new Planta(id_destino));
 		return new Ruta(rs.getString(1),
-							new Planta(Integer.toString(rs.getInt(2))),
-							new Planta(Integer.toString(rs.getInt(3))),
+							origen,
+							destino,
 							rs.getDouble(4),
 							rs.getDouble(5),
 							rs.getDouble(6)); 

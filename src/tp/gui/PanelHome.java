@@ -54,9 +54,13 @@ public class PanelHome extends PanelPersonalizado {
 		this.getBoton_insumos().addActionListener( e-> cambiarPanel(new PanelInsumos()));
 		this.getBoton_camiones().addActionListener( e-> cambiarPanel(new PanelCamiones()));
 		this.getBoton_plantas().addActionListener( e-> cambiarPanel(new PanelPlantas()));
+		this.getBoton_rutas().addActionListener(e -> cambiarPanel(new PanelRutas()));
 		
 	}
-
+	
+	public JButton getBoton_rutas() {
+		return boton_rutas;
+	}
 
 	public JButton getBoton_insumos() {
 		return boton_insumos;
@@ -91,16 +95,5 @@ public class PanelHome extends PanelPersonalizado {
 	public JButton getBoton_salir() {
 		return boton_salir;
 	}
-
-
-
-
 	
 }
-
-
-
-
-
-
-

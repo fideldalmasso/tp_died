@@ -39,6 +39,10 @@ public class PanelStockInsumo extends PanelPersonalizado{
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 	
+	private static Color color_borde =  Color.decode("#33658a");
+	private static Color color_titulo =  Color.decode("#dd1c1a");
+	
+	
 	//private JLabel texto_nombre = new JLabel("Nombre:");
 	//private JLabel texto_stock = new JLabel("Stock:");
 	//private JLabel texto_punto_de_pedido = new JLabel("Punto de pedido:");
@@ -75,11 +79,11 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
-		
+		this.fileFondo="icon/fondo2.png";
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setText("Stock de Insumos de: "+planta.getNombre());
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		titulo.setForeground(Color.WHITE);
+		titulo.setForeground(color_titulo);
 		
 	//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new StockInsumoTM(planta);
@@ -167,8 +171,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		panel1.setOpaque(false);
 		
 		
-		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde1 = BorderFactory.createTitledBorder(borde1, "Editar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
+		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, color_borde);
+		borde1 = BorderFactory.createTitledBorder(borde1, "Editar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), color_borde);
 		panel1.setBorder(borde1);
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);

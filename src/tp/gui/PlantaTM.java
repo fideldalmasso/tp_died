@@ -5,7 +5,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PlantaController;
-import tp.dominio.Camion;
 import tp.dominio.Planta;
 
 public class PlantaTM extends AbstractTableModel{
