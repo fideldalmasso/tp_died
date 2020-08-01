@@ -40,22 +40,23 @@ public class PanelInsumos extends PanelPersonalizado {
 	private static final long serialVersionUID = 1L;
 
 	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.LEFT);
-	JComboBox<String> comboBoxTipo = new JComboBox<String>();
-	private InsumoLiquidoTM tableModel;
+	
+	private InsumoTM tableModel;
 	private InsumoLiquidoController controller = new InsumoLiquidoController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
 	JComboBox<String> comboBoxAgregarInsumo = new JComboBox<String>(Utilidades.enumToStringArray(Unidad.class));//Es el dropDown de agregar Insumo
+	JComboBox<String> comboBoxTipo = new JComboBox<String>();
 	private JLabel texto_descripcion = new JLabel("Descripcion:",SwingConstants.RIGHT);
 	private JLabel texto_unidad = new JLabel("Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
-	
 	private JLabel texto_tipo = new JLabel("Ver Insumos:",SwingConstants.RIGHT);
+	private JLabel texto_densidad = new JLabel("Densidad:",SwingConstants.RIGHT);
+	private JLabel texto_peso = new JLabel("Peso:",SwingConstants.RIGHT);
 	private JLabel espacio = new JLabel("          ",SwingConstants.RIGHT);
 	private JTextField campo_id = new JTextField();
 	private JTextField campo_descripcion = new JTextField();
-	private JTextField campo_unidad = new JTextField();
 	private JTextField campo_costo = new JTextField();
 	private JTextField dyp = new JTextField();
 	private JButton boton_agregar = botonAgregar("Agregar Insumo");
@@ -74,6 +75,17 @@ public class PanelInsumos extends PanelPersonalizado {
 				actualizarTabla();
 				}
 			}
+	}
+	private void cambiarTabla(String tipo) {
+		if(tipo == "Líquidos") {
+			tabla.setModel(new InsumoLiquidoTM());
+			texto_peso.setVisible(false);
+			texto_densidad.setVisible(true);
+		}else {
+			tabla.setModel(new InsumoGeneralTM());
+			texto_peso.setVisible(true);
+			texto_densidad.setVisible(false);
+		}
 	}
 	
 	private void actualizarTabla() {
@@ -95,7 +107,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		this.comboBoxTipo.addItem("Generales");
 		
 	//TABLA------------------------------------------------------------------------------------------------
-		tableModel = new InsumoLiquidoTM();
+		tableModel = new InsumoTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		tabla.setIgnoreRepaint(false);
@@ -182,8 +194,13 @@ public class PanelInsumos extends PanelPersonalizado {
 				intentarEliminar();
 			}
 		});
-
 		
+		//CB ver tipo------------------------------------------------------------------------------------------------
+		String estado = this.comboBoxTipo.getSelectedItem().toString();
+		this.comboBoxTipo.addActionListener(e ->{
+			cambiarTabla(this.comboBoxTipo.getSelectedItem().toString());
+		});
+
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
 //		campo_nombre.setToolTipText("Presioná Enter para agregar");
 //		campo_nombre.addActionListener( e->{
@@ -232,22 +249,26 @@ public class PanelInsumos extends PanelPersonalizado {
 		texto_descripcion.setForeground(Color.white);
 		texto_unidad.setForeground(Color.white);
 		texto_costo.setForeground(Color.white);
+		texto_densidad.setForeground(Color.white);
+		texto_peso.setForeground(Color.white);
 		
-		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
+		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
 		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_unidad);
-		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
-		
+		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
+		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_densidad);
+		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_peso);
 		colocar(1,0,1,1,0,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo);
 		colocar(1,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.comboBoxAgregarInsumo);
 		colocar(3,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_descripcion);
-		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+		colocar(3,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.dyp);
+		colocar(4,0,1,2,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
 		texto_tipo.setForeground(Color.white);
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.titulo);
 		colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,espacio);
 		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,texto_tipo);
-		colocar(3,0,1,1,0,0,0,10 ,GridBagConstraints.HORIZONTAL,10,this,this.comboBoxTipo);
+		colocar(3,0,1,1,0,0,0,0 ,GridBagConstraints.HORIZONTAL,10,this,this.comboBoxTipo);
 		colocar(0,1,4,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);
 		colocar(0,2,4,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
 		

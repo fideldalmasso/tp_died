@@ -155,7 +155,7 @@ public class App extends JFrame {
 					System.out.println(e.getMessage());
 				}
 				
-				DataBase.cargarDB();
+				DataBase.resetDB();
 				new App().setVisible(true);
 				
 			}

@@ -31,8 +31,10 @@ insert into tp.camion values
 
 
 insert into tp.insumo values 
-(default,'Arena','KILO',100);
+(3,'Arena','KILO',100);
 
+insert into tp.insumoLiquido values 
+(3,300);
 
 insert into tp.stockInsumo values
 (0,1,0,0);
