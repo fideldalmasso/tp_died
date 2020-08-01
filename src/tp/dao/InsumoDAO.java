@@ -109,6 +109,32 @@ public class InsumoDAO implements Registrable<Insumo>{
 		return m;
 	}
 	
+	public String getID(String ...descripcion) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Optional<Insumo> m = Optional.empty();
+		try {
+			pstm = con.prepareStatement(
+
+					"SELECT id_insumo FROM tp.Insumo WHERE descripcion=?;");
+			pstm.setInt(1, Integer.parseInt(descripcion[0]));
+
+			rs = pstm.executeQuery();
+			if(rs.next()) {
+				return  rs.toString();
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return null;
+	}
+	
 	@Override
 	public List<Insumo> getAll(){
 		Connection con = DataBase.getConexion();

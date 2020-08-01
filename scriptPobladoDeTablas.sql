@@ -31,5 +31,7 @@ insert into tp.camion values
 
 
 insert into tp.insumo values 
-(default,'Arena','KILO',100);
+(2,'Agua','KILO',100);
 
+insert into tp.InsumoLiquido values 
+(2,100);

@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import tp.controller.InsumoController;
+import tp.controller.InsumoLiquidoController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
 import tp.controller.Utilidades;
@@ -38,10 +39,10 @@ public class PanelInsumos extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.CENTER);
-	
-	private InsumoTM tableModel;
-	private InsumoController controller = new InsumoController();
+	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.LEFT);
+	JComboBox<String> comboBoxTipo = new JComboBox<String>();
+	private InsumoLiquidoTM tableModel;
+	private InsumoLiquidoController controller = new InsumoLiquidoController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
@@ -49,10 +50,14 @@ public class PanelInsumos extends PanelPersonalizado {
 	private JLabel texto_descripcion = new JLabel("Descripcion:",SwingConstants.RIGHT);
 	private JLabel texto_unidad = new JLabel("Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
+	
+	private JLabel texto_tipo = new JLabel("Ver Insumos:",SwingConstants.RIGHT);
+	private JLabel espacio = new JLabel("          ",SwingConstants.RIGHT);
 	private JTextField campo_id = new JTextField();
 	private JTextField campo_descripcion = new JTextField();
 	private JTextField campo_unidad = new JTextField();
 	private JTextField campo_costo = new JTextField();
+	private JTextField dyp = new JTextField();
 	private JButton boton_agregar = botonAgregar("Agregar Insumo");
 	private JButton boton_eliminar = botonEliminar("Eliminar Insumo seleccionado");
 	
@@ -86,9 +91,11 @@ public class PanelInsumos extends PanelPersonalizado {
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(Color.WHITE);
+		this.comboBoxTipo.addItem("Líquidos");
+		this.comboBoxTipo.addItem("Generales");
 		
 	//TABLA------------------------------------------------------------------------------------------------
-		tableModel = new InsumoTM();
+		tableModel = new InsumoLiquidoTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		tabla.setIgnoreRepaint(false);
@@ -111,39 +118,44 @@ public class PanelInsumos extends PanelPersonalizado {
 		               switch(column) {
 
 			            	  case 1:
-			            		 
-			            		  nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
-				            	   if(nuevo == null) {
-						            	 return ; // en caso de que seleccione cancelar
-						             }
-			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3)));
-			            		 
-				            	   break;
+			            		  		nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
+						            	 if(nuevo == null) {
+								           	 return ; // en caso de que seleccione cancelar
+								          }
+					            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+					            		  break;
 				            	   
 			            	  case 2: 
-			            		  
-			            		  nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
-			            		 try {
-			            			 notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3)));
-			            		 }
-			            		 catch(Exception ex) {
-			            			 return;
-			            		 }
-			            		  
-				            	 break;  
+					            		 nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
+					            		 try {
+					            			 notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+					            		 }
+					            		 catch(Exception ex) {
+					            			 return;
+					            		 }  
+						            	 break;  
 			            	  case 3:
-			            		 
-			            		  try {
+			            		  		try {
+						            	  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original)); 
+			            		  		}
+						            	catch(Exception ex) {
+						            	 return;// en caso de que seleccione cancelar
+						            	 }
+				            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo,(Double)tabla.getValueAt(row, 4)));
+				            		   
+				            	   break;
+				            	   
+			            	  case 4:
+		            		  		try {
 					            	  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original)); 
-					            	  	  }
-					            	   catch(Exception ex) {
-					            		   return;// en caso de que seleccione cancelar
-					            	   }
-			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo));
-			            		  
-			            		 
+		            		  		}
+					            	catch(Exception ex) {
+					            	 return;// en caso de que seleccione cancelar
+					            	 }
+			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)nuevo));
+			            		   
 			            	   break;
-		            	  }
+			            	  }
 		            	  actualizarTabla();  
 		               
 		            }
@@ -187,7 +199,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.addActionListener( e ->
 		{	
 			Object novo = this.comboBoxAgregarInsumo.getSelectedItem();
-			Mensaje m = controller.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()));
+			Mensaje m = controller.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
@@ -231,10 +243,13 @@ public class PanelInsumos extends PanelPersonalizado {
 		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
-		
-		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
-		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
-		colocar(0,2,1,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
+		texto_tipo.setForeground(Color.white);
+		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.titulo);
+		colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,espacio);
+		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,texto_tipo);
+		colocar(3,0,1,1,0,0,0,10 ,GridBagConstraints.HORIZONTAL,10,this,this.comboBoxTipo);
+		colocar(0,1,4,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);
+		colocar(0,2,4,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
 		
 	}
 	

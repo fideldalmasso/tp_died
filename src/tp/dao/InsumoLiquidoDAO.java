@@ -23,8 +23,9 @@ public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.InsumoLiquido VALUES (default,?);");
-			pstm.setDouble(1, en.getDensidad());
+					"INSERT INTO tp.InsumoLiquido VALUES (?,?);");
+			pstm.setString(1, en.getId_insumo());
+			pstm.setDouble(2, en.getDensidad());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -63,7 +64,7 @@ public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 			pstm = con.prepareStatement(
 					"UPDATE tp.InsumoLiquido SET densidad=? WHERE id_insumo=?");
 			pstm.setDouble(1, nuevo.getDensidad());
-			pstm.setInt(2, Integer.parseInt(original.getId_insumo()));
+			pstm.setInt(2,Integer.parseInt(original.getId_insumo()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -83,7 +84,7 @@ public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 		Optional<InsumoLiquido> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.InsumoLiquido WHERE id_InsumoLiquido=?;");
+					"SELECT * FROM tp.InsumoLiquido WHERE id_insumo=?;");
 			pstm.setInt(1, Integer.parseInt(id_InsumoLiquido[0]));
 			rs = pstm.executeQuery();
 			if(rs.next()) {
@@ -126,7 +127,7 @@ public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 	
 	InsumoLiquido parsearRS(ResultSet rs) throws SQLException {
 		InsumoDAO insumodaoTemp = new InsumoDAO();
-		Insumo insumoTemp = insumodaoTemp.get(Integer.toString(rs.getInt(1))).get();
+		Insumo insumoTemp = insumodaoTemp.get((rs.getString(1))).get();
 		
 		return new InsumoLiquido(insumoTemp.getId_insumo(),
 						insumoTemp.getDescripcion(),
