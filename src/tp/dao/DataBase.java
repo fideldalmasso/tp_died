@@ -1,63 +1,151 @@
 package tp.dao;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+
+
+import tp.controller.Mensaje;
 import tp.dominio.Marca;
 import tp.dominio.Modelo;
+import tp.gui.PanelPersonalizado;
 
 public abstract class DataBase {
 
 	//private static Connection con = null;
 	//private static PreparedStatement pstm = null;
-	
-		public static Connection getConexion() {
-			Connection con = null;
-			Scanner s = null;
-			try{
-				s = new Scanner(new File("datosDB.txt"));
-				Class.forName("org.postgresql.Driver");
-				con =DriverManager.getConnection(s.nextLine(),s.nextLine(),s.nextLine());
-				s.close();
-			}catch(Exception e) {
-				System.out.println(e.getMessage());		
-			}
-			return con;
-		}
-		
-		//Quizás resulte útil:
-		//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
-		
-		
-		public static void cerrarConexion(Connection con) {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());	
-			}
-		}
-		
-		public static void cerrarPstm(PreparedStatement pstm) {
-			try {
-				pstm.close();
-			}catch(Exception e) {
-				System.out.println(e.getMessage());	
-			}
-		}
-		
-		public static void cerrarRs(ResultSet rs) {
-			try {
-				rs.close();
-			}catch(Exception e) {
-				System.out.println(e.getMessage());	
-			}
-		}
-//----------------------------------------------------------------------------------
+	static enum Modo {LOAD, RESET};
 
+	static String url;
+	static String user;
+	static String password;
+	static String filename = "datosDB.json";
+	static Modo modo_operacion;
+
+
+	public static Mensaje probarConexion() {
+		//INTENTAR CONECTARSE
+		Connection con = null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			con =DriverManager.getConnection(url, user, password);
+			
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return new Mensaje(false,"Driver jdbc inválido");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return new Mensaje(false,"No se pudo establecer la conexión con la DB, intente otros datos");
+		}
+		finally {
+			cerrarConexion(con);
+		}
+		return new Mensaje(true,"");
+	}
 	
+	public static Mensaje leerJson() {
+		
+		//INTENTAR LEER EL ARCHIVO
+		JSONParser parser = new JSONParser();
+		try(FileReader reader = new FileReader(filename)){
+			JSONObject objeto = (JSONObject) parser.parse(reader);
+			url = (String) objeto.get("url");
+			user = (String) objeto.get("user");
+			password = (String) objeto.get("password");
+			modo_operacion = Modo.valueOf(objeto.get("modo").toString());
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return new Mensaje(false,"No se encuentra el archivo datosDB.json");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new Mensaje(false,"Error de lectura en datosDB.json");
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return new Mensaje(false,"Archivo datosDB.json inválido");
+		}
+		
+		return probarConexion();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Mensaje escribirJson() {
+        try (FileWriter file = new FileWriter(filename)) {
+        	JSONObject objeto = new JSONObject();
+        	objeto.put("url", url);
+        	objeto.put("user", user);
+        	objeto.put("password", password);
+        	objeto.put("url", url);
+        	objeto.put("modo",modo_operacion);
+        	
+            file.write(objeto.toJSONString());
+            file.flush();
+ 
+        } catch (IOException e) {
+        	e.printStackTrace();
+        	return new Mensaje(false,"Error de escritura en datosDB.json");
+        }
+        return new Mensaje(true,"");
+	}
+
+
+
+	public static Connection getConexion() {
+		Connection con = null;
+		Scanner s = null;
+		try{
+			s = new Scanner(new File("datosDB.txt"));
+			Class.forName("org.postgresql.Driver");
+			con =DriverManager.getConnection(s.nextLine(),s.nextLine(),s.nextLine());
+			s.close();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());		
+		}
+		return con;
+	}
+
+	//Quizás resulte útil:
+	//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
+
+
+	public static void cerrarConexion(Connection con) {
+		try {
+			con.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());	
+		}
+	}
+
+	public static void cerrarPstm(PreparedStatement pstm) {
+		try {
+			pstm.close();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+	}
+
+	public static void cerrarRs(ResultSet rs) {
+		try {
+			rs.close();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+	}
+	//----------------------------------------------------------------------------------
+
+
 	private static void ejecutarScript(String nombreArchivo) {
 		//https://stackoverflow.com/questions/1497569/how-to-execute-sql-script-file-using-jdbc
 		Connection con = DataBase.getConexion();
@@ -69,7 +157,7 @@ public abstract class DataBase {
 			s = new Scanner(f);
 			s.useDelimiter("(;(\r)?\n)|(--\n)");
 			st = con.createStatement();
-			
+
 			while(s.hasNext()) {
 				String linea = s.next();
 				if(linea.trim().length() > 0) {
@@ -82,7 +170,7 @@ public abstract class DataBase {
 		}
 		finally {
 			try{
-				
+
 				s.close();
 				st.close();
 				DataBase.cerrarConexion(con);
@@ -90,10 +178,10 @@ public abstract class DataBase {
 			catch(Exception e){
 				System.out.println(e.getMessage());
 			}
-			
+
 		}
 	}
-	
+
 	public static void cargarDB() {
 		//checkea si existe el schema correspondiente, y si no existe lo crea
 		Connection con = DataBase.getConexion();
@@ -107,7 +195,7 @@ public abstract class DataBase {
 				}
 			}
 		}	
-		 catch (Exception e) {
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		finally {
@@ -118,12 +206,12 @@ public abstract class DataBase {
 				System.out.println(e.getMessage());
 			}
 		}
-		
+
 		if(!existe_schema) //si no existe el schema ejecuto el script de creacion
 			ejecutarScript("scriptCreacionDeTablas.sql");
-		
+
 	}
-	
+
 	public static void resetDB() {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -141,56 +229,56 @@ public abstract class DataBase {
 		ejecutarScript("scriptCreacionDeTablas.sql");
 		ejecutarScript("scriptPobladoDeTablas.sql");
 	}
-	
-//	void ejecutarSentencia(String sentencia) {
-//		Connection con = ConexionDB.getConexion();
-//		PreparedStatement pstm = null;
-//		try {
-//			pstm = con.prepareStatement(sentencia);
-//			pstm.executeUpdate();
-//		} catch (SQLException e) {
-//			System.out.println(e.getMessage());	
-//		}
-//		finally {
-//				ConexionDB.cerrarPstm(pstm);
-//				ConexionDB.cerrarConexion(con);	
-//		}
-//	}
-	
-//	void insert(Registrable objeto) {
-//		ejecutarSentencia(objeto.getSentenciaInsert());
-//	}
-//	
-//	void delete(Registrable objeto) {
-//		ejecutarSentencia(objeto.getSentenciaDelete());
-//	}
-//	
-//	void update(Registrable objeto1, Registrable objeto2) {
-//		ejecutarSentencia(objeto1.getSentenciaUpdate(objeto2));
-//	}
-	
-//	Boolean existe(String tabla, String campo, String valor) {	
-//		Connection con = ConexionDB.getConexion();
-//		Boolean existe = false;
-//		PreparedStatement pstm = null;
-//		ResultSet rs = null;
-//		try {
-//			
-//			pstm = con.prepareStatement("SELECT * FROM tp."+tabla+" WHERE "+campo+" = '"+valor+"'");
-//			rs = pstm.executeQuery();
-//			while(rs.next() && !existe) {
-//				existe = true;
-//			}
-//		} catch (SQLException e) {
-//			System.out.println(e.getMessage());	
-//		}
-//		finally {
-//			ConexionDB.cerrarRs(rs);
-//			ConexionDB.cerrarPstm(pstm);
-//			ConexionDB.cerrarConexion(con);
-//		}
-//		return existe;
-//		
-//	}
+
+	//	void ejecutarSentencia(String sentencia) {
+	//		Connection con = ConexionDB.getConexion();
+	//		PreparedStatement pstm = null;
+	//		try {
+	//			pstm = con.prepareStatement(sentencia);
+	//			pstm.executeUpdate();
+	//		} catch (SQLException e) {
+	//			System.out.println(e.getMessage());	
+	//		}
+	//		finally {
+	//				ConexionDB.cerrarPstm(pstm);
+	//				ConexionDB.cerrarConexion(con);	
+	//		}
+	//	}
+
+	//	void insert(Registrable objeto) {
+	//		ejecutarSentencia(objeto.getSentenciaInsert());
+	//	}
+	//	
+	//	void delete(Registrable objeto) {
+	//		ejecutarSentencia(objeto.getSentenciaDelete());
+	//	}
+	//	
+	//	void update(Registrable objeto1, Registrable objeto2) {
+	//		ejecutarSentencia(objeto1.getSentenciaUpdate(objeto2));
+	//	}
+
+	//	Boolean existe(String tabla, String campo, String valor) {	
+	//		Connection con = ConexionDB.getConexion();
+	//		Boolean existe = false;
+	//		PreparedStatement pstm = null;
+	//		ResultSet rs = null;
+	//		try {
+	//			
+	//			pstm = con.prepareStatement("SELECT * FROM tp."+tabla+" WHERE "+campo+" = '"+valor+"'");
+	//			rs = pstm.executeQuery();
+	//			while(rs.next() && !existe) {
+	//				existe = true;
+	//			}
+	//		} catch (SQLException e) {
+	//			System.out.println(e.getMessage());	
+	//		}
+	//		finally {
+	//			ConexionDB.cerrarRs(rs);
+	//			ConexionDB.cerrarPstm(pstm);
+	//			ConexionDB.cerrarConexion(con);
+	//		}
+	//		return existe;
+	//		
+	//	}
 
 }

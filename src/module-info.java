@@ -7,4 +7,5 @@ module tp_died {
 	requires java.sql;
 	requires junit;
 	requires java.desktop;
+	requires json.simple;
 }
