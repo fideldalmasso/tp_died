@@ -47,11 +47,11 @@ import tp.dominio.Planta;
 
 public class PanelCamiones extends PanelPersonalizado {
 
-
+	
 
 	private static void setearFuente(JComponent[] lista) {
 		for(JComponent c : lista){
-			c.setForeground(Color.white);
+			c.setForeground(Color.BLACK);
 			c.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		}
 	}
@@ -60,9 +60,9 @@ public class PanelCamiones extends PanelPersonalizado {
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
 		panel2.setOpaque(false);
-
-		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde2 = BorderFactory.createTitledBorder(borde2, titulo, TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
+		
+		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.decode("#33658a"));
+		borde2 = BorderFactory.createTitledBorder(borde2, titulo, TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20),  Color.decode("#33658a"));
 		panel2.setBorder(borde2);
 		return panel2;
 	}
@@ -189,13 +189,14 @@ public class PanelCamiones extends PanelPersonalizado {
 	public PanelCamiones() {
 
 		super();
-
+		
+		this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
 
 		//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		titulo.setForeground(Color.WHITE);
+		titulo.setForeground(Color.decode("#dd1c1a"));
 
 		//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new CamionTM();
