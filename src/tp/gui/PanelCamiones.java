@@ -289,7 +289,8 @@ public class PanelCamiones extends PanelPersonalizado {
 				.collect(Collectors.toList())
 				.toArray(new String[0]);
 		campo_id_planta = new JComboBox<String>(desplegable_plantas);
-
+		campo_id_planta.setSelectedItem(null);
+		AutoCompletion.enable(campo_id_planta);
 
 
 
@@ -301,6 +302,9 @@ public class PanelCamiones extends PanelPersonalizado {
 				.collect(Collectors.toList())
 				.toArray(new String[0]);
 		campo_nombre_modelo = new JComboBox<String>(desplegable_modelos);
+		campo_nombre_modelo.setSelectedItem(null);
+		
+		AutoCompletion.enable(campo_nombre_modelo);
 
 		//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = crearPanelInterno("Editar/Eliminar");
