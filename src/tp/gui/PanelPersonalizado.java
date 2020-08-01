@@ -1,18 +1,31 @@
 package tp.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import tp.controller.Mensaje;
 
@@ -48,8 +61,78 @@ public abstract class PanelPersonalizado extends JPanel{
 		}
 	}
 
+	//CREAR FORMATTEDTEXTS-------------------------------------------------------------------------------------------------------------------------
 
+	public static JPanel crearPanelInterno(String titulo) {
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridBagLayout());
+		panel2.setOpaque(false);
+		
+		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.decode("#33658a"));
+		borde2 = BorderFactory.createTitledBorder(borde2, titulo, TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20),  Color.decode("#33658a"));
+		panel2.setBorder(borde2);
+		return panel2;
+	}
 
+	public static JFormattedTextField crearCampoDinero() {
+
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
+		format3.setGroupingUsed(false);
+
+		JFormattedTextField temp = new JFormattedTextField(
+				new DefaultFormatterFactory(
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
+						new NumberFormatter(format3)));
+
+		temp.addPropertyChangeListener("value", e ->{
+			if(temp.getValue() != null) 
+				temp.setValue(((Number)temp.getValue()).doubleValue());
+		});
+
+		/*
+		 * temp.addFocusListener(new FocusAdapter() { public void
+		 * focusLost(java.awt.event.FocusEvent e) { if(temp.getValue() != null) {
+		 * temp.firePropertyChange("value", 999.0, 999.0); //double valor =
+		 * ((Number)temp.getValue()).doubleValue(); //temp.setValue(valor);
+		 * 
+		 * }else { temp.setValue(0.0); }
+		 * 
+		 * }; });
+		 */
+
+		return temp;
+
+	}
+
+	public static JFormattedTextField crearCampoDouble() {
+		//https://stackoverflow.com/questions/27056539/how-to-add-only-double-values-in-jformattedtextfield
+		NumberFormat format1 = DecimalFormat.getInstance(Locale.US);
+		format1.setMinimumFractionDigits(2);
+		format1.setMaximumFractionDigits(2);
+		
+		//format1.setRoundingMode(RoundingMode.HALF_UP);
+
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
+		format3.setGroupingUsed(false);
+
+		JFormattedTextField temp = new JFormattedTextField(
+				new DefaultFormatterFactory(
+						new NumberFormatter(format1), 
+						new NumberFormatter(format1), 
+						new NumberFormatter(format3)));
+
+		return temp;
+	}
+
+	public static  JFormattedTextField crearCampoFecha() {
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		JFormattedTextField temp = new JFormattedTextField(format);
+		temp.setToolTipText("Formato de fecha: dd/MM/yyyy");
+		return temp;
+	}
+
+	//CREAR POPUPS-------------------------------------------------------------------------------------------------------------------------
 
 	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
@@ -76,6 +159,8 @@ public abstract class PanelPersonalizado extends JPanel{
 		return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
 	}
 
+	//CREAR BOTONES-------------------------------------------------------------------------------------------------------------------------
+	
 	static public JButton botonEliminar(String mensaje) {
 		JButton boton = new JButton(mensaje,emoji("icon/trash.png", 24,24));
 		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
@@ -134,6 +219,8 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	}
 
+	//CARGAR EMOJIS-------------------------------------------------------------------------------------------------------------------------
+	
 	static public ImageIcon emoji(String fileName, int width, int height) {
 		Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
 		return new ImageIcon(imagen);
