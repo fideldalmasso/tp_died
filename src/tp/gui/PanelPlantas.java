@@ -44,8 +44,8 @@ public class PanelPlantas extends PanelPersonalizado{
 	private JLabel texto_nombre = new JLabel("Nombre:",SwingConstants.RIGHT);
 	private JTextField campo_nombre = new JTextField();
 	private JButton boton_agregar = botonAgregar("Agregar Planta");
-	private JButton boton_eliminar = botonEliminar("Eliminar Planta seleccionada");
-	private JButton boton_stock_insumo = botonEditar("Ver Stock Insumo");
+	private JButton boton_eliminar = botonEliminar("Eliminar Planta");
+	private JButton boton_stock_insumo = botonBusqueda("Ver Stock Insumo");
 	
 	private void cambiarPanel(PanelPersonalizado p1) {
 		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
@@ -106,6 +106,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		               
 		               switch(column) {
 		               case 0:
+		            	   cambiarPanel(new PanelStockInsumo(tableModel.getPlanta(row)));
 		            	   break;
 		               case 1:
 		            	   String nuevo = ingresoPopUp("Ingres� otro valor para: "+original);
@@ -174,8 +175,10 @@ public class PanelPlantas extends PanelPersonalizado{
 		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
 		panel1.setBorder(borde1);
 		
-		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
-		colocar(1,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
+		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
+		colocar(0,1,1,1,1,1,0,0,GridBagConstraints.NONE,10,panel1,boton_stock_insumo);
+		colocar(1,1,1,1,1,1,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
+		
 		
 	//PANEL2------------------------------------------------------------------------------------------------
 		JPanel panel2 = new JPanel();

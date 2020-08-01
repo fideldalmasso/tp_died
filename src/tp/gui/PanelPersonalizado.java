@@ -50,7 +50,7 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
-			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
+			JOptionPane.showMessageDialog(null, "Operaciï¿½n exitosa","ï¿½xito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
 		else
 			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE,PanelPersonalizado.emoji("icon/error.png", 32,32));
 	}
@@ -90,9 +90,14 @@ public abstract class PanelPersonalizado extends JPanel{
 		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		return boton;
 	}
+	
+	static public JButton botonBusqueda(String mensaje) {
+		JButton boton = new JButton(mensaje,emoji("icon/search.png",24,24));
+		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		return boton;
+	}
 
-
-	//USAR ESTE MÉTODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
+	//USAR ESTE Mï¿½TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
 	static public void colocar(
 			int column,
 			int row, 
