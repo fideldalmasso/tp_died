@@ -41,7 +41,7 @@ public class PanelCamiones extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Camiones",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administraciï¿½n de Camiones",SwingConstants.CENTER);
 	
 	private CamionTM tableModel;
 	private CamionController controller = new CamionController();
@@ -84,7 +84,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
+			int resultado = eliminarPopUp("ï¿½Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 			//	notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
@@ -148,7 +148,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
+		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -158,8 +158,8 @@ public class PanelCamiones extends PanelPersonalizado {
 		               int column = target.getSelectedColumn(); // select a column
 		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               String original = (String)tabla.getValueAt(row, column);
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
+		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresï¿½ otro valor para: "+original); // get the value of a row and column.
+		               String nuevo = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
 		            	  // notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
@@ -191,7 +191,7 @@ public class PanelCamiones extends PanelPersonalizado {
 
 		
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
-		campo_id_camion.setToolTipText("Presioná Enter para agregar");
+		campo_id_camion.setToolTipText("Presionï¿½ Enter para agregar");
 		campo_id_camion.addActionListener( e->{
 		//	Mensaje m = controller.add(campo_id_camion.getText());
 			//notificacionPopUp(m);

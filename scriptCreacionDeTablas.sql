@@ -85,6 +85,7 @@ CREATE TABLE tp.Registro(
 	id_insumo serial references tp.StockInsumo(id_insumo) on update cascade on delete cascade,
 	fecha_registro date,
 	stock integer,
+	variacion integer,
 	punto_de_pedido integer,
-	primary key (id_planta,id_insumo)
+	primary key (id_planta,id_insumo,fecha_registro)
 );
