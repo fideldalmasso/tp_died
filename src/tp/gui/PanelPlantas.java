@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
+import tp.controller.StockInsumoController;
 import tp.dominio.Planta;
 
 public class PanelPlantas extends PanelPersonalizado{
@@ -106,7 +107,6 @@ public class PanelPlantas extends PanelPersonalizado{
 		               
 		               switch(column) {
 		               case 0:
-		            	   cambiarPanel(new PanelStockInsumo(tableModel.getPlanta(row)));
 		            	   break;
 		               case 1:
 		            	   String nuevo = ingresoPopUp("Ingres� otro valor para: "+original);
@@ -132,15 +132,28 @@ public class PanelPlantas extends PanelPersonalizado{
 		//tabla.setFillsViewportHeight(true);
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
-		//boton_eliminar.setForeground(Color.WHITE);
-		//boton_eliminar.setBackground(Color.RED);
+		
 		boton_eliminar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				intentarEliminar();
 			}
 		});
-
+		
+		boton_stock_insumo.addActionListener(new ActionListener() {
+			
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Integer row = tabla.getSelectedRow();
+				if(row==-1) {
+					notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
+				}else {
+					cambiarPanel(new PanelStockInsumo(tableModel.getPlanta(row)));
+				}
+			}
+		});
+		
 		
 	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
 		campo_nombre.setToolTipText("Presione Enter para agregar");
@@ -158,7 +171,9 @@ public class PanelPlantas extends PanelPersonalizado{
 		{
 			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
 			notificacionPopUp(m);
-			if(m.exito()) { 
+			if(m.exito()) {
+				StockInsumoController sic = new StockInsumoController();
+				sic.addAll(new Planta(null,campo_nombre.getText()));
 				actualizarTabla();
 			}
 			

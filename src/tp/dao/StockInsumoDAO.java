@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import tp.dominio.Insumo;
+import tp.dominio.Planta;
 import tp.dominio.StockInsumo;
 
 public class StockInsumoDAO {
@@ -25,6 +27,47 @@ public class StockInsumoDAO {
 			pstm.setInt(2, Integer.parseInt(s.getInsumo()));
 			pstm.setInt(3, s.getStock());
 			pstm.setInt(4, s.getPuntoDePedido());
+			return pstm.executeUpdate() == 1;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return false;
+	}
+	
+	public Boolean addAll(Planta planta) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(
+					"INSERT INTO tp.StockInsumo "
+					+ "SELECT planta.id_planta, insumo.id_insumo, 0, 0"
+					+ " FROM tp.planta planta, tp.insumo insumo"
+					+ " WHERE planta.nombre=?;");
+			pstm.setString(1, planta.getNombre());
+			return pstm.executeUpdate() == 1;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return false;
+	}
+	
+	public Boolean addAll(Insumo insumo) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(
+					"INSERT INTO tp.StockInsumo "
+					+ "SELECT planta.id_planta, ?, 0, 0"
+					+ " FROM tp.planta planta, tp.insumo insumo");
+			pstm.setInt(1, Integer.parseInt(insumo.getId_insumo()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -112,7 +155,7 @@ public class StockInsumoDAO {
 		List<StockInsumo> lista = new ArrayList<StockInsumo>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Planta;");
+					"SELECT * FROM tp.StockInsumo;");
 			 rs = pstm.executeQuery();
 			 while(rs.next()) {
 				lista.add(new StockInsumo(Integer.toString(rs.getInt(1)),

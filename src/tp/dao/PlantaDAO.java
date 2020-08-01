@@ -110,7 +110,7 @@ public class PlantaDAO implements Registrable<Planta> {
 					"SELECT * FROM tp.Planta;");
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
-				lista.add(new Planta(Integer.toString(rs.getInt(1)),rs.getString(2)));
+				lista.add(new Planta(rs.getString(1),rs.getString(2)));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
