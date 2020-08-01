@@ -10,22 +10,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,10 +24,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 import tp.controller.CamionController;
 import tp.controller.Mensaje;
@@ -47,7 +34,7 @@ import tp.dominio.Planta;
 
 public class PanelCamiones extends PanelPersonalizado {
 
-	
+
 
 	private static void setearFuente(JComponent[] lista) {
 		for(JComponent c : lista){
@@ -137,6 +124,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
+		tabla.getTableHeader().setReorderingAllowed(false);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 
 		tabla.addMouseListener( new MouseAdapter() {
