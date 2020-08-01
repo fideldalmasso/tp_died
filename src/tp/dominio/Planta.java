@@ -48,7 +48,7 @@ public class Planta{
 	
 	public void agregarInsumo(Insumo insumo, Integer stock, Integer puntoDePedido) {
 		// Agregar un insumo e indicar la cantidad de insumo y el punto de pedido que indica para esa planta
-		this.lista_stock_insumos.add(new StockInsumo(this, insumo, stock, puntoDePedido));
+		this.lista_stock_insumos.add(new StockInsumo(this.getId_planta(), insumo.getId_insumo(), stock, puntoDePedido));
 	}
 	
 	public void realizarPedido(String id, LocalDate fechaEntrega, LocalDate fechaMaxima,

@@ -39,7 +39,7 @@ public class PanelHome extends PanelPersonalizado {
 	}
 
 	public PanelHome() {
-		
+		super();
 		this.setLayout(new GridLayout(0,3,20,20));
 		
 		this.add(boton_insumos);

@@ -19,10 +19,13 @@ import tp.controller.Mensaje;
 public abstract class PanelPersonalizado extends JPanel{
 
 	private static final long serialVersionUID = 1L;
+	String fileFondo;;
 
 	public  PanelPersonalizado() {
 		super();
+		this.fileFondo =  "icon/fondo.png";
 	}
+	
 	
 	//Este metodo dibuja la imagen de fondo
 	@Override
@@ -30,7 +33,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		//http://bg.siteorigin.com/
 		//https://tips4java.wordpress.com/2008/10/12/background-panel/
 		super.paintComponent(g);
-		Image imagen = new ImageIcon("icon/fondo.png").getImage();
+		Image imagen = new ImageIcon(fileFondo).getImage();
 
 		Dimension d = this.getSize();
 		int width = imagen.getWidth( null );
@@ -90,9 +93,14 @@ public abstract class PanelPersonalizado extends JPanel{
 		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		return boton;
 	}
+	
+	static public JButton botonBusqueda(String mensaje) {
+		JButton boton = new JButton(mensaje,emoji("icon/search.png",24,24));
+		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		return boton;
+	}
 
-
-	//USAR ESTE MÉTODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
+	//USAR ESTE Mï¿½TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
 	static public void colocar(
 			int column,
 			int row, 

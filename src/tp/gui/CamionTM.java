@@ -40,6 +40,11 @@ public class CamionTM extends AbstractTableModel {
 	public String getColumnName(int col) {
 		return columnNames[col];
 	}
+	
+	
+	public Camion getObject(int row) {
+		return data.get(row);
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {

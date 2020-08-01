@@ -6,17 +6,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,121 +35,170 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import tp.controller.CamionController;
-import tp.controller.MarcaController;
 import tp.controller.Mensaje;
-import tp.controller.Utilidades;
 import tp.dao.ModeloDAO;
 import tp.dao.PlantaDAO;
 import tp.dominio.Modelo;
 import tp.dominio.Planta;
-import tp.enumerados.Unidad;
 
 public class PanelCamiones extends PanelPersonalizado {
+
+	
+
+	private static void setearFuente(JComponent[] lista) {
+		for(JComponent c : lista){
+			c.setForeground(Color.BLACK);
+			c.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+		}
+	}
+
+	private static JPanel crearPanelInterno(String titulo) {
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new GridBagLayout());
+		panel2.setOpaque(false);
+		
+		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.decode("#33658a"));
+		borde2 = BorderFactory.createTitledBorder(borde2, titulo, TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20),  Color.decode("#33658a"));
+		panel2.setBorder(borde2);
+		return panel2;
+	}
+
+	private static JFormattedTextField crearCampoDinero() {
+
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
+		format3.setGroupingUsed(false);
+
+		JFormattedTextField temp = new JFormattedTextField(
+				new DefaultFormatterFactory(
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
+						new NumberFormatter(format3)));
+
+		temp.addPropertyChangeListener("value", e ->{
+			if(temp.getValue() != null) 
+				temp.setValue(((Number)temp.getValue()).doubleValue());
+		});
+
+		/*
+		 * temp.addFocusListener(new FocusAdapter() { public void
+		 * focusLost(java.awt.event.FocusEvent e) { if(temp.getValue() != null) {
+		 * temp.firePropertyChange("value", 999.0, 999.0); //double valor =
+		 * ((Number)temp.getValue()).doubleValue(); //temp.setValue(valor);
+		 * 
+		 * }else { temp.setValue(0.0); }
+		 * 
+		 * }; });
+		 */
+
+		return temp;
+
+	}
+
+	private static JFormattedTextField crearCampoDouble() {
+		//https://stackoverflow.com/questions/27056539/how-to-add-only-double-values-in-jformattedtextfield
+		NumberFormat format1 = DecimalFormat.getInstance(Locale.US);
+		format1.setMinimumFractionDigits(2);
+		format1.setMaximumFractionDigits(2);
+		
+		//format1.setRoundingMode(RoundingMode.HALF_UP);
+
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
+		format3.setGroupingUsed(false);
+
+		JFormattedTextField temp = new JFormattedTextField(
+				new DefaultFormatterFactory(
+						new NumberFormatter(format1), 
+						new NumberFormatter(format1), 
+						new NumberFormatter(format3)));
+
+		return temp;
+	}
+
+	private static  JFormattedTextField crearCampoFecha() {
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		JFormattedTextField temp = new JFormattedTextField(format);
+		temp.setToolTipText("Formato de fecha: dd/MM/yyyy");
+		return temp;
+	}
 
 	private static final long serialVersionUID = 1L;
 
 	private JLabel titulo = new JLabel("Administración de Camiones",SwingConstants.CENTER);
-	
+
 	private CamionTM tableModel;
 	private CamionController controller = new CamionController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
-	
-	private JLabel texto_id_camion = new JLabel("Id camion:",SwingConstants.RIGHT);
+
+	//labels
+	private JLabel texto_id_camion = new JLabel("Patente:",SwingConstants.RIGHT);
 	private JLabel texto_id_planta = new JLabel("Id planta:",SwingConstants.RIGHT);
-	private JLabel texto_nombre_planta = new JLabel("Nombre:",SwingConstants.RIGHT);
 	private JLabel texto_nombre_modelo = new JLabel("Modelo:",SwingConstants.RIGHT);
-	private JLabel texto_marca = new JLabel("Marca:",SwingConstants.RIGHT);
 	private JLabel texto_distancia = new JLabel("Distancia recorrida en km:",SwingConstants.RIGHT);
 	private JLabel texto_costo_por_km = new JLabel("Costo por km:",SwingConstants.RIGHT);
 	private JLabel texto_costo_por_hora = new JLabel("Costo por hora:",SwingConstants.RIGHT);
-	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra:",SwingConstants.RIGHT);
-	
+	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra (dd/MM/yyyy):",SwingConstants.RIGHT);
+
+	//campos de entrada
 	private JTextField campo_id_camion = new JTextField();
 	private JComboBox<String> campo_id_planta = null;
-	private JTextField campo_nombre_planta = new JTextField();
 	private JComboBox<String> campo_nombre_modelo = null;
-	private JTextField campo_marca = new JTextField();
-	private JTextField campo_distancia = new JTextField();
-	private JTextField campo_costo_por_km = new JTextField();
-	private JTextField campo_costo_por_hora = new JTextField();
-	private JTextField campo_fecha_de_compra = new JTextField();
-	
-//	private String []lista_plantas;
-//	private String []lista_nombre_plantas;
-//	private String []lista_modelos;
-//	private String []lista_marcas;
-	
-	
+	private JFormattedTextField campo_distancia = crearCampoDouble();
+	private JFormattedTextField campo_costo_por_km = crearCampoDinero();
+	private JFormattedTextField campo_costo_por_hora = crearCampoDinero();
+	private JFormattedTextField campo_fecha_de_compra =crearCampoFecha();
+
+	private List<Planta> todasLasPlantas;
+	String [] desplegable_plantas;
+
+	private List<Modelo>  todosLosModelos;
+	String [] desplegable_modelos;
+
+
 	private JButton boton_agregar = botonAgregar("Agregar Camion");
 	private JButton boton_eliminar = botonEliminar("Eliminar Camion seleccionado");
-	
+
+
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
 		if(row == -1)
 			notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
-			
+
 			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
-			//	notificacionPopUp(controller.delete(identificador));
+				//	notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
 			}
-			}
+		}
 	}
-	
-	
+
+
 	private void actualizarTabla() {
 		tableModel.fireTableDataChanged();
 		tableModel.recargarTabla();
 		tabla.repaint();
 		//tabla.validate();
 	}
-	
+
 	public PanelCamiones() {
-		
+
 		super();
 		
-		List<Planta> todasLasPlantas = new PlantaDAO().getAll();
-		String [] lista_plantas = todasLasPlantas
-							.stream()
-							.map(p -> p.getId_planta().toString())
-							.collect(Collectors.toList())
-							.toArray(new String[0]);
-		
-		String [] lista_nombre_plantas = todasLasPlantas
-							.stream()
-							.map(m -> m.getNombre())
-							.collect(Collectors.toList())
-							.toArray(new String[0]);
-
-		List<Modelo>  todosLosModelos = new ModeloDAO().getAll();
-		
-		
-		String [] lista_modelos = todosLosModelos
-							.stream()
-							.map(m -> m.getNombre())
-							.collect(Collectors.toList())
-							.toArray(new String[0]);
-		
-		String [] lista_marcas = todosLosModelos
-							.stream()
-							.map(m -> m.getMarca().getNombre())
-							.collect(Collectors.toList())
-							.toArray(new String[0]);
-		
-		
+		this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
-		
-	//TITULO------------------------------------------------------------------------------------------------
+
+		//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		titulo.setForeground(Color.WHITE);
-		
-	//TABLA------------------------------------------------------------------------------------------------
+		titulo.setForeground(Color.decode("#dd1c1a"));
+
+		//TABLA------------------------------------------------------------------------------------------------
 		tableModel = new CamionTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
@@ -149,25 +207,34 @@ public class PanelCamiones extends PanelPersonalizado {
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
-		
+
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {     // to detect doble click events
-		               JTable target = (JTable)e.getSource();
-		               int row = target.getSelectedRow(); // select a row
-		               int column = target.getSelectedColumn(); // select a column
-		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
-		               String original = (String)tabla.getValueAt(row, column);
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
-		               if(nuevo!=null && nuevo.length()>0) {
-		            	  // notificacionPopUp(controller.update(original,nuevo));
-		            	   actualizarTabla();
-		               }
-		            }
+				if (e.getClickCount() == 2) {     
+					JTable target = (JTable)e.getSource();
+					int row = target.getSelectedRow(); 
+					int column = target.getSelectedColumn(); 
+					String original = (String)tabla.getValueAt(row, column);
+					String nuevo = "";
+					Boolean procesar = true;
+					switch (column) {
+					case 1:
+						nuevo = ingresoComboPopUp("Seleccioná una planta distinta a "+original, desplegable_plantas);
+						break;
+					default:
+						procesar = false;
+						notificacionPopUp(new Mensaje(false, "Este campo no es modificable"));
+					}
+					if(procesar && nuevo!=null && nuevo.length()>0) {
+						//	Mensaje m = controller.update(column,nuevo,tableModel.getObject(row));
+						//	notificacionPopUp(m);
+						//	if(m.exito())
+						actualizarTabla();
+					}
+				}
 			}
 		});
-		
+
 		tabla.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -175,11 +242,11 @@ public class PanelCamiones extends PanelPersonalizado {
 					intentarEliminar();
 			}
 		});
-		
+
 		scroll_pane = new JScrollPane(tabla);
 		//tabla.setFillsViewportHeight(true);
 
-	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
+		//BOTON ELIMINAR------------------------------------------------------------------------------------------------
 		//boton_eliminar.setForeground(Color.WHITE);
 		//boton_eliminar.setBackground(Color.RED);
 		boton_eliminar.addActionListener(new ActionListener() {
@@ -189,122 +256,97 @@ public class PanelCamiones extends PanelPersonalizado {
 			}
 		});
 
-		
-	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
-		campo_id_camion.setToolTipText("Presioná Enter para agregar");
-		campo_id_camion.addActionListener( e->{
-		//	Mensaje m = controller.add(campo_id_camion.getText());
-			//notificacionPopUp(m);
-			//if(m.exito()) 
-				actualizarTabla();
-		});
-		
-	//BOTON AGREGAR------------------------------------------------------------------------------------------------
+
+		//BOTON AGREGAR------------------------------------------------------------------------------------------------
 		//boton_agregar.setForeground(Color.WHITE);
 		//boton_agregar.setBackground(Color.BLUE);
+
 		boton_agregar.addActionListener( e ->
 		{
-//			Mensaje m = controller.add(campo_id_camion.getText());
-//			notificacionPopUp(m);
-//			if(m.exito()) { 
+			Mensaje m = controller.add(
+					campo_id_camion.getText(),
+					todasLasPlantas.get(campo_id_planta.getSelectedIndex()).getId_planta(),
+					todosLosModelos.get(campo_nombre_modelo.getSelectedIndex()).getNombre(),
+					campo_distancia.getText(),
+					campo_costo_por_km.getValue().toString(),
+					campo_costo_por_hora.getValue().toString(),
+					campo_fecha_de_compra.getText()
+					);
+			notificacionPopUp(m);
+			if(m.exito()) { 
 				actualizarTabla();
-//				}
-			
+			}
+
 		}
-	);
-	
-	//PANEL1------------------------------------------------------------------------------------------------
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridBagLayout());
-		panel1.setOpaque(false);
-		
-		
-		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
-		panel1.setBorder(borde1);
-		
+				);
+
+
+		//COMBOBOX PLANTAS------------------------------------------------------------------------------------------------
+		todasLasPlantas = new PlantaDAO().getAll();
+		desplegable_plantas = todasLasPlantas
+				.stream()
+				.map(p -> p.getId_planta()+" ["+p.getNombre()+"]")
+				.collect(Collectors.toList())
+				.toArray(new String[0]);
+		campo_id_planta = new JComboBox<String>(desplegable_plantas);
+
+
+
+
+		//COMBOBOX MODELOS------------------------------------------------------------------------------------------------
+		todosLosModelos = new ModeloDAO().getAll();
+		desplegable_modelos = todosLosModelos
+				.stream()
+				.map(m -> m.getNombre()+" ["+m.getMarca().getNombre()+"]")
+				.collect(Collectors.toList())
+				.toArray(new String[0]);
+		campo_nombre_modelo = new JComboBox<String>(desplegable_modelos);
+
+		//PANEL1------------------------------------------------------------------------------------------------
+		JPanel panel1 = crearPanelInterno("Editar/Eliminar");
+
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
-		
-	//PANEL2------------------------------------------------------------------------------------------------
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new GridBagLayout());
-		panel2.setOpaque(false);
-		
-		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
-		panel2.setBorder(borde2);
-		texto_id_camion.setForeground(Color.white);
-		texto_id_planta.setForeground(Color.white);
-		texto_nombre_modelo.setForeground(Color.white);
-		texto_distancia.setForeground(Color.white);
-		texto_costo_por_km.setForeground(Color.white);
-		texto_costo_por_hora.setForeground(Color.white);
-		texto_fecha_de_compra.setForeground(Color.white);
-		texto_marca.setForeground(Color.white);
-		texto_nombre_planta.setForeground(Color.white);
-		
-		campo_id_planta = new JComboBox<String>(lista_plantas);
-		campo_id_planta.setAutoscrolls(true);
-		
-		campo_id_planta.addItemListener( e-> {
-			if(e.getStateChange() == ItemEvent.SELECTED) {
-				campo_nombre_planta.setText(lista_nombre_plantas[campo_id_planta.getSelectedIndex()]);
-			}
-		});
-		//campo_nombre_planta.setEditable(false);
-		campo_nombre_planta.setText(lista_nombre_plantas[0]);
-		campo_nombre_planta.setFocusable(false);
-		
-		campo_nombre_modelo = new JComboBox<String>(lista_modelos);
-		campo_nombre_modelo.addItemListener( e->{
-			if(e.getStateChange() == ItemEvent.SELECTED) {
-				campo_marca.setText(lista_marcas[campo_nombre_modelo.getSelectedIndex()]);
-			}
-		});
-		//campo_marca.setEditable(false);
-		campo_marca.setText(lista_marcas[0]);
-		campo_marca.setFocusable(false);
 
-		
+		//PANEL2------------------------------------------------------------------------------------------------
+
+
+		JPanel panel2 = crearPanelInterno("Agregar");
+
+		setearFuente(new JComponent[]{texto_id_camion,texto_id_planta,texto_nombre_modelo,texto_distancia,texto_costo_por_km,texto_costo_por_hora,texto_fecha_de_compra});
+
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_id_camion);
-		colocar(1,0,3,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_camion);
+		colocar(1,0,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_camion);
 
 		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_id_planta);
-		colocar(1,1,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_planta);
-		
-		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_nombre_planta);
-		colocar(3,1,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre_planta);
-		
+		colocar(1,1,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_id_planta);
+
 		colocar(0,2,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_nombre_modelo);
-		colocar(1,2,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre_modelo);
-		
-		colocar(2,2,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_marca);
-		colocar(3,2,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_marca);
-		
+		colocar(1,2,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre_modelo);
+
 		colocar(0,3,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_distancia);
-		colocar(1,3,3,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_distancia);
-		
+		colocar(1,3,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_distancia);
+
 		colocar(0,4,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo_por_km);
-		colocar(1,4,3,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo_por_km);
-		
+		colocar(1,4,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo_por_km);
+
 		colocar(0,5,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo_por_hora);
-		colocar(1,5,3,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo_por_hora);
-		
+		colocar(1,5,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo_por_hora);
+
 		colocar(0,6,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_fecha_de_compra);
-		colocar(1,6,3,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_fecha_de_compra);
-		
-		colocar(0,7,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
-		
-	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
-		
+		colocar(1,6,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_fecha_de_compra);
+
+		colocar(1,7,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+
+
+		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
+
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
 		colocar(0,2,1,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
-		
 	}
-	
-	
+
+
 }
 
 
