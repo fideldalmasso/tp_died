@@ -25,13 +25,13 @@ public class CamionController {
 		if(nombre_modelo == null || nombre_modelo.length()==0) 
 			return new Mensaje(false,"Error: nombre_modelo inválido");
 
-		if(distancia== null || distancia.length()==0 || !Utilidades.esDouble(distancia)) 
+		if(distancia== null || distancia.length()==0)// || !Utilidades.esDouble(distancia)) 
 			return new Mensaje(false,"Error: distancia_recorrida_en_km inválida");
 
-		if(costo_por_km == null || costo_por_km.length()==0 || !Utilidades.esDouble(costo_por_km)) 
+		if(costo_por_km == null || costo_por_km.length()==0)// !Utilidades.esDouble(costo_por_km)) 
 			return new Mensaje(false,"Error: costo_por_km inválido");
 
-		if(costo_por_hora == null || costo_por_hora.length()==0 || !Utilidades.esDouble(costo_por_hora)) 
+		if(costo_por_hora == null || costo_por_hora.length()==0)// !Utilidades.esDouble(costo_por_hora)) 
 			return new Mensaje(false,"Error: costo_por_hora inválido");
 
 		if(fecha_de_compra== null || fecha_de_compra.length()==0 || !Utilidades.esFecha(fecha_de_compra)) 

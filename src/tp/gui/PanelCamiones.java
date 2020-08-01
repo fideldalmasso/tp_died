@@ -11,9 +11,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -44,6 +48,7 @@ import tp.dominio.Planta;
 public class PanelCamiones extends PanelPersonalizado {
 
 
+
 	private static void setearFuente(JComponent[] lista) {
 		for(JComponent c : lista){
 			c.setForeground(Color.white);
@@ -64,20 +69,20 @@ public class PanelCamiones extends PanelPersonalizado {
 
 	private static JFormattedTextField crearCampoDinero() {
 
-		NumberFormat format3 = NumberFormat.getNumberInstance();
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
 		format3.setGroupingUsed(false);
-		
+
 		JFormattedTextField temp = new JFormattedTextField(
 				new DefaultFormatterFactory(
-						new NumberFormatter(NumberFormat.getCurrencyInstance()), 
-						new NumberFormatter(NumberFormat.getCurrencyInstance()), 
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
+						new NumberFormatter(NumberFormat.getCurrencyInstance(Locale.US)), 
 						new NumberFormatter(format3)));
 
 		temp.addPropertyChangeListener("value", e ->{
 			if(temp.getValue() != null) 
 				temp.setValue(((Number)temp.getValue()).doubleValue());
 		});
-		
+
 		/*
 		 * temp.addFocusListener(new FocusAdapter() { public void
 		 * focusLost(java.awt.event.FocusEvent e) { if(temp.getValue() != null) {
@@ -88,30 +93,37 @@ public class PanelCamiones extends PanelPersonalizado {
 		 * 
 		 * }; });
 		 */
-		
+
 		return temp;
 
 	}
-	
+
 	private static JFormattedTextField crearCampoDouble() {
 		//https://stackoverflow.com/questions/27056539/how-to-add-only-double-values-in-jformattedtextfield
-		NumberFormat format1 = DecimalFormat.getInstance();
+		NumberFormat format1 = DecimalFormat.getInstance(Locale.US);
 		format1.setMinimumFractionDigits(2);
 		format1.setMaximumFractionDigits(2);
-		format1.setRoundingMode(RoundingMode.HALF_UP);
 		
-		NumberFormat format3 = NumberFormat.getNumberInstance();
+		//format1.setRoundingMode(RoundingMode.HALF_UP);
+
+		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
 		format3.setGroupingUsed(false);
-		
+
 		JFormattedTextField temp = new JFormattedTextField(
 				new DefaultFormatterFactory(
 						new NumberFormatter(format1), 
 						new NumberFormatter(format1), 
 						new NumberFormatter(format3)));
-				
+
 		return temp;
 	}
-	
+
+	private static  JFormattedTextField crearCampoFecha() {
+		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+		JFormattedTextField temp = new JFormattedTextField(format);
+		temp.setToolTipText("Formato de fecha: dd/MM/yyyy");
+		return temp;
+	}
 
 	private static final long serialVersionUID = 1L;
 
@@ -129,7 +141,7 @@ public class PanelCamiones extends PanelPersonalizado {
 	private JLabel texto_distancia = new JLabel("Distancia recorrida en km:",SwingConstants.RIGHT);
 	private JLabel texto_costo_por_km = new JLabel("Costo por km:",SwingConstants.RIGHT);
 	private JLabel texto_costo_por_hora = new JLabel("Costo por hora:",SwingConstants.RIGHT);
-	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra:",SwingConstants.RIGHT);
+	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra (dd/MM/yyyy):",SwingConstants.RIGHT);
 
 	//campos de entrada
 	private JTextField campo_id_camion = new JTextField();
@@ -138,20 +150,18 @@ public class PanelCamiones extends PanelPersonalizado {
 	private JFormattedTextField campo_distancia = crearCampoDouble();
 	private JFormattedTextField campo_costo_por_km = crearCampoDinero();
 	private JFormattedTextField campo_costo_por_hora = crearCampoDinero();
-	private JTextField campo_fecha_de_compra = new JTextField();
-
-	//	private String []lista_plantas;
-	//	private String []lista_nombre_plantas;
+	private JFormattedTextField campo_fecha_de_compra =crearCampoFecha();
 
 	private List<Planta> todasLasPlantas;
 	String [] desplegable_plantas;
 
 	private List<Modelo>  todosLosModelos;
-	String [] array_modelos_marcas;
+	String [] desplegable_modelos;
 
 
 	private JButton boton_agregar = botonAgregar("Agregar Camion");
 	private JButton boton_eliminar = botonEliminar("Eliminar Camion seleccionado");
+
 
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
@@ -199,16 +209,25 @@ public class PanelCamiones extends PanelPersonalizado {
 
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {     // to detect doble click events
+				if (e.getClickCount() == 2) {     
 					JTable target = (JTable)e.getSource();
-					int row = target.getSelectedRow(); // select a row
-					int column = target.getSelectedColumn(); // select a column
-					//JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
+					int row = target.getSelectedRow(); 
+					int column = target.getSelectedColumn(); 
 					String original = (String)tabla.getValueAt(row, column);
-					//String nuevo  = JOptionPane.showInputDialog(null, "Ingresá otro valor para: "+original); // get the value of a row and column.
-					String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
-					if(nuevo!=null && nuevo.length()>0) {
-						// notificacionPopUp(controller.update(original,nuevo));
+					String nuevo = "";
+					Boolean procesar = true;
+					switch (column) {
+					case 1:
+						nuevo = ingresoComboPopUp("Seleccioná una planta distinta a "+original, desplegable_plantas);
+						break;
+					default:
+						procesar = false;
+						notificacionPopUp(new Mensaje(false, "Este campo no es modificable"));
+					}
+					if(procesar && nuevo!=null && nuevo.length()>0) {
+						//	Mensaje m = controller.update(column,nuevo,tableModel.getObject(row));
+						//	notificacionPopUp(m);
+						//	if(m.exito())
 						actualizarTabla();
 					}
 				}
@@ -237,27 +256,25 @@ public class PanelCamiones extends PanelPersonalizado {
 		});
 
 
-		//CAMPO NOMBRE------------------------------------------------------------------------------------------------
-
-//		campo_id_camion.setToolTipText("Presioná Enter para agregar");
-//		campo_id_camion.addActionListener( e->{
-//			//	Mensaje m = controller.add(campo_id_camion.getText());
-//			//notificacionPopUp(m);
-//			//if(m.exito()) 
-//			actualizarTabla();
-//		});
-
 		//BOTON AGREGAR------------------------------------------------------------------------------------------------
 		//boton_agregar.setForeground(Color.WHITE);
 		//boton_agregar.setBackground(Color.BLUE);
-		
+
 		boton_agregar.addActionListener( e ->
 		{
-			//			Mensaje m = controller.add(campo_id_camion.getText());
-			//			notificacionPopUp(m);
-			//			if(m.exito()) { 
-			actualizarTabla();
-			//				}
+			Mensaje m = controller.add(
+					campo_id_camion.getText(),
+					todasLasPlantas.get(campo_id_planta.getSelectedIndex()).getId_planta(),
+					todosLosModelos.get(campo_nombre_modelo.getSelectedIndex()).getNombre(),
+					campo_distancia.getText(),
+					campo_costo_por_km.getValue().toString(),
+					campo_costo_por_hora.getValue().toString(),
+					campo_fecha_de_compra.getText()
+					);
+			notificacionPopUp(m);
+			if(m.exito()) { 
+				actualizarTabla();
+			}
 
 		}
 				);
@@ -277,12 +294,12 @@ public class PanelCamiones extends PanelPersonalizado {
 
 		//COMBOBOX MODELOS------------------------------------------------------------------------------------------------
 		todosLosModelos = new ModeloDAO().getAll();
-		array_modelos_marcas = todosLosModelos
+		desplegable_modelos = todosLosModelos
 				.stream()
 				.map(m -> m.getNombre()+" ["+m.getMarca().getNombre()+"]")
 				.collect(Collectors.toList())
 				.toArray(new String[0]);
-		campo_nombre_modelo = new JComboBox<String>(array_modelos_marcas);
+		campo_nombre_modelo = new JComboBox<String>(desplegable_modelos);
 
 		//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = crearPanelInterno("Editar/Eliminar");
