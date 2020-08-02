@@ -1,6 +1,9 @@
 package tp.gui;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -9,18 +12,22 @@ import tp.dominio.Pedido;
 
 public class PedidoTM extends AbstractTableModel {
 	PedidoController controller;
-	
+	private Predicate<Pedido> filtro;
 	private List<Pedido> data;
 	private String[] columnNames = {"Id Pedido","Destino","Fecha Solicitud","Fecha Maxima"};
 	
-	public PedidoTM() {
+	public void setFiltro(Predicate<Pedido> p) {
+		filtro=p;
+	}
+	
+	public PedidoTM(Predicate<Pedido> filtro) {
+		this.filtro=filtro;
 		recargarTabla();
-		
 	}
 	
 	public void recargarTabla() {
 		controller = new PedidoController();
-		this.data = controller.getAll();
+		this.data = controller.getAll().parallelStream().filter(filtro).collect(Collectors.toList());
 	}
 	
 	@Override

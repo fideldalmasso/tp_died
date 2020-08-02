@@ -4,26 +4,33 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.function.Predicate;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PedidoController;
+import tp.dominio.Pedido;
+import tp.enumerados.Estado;
 
 public class PanelPedidos extends PanelPersonalizado{
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	private JLabel titulo = new JLabel("Pedidos Creados",SwingConstants.CENTER);
 	
@@ -44,19 +51,24 @@ public class PanelPedidos extends PanelPersonalizado{
 	private static Color color_titulo =  Color.decode("#dd1c1a");
 	private static Color color_letras = Color.BLACK;
 	
-	private void intentarEliminar() {
+	private void cancelar() {
 		int row = tabla.getSelectedRow();
-		if(row == -1)
+		if(row==-1) {
 			notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
-		else {
-			String identificador = (String) tabla.getValueAt(row, 0);
-			
-			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
-			if(resultado == JOptionPane.YES_OPTION) {
-				notificacionPopUp(controller.delete(identificador));
-				actualizarTabla();
-			}
+		}else {
+			Pedido original = tableModel.getPedido(row);
+			Pedido nuevo = new Pedido(original.getId_pedido(),original.getPlanta_origen(), original.getPlanta_destino()
+					,original.getEnvio(),original.getFecha_solicitud(), original.getFecha_entrega(),
+					original.getFecha_maxima(), Estado.CANCELADA, original.getCosto_pedido());
+			notificacionPopUp(controller.update(original, nuevo));
+			actualizarTabla();
 		}
+	}
+	
+	private void cambiarPanel(PanelPersonalizado p1) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+        App app = (App) frame;
+        app.cambiarPanel(p1);
 	}
 	
 	private void actualizarTabla() {
@@ -71,12 +83,15 @@ public class PanelPedidos extends PanelPersonalizado{
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
 		this.fileFondo="icon/fondo2.png";
-	//TITULO------------------------------------------------------------------------------------------------
+		
+		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(color_titulo);
 		
-	//TABLA------------------------------------------------------------------------------------------------
-		tableModel = new PedidoTM();
+		//TABLA
+		Predicate<Pedido> p = ped -> ped.getEstado_pedido()==Estado.CREADA;
+		tableModel = new PedidoTM(p);
+		tableModel.setFiltro(p);
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		tabla.setIgnoreRepaint(false);
@@ -90,13 +105,20 @@ public class PanelPedidos extends PanelPersonalizado{
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE)
-					intentarEliminar();
+					cancelar();
 			}
 		});
 		
 		scroll_pane = new JScrollPane(tabla);
 		
-	//PANEL1------------------------------------------------------------------------------------------------
+		
+		//BOTON AGREGAR PEDIDO
+		boton_agregar.addActionListener( e-> cambiarPanel(new PanelAgregarPedido()));
+		
+		//BOTON CANCELAR
+		boton_cancelar.addActionListener(e -> cancelar());
+		
+		//PANEL1
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -116,8 +138,7 @@ public class PanelPedidos extends PanelPersonalizado{
 		String[] items = {"Creados","Procesados","Entregados","Cancelados"};
 		campo_estados = new JComboBox<String>(items);
 		
-	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
-		
+		//ORGANIZACION DE PANELES
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);
 		colocar(3,0,4,1,1,1,0,0,GridBagConstraints.HORIZONTAL,10,this,espacio);
 		colocar(7,0,1,1,1,1,0,0,GridBagConstraints.EAST,10,this,texto_estados);

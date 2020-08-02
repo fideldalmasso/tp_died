@@ -11,13 +11,12 @@ import java.util.Optional;
 import tp.controller.PlantaController;
 import tp.dominio.*;
 
-public class RutaDAO implements Registrable<Ruta>{
+public class RutaDAO {
 	
 	public RutaDAO() {
 		super();
 	}
 	
-	@Override
 	public Boolean add(Ruta r) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -41,7 +40,6 @@ public class RutaDAO implements Registrable<Ruta>{
 		return false;
 	}
 	
-	@Override
 	public Boolean delete(String ...id_ruta) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -60,8 +58,7 @@ public class RutaDAO implements Registrable<Ruta>{
 		return false;
 	}
 	
-	@Override
-	public Boolean update(Ruta original, Ruta nueva) {
+	public Boolean update(Ruta nueva) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
@@ -74,7 +71,7 @@ public class RutaDAO implements Registrable<Ruta>{
 			pstm.setDouble(1, nueva.getDistancia_en_km());
 			pstm.setDouble(2, nueva.getDuracion_en_minutos());
 			pstm.setDouble(3, nueva.getPeso_maximo_por_dia_en_kg());
-			pstm.setString(4, original.getId_ruta());
+			pstm.setString(4, nueva.getId_ruta());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -86,7 +83,6 @@ public class RutaDAO implements Registrable<Ruta>{
 		return false;
 	}
 	
-	@Override
 	public Optional<Ruta> get(String ...id_ruta) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -111,7 +107,6 @@ public class RutaDAO implements Registrable<Ruta>{
 		return m;
 	}
 	
-	@Override
 	public List<Ruta> getAll(){
 		PlantaController plantaController = new PlantaController();
 		List<Planta> plantas = plantaController.getAll();

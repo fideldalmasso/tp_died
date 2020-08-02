@@ -13,9 +13,9 @@ public class RutaService {
 		dao = new RutaDAO();
 	}
 	
-	public Mensaje add(Ruta p1) {
+	public Mensaje add(Ruta r1) {
 		
-		if(dao.add(p1))
+		if(dao.add(r1))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"Ruta ya existente");
@@ -28,9 +28,9 @@ public class RutaService {
 			return new Mensaje(false,"No se puede eliminar la fila (error en la DB).");
 	}
 	
-	public Mensaje update(Ruta original, Ruta nueva) {
+	public Mensaje update(Ruta nueva) {
 		
-		if(dao.update(original,nueva))
+		if(dao.update(nueva))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"No se pudo actualizar la fila (error en la DB).");

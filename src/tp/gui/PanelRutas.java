@@ -28,6 +28,7 @@ import javax.swing.border.TitledBorder;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
 import tp.controller.RutaController;
+import tp.dominio.Planta;
 import tp.dominio.Ruta;
 
 public class PanelRutas extends PanelPersonalizado{
@@ -54,6 +55,9 @@ public class PanelRutas extends PanelPersonalizado{
 	private JLabel texto_peso_maximo = new JLabel("Peso máximo (Kg):",SwingConstants.RIGHT);
 	private JTextField campo_peso_maximo = new JTextField();
 
+	private PlantaController pc;
+	private String[] items;
+	
 	private JLabel texto_planta_origen = new JLabel("Origen: ",SwingConstants.RIGHT);
 	private JComboBox<String> campo_planta_origen;
 	
@@ -79,6 +83,23 @@ public class PanelRutas extends PanelPersonalizado{
 				actualizarTabla();
 			}
 		}
+	}
+	
+	private void intentarAgregar() {
+		pc=new PlantaController();
+		String origen, destino;
+		Integer indice_destino = campo_planta_destino.getSelectedIndex(), indice_origen=campo_planta_origen.getSelectedIndex();
+		if(indice_origen==-1) 
+			origen = ""; 
+		else 
+			origen = items[indice_origen];
+		if(indice_destino==-1) 
+			destino =""; 
+		else 
+			destino = items[indice_destino];
+		
+		notificacionPopUp(controller.add(campo_nombre.getText(),origen,destino,campo_distancia.getText(),campo_duracion.getText(), campo_peso_maximo.getText()));
+		actualizarTabla();
 	}
 	
 	private void actualizarTabla() {
@@ -114,37 +135,27 @@ public class PanelRutas extends PanelPersonalizado{
 		               JTable target = (JTable)e.getSource();
 		               int row = target.getSelectedRow();
 		               int column = target.getSelectedColumn();
-		               Ruta ruta = tableModel.getRuta(row);
-		              
+		               String id = (String) tabla.getValueAt(row, 0);
+		               String nombre_origen = (String) tabla.getValueAt(row, 1);
+		               String nombre_destino = (String) tabla.getValueAt(row, 2);
+		               Double distancia = (Double) tabla.getValueAt(row, 3);
+		               Double duracion = (Double) tabla.getValueAt(row, 4);
+		               Double peso_maximo = (Double) tabla.getValueAt(row, 5);
+		               
 		               switch(column) {
 		               case 3:
-		            	   String original = (String) tabla.getValueAt(row, column);
-		            	   String nuevo = ingresoPopUp("Ingres� otro valor para: "+original);
-			               if(nuevo!=null && nuevo.length()>0) {
-			            	   notificacionPopUp(controller.update(ruta,
-			            			   new Ruta(null,null,null,Double.parseDouble(nuevo),ruta.getDuracion_en_minutos(),ruta.getPeso_maximo_por_dia_en_kg())));
-			            	   actualizarTabla();
-			               }
+		            	   distancia = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+distancia));
 		            	   break;
 		               case 4:
-		            	   String original1 = (String) tabla.getValueAt(row, column);
-		            	   String nuevo1 = ingresoPopUp("Ingres� otro valor para: "+original1);
-			               if(nuevo1!=null && nuevo1.length()>0) {
-			            	   notificacionPopUp(controller.update(ruta,
-			            			   new Ruta(null,null,null,ruta.getPeso_maximo_por_dia_en_kg(),Double.parseDouble(nuevo1),ruta.getPeso_maximo_por_dia_en_kg())));
-			            	   actualizarTabla();
-			               }
+		            	   duracion = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+duracion));
 			               break;
 		               case 5:
-		            	   String original2 = (String) tabla.getValueAt(row, column);
-		            	   String nuevo2 = ingresoPopUp("Ingres� otro valor para: "+original2);
-			               if(nuevo2!=null && nuevo2.length()>0) {
-			            	   notificacionPopUp(controller.update(ruta,
-			            			   new Ruta(null,null,null,ruta.getPeso_maximo_por_dia_en_kg(),ruta.getDuracion_en_minutos(),Double.parseDouble(nuevo2))));
-			            	   actualizarTabla();
-			               }
+		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+peso_maximo));
 		            	   break;
 		               }
+		               
+		               notificacionPopUp(controller.update(id,nombre_origen,nombre_destino,Double.toString(distancia),Double.toString(duracion),Double.toString(peso_maximo)));
+		               actualizarTabla();
 				}
 			}
 		});
@@ -161,13 +172,8 @@ public class PanelRutas extends PanelPersonalizado{
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
 		
-		boton_eliminar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				intentarEliminar();
-			}
-		});
-		
+		boton_eliminar.addActionListener(e -> intentarEliminar());
+		boton_agregar.addActionListener(e -> intentarAgregar());
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
@@ -208,7 +214,7 @@ public class PanelRutas extends PanelPersonalizado{
 		colocar(3,0,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_peso_maximo);
 		
 		PlantaController pc = new PlantaController();
-		String[] items = pc.getAll().parallelStream().map(p->p.getNombre()).collect(Collectors.toList()).toArray(new String[0]);
+		items = pc.getAll().parallelStream().map(p->p.getNombre()).collect(Collectors.toList()).toArray(new String[0]);
 		campo_planta_origen = new JComboBox<String>(items);
 		campo_planta_destino = new JComboBox<String>(items);
 		texto_planta_origen.setForeground(color_letras);
@@ -223,13 +229,13 @@ public class PanelRutas extends PanelPersonalizado{
 		colocar(2,2,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_planta_destino);
 		colocar(3,2,1,1,0,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_planta_destino);
 		
-		colocar(0,3,4,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+		colocar(0,3,4,1,0,0,0,0,GridBagConstraints.CENTER,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
 		
-		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
-		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
-		colocar(0,2,1,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
+		colocar(0,0,1,1,0,0,0,10,GridBagConstraints.NONE,10,this,titulo);
+		colocar(0,1,1,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);
+		colocar(0,2,1,1,0,0,0,0,GridBagConstraints.NONE,10,this,panel2);
 		
 	}
 }
