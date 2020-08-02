@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,12 +27,12 @@ public class PedidoDAO implements Registrable<Pedido>{
 					"INSERT INTO tp.Pedido VALUES (default,?,?,?,?,?,?,?,?);");
 			pstm.setInt(1, Integer.parseInt(en.getPlanta_origen().getId_planta()));
 			pstm.setInt(2, Integer.parseInt(en.getPlanta_destino().getId_planta()));
-			pstm.setInt(3, Integer.parseInt(en.getEnvio().getId_envio()));
+			pstm.setNull(3,0);
 			pstm.setDate(4,Date.valueOf(en.getFecha_solicitud()));
-			pstm.setDate(5, Date.valueOf(en.getFecha_entrega()));
+			pstm.setNull(5,0);
 			pstm.setDate(6, Date.valueOf(en.getFecha_maxima()));
-			pstm.setString(7, en.getEstado_pedido().toString());
-			pstm.setDouble(8, en.getCosto_pedido());
+			pstm.setString(7,en.getEstado_pedido().toString());
+			pstm.setNull(8,0);
 			
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -71,10 +70,12 @@ public class PedidoDAO implements Registrable<Pedido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Pedido SET fecha_entrega=?, estado_pedido=? WHERE id_Pedido=?");
-			pstm.setDate(1, Date.valueOf(nuevo.getFecha_entrega()));
-			pstm.setString(2, nuevo.getEstado_pedido().toString());
-			pstm.setInt(3, Integer.parseInt(original.getId_pedido()));
+					"UPDATE tp.Pedido SET id_envio=?, fecha_entrega=?, estado_pedido=?, costo_pedido=? WHERE id_Pedido=?");
+			pstm.setInt(1,Integer.parseInt(nuevo.getEnvio().getId_envio()));
+			pstm.setDate(2,Date.valueOf(nuevo.getFecha_entrega()));
+			pstm.setString(3,nuevo.getEstado_pedido().toString());
+			pstm.setDouble(4,nuevo.getCosto_pedido());
+			pstm.setInt(5,Integer.parseInt(original.getId_pedido()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

@@ -136,7 +136,7 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
-			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
+			JOptionPane.showMessageDialog(null, "Operaciï¿½n exitosa","ï¿½xito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
 		else
 			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE,PanelPersonalizado.emoji("icon/error.png", 32,32));
 	}

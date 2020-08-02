@@ -55,6 +55,7 @@ public class PanelHome extends PanelPersonalizado {
 		this.getBoton_camiones().addActionListener( e-> cambiarPanel(new PanelCamiones()));
 		this.getBoton_plantas().addActionListener( e-> cambiarPanel(new PanelPlantas()));
 		this.getBoton_rutas().addActionListener(e -> cambiarPanel(new PanelRutas()));
+		this.getBoton_pedidos().addActionListener(e -> cambiarPanel(new PanelPedidos()));
 		
 	}
 	

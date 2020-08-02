@@ -76,7 +76,6 @@ public class PanelPlantas extends PanelPersonalizado{
 		tableModel.fireTableDataChanged();
 		tableModel.recargarTabla();
 		tabla.repaint();
-		//tabla.validate();
 	}
 	
 	public PanelPlantas() {
@@ -97,16 +96,15 @@ public class PanelPlantas extends PanelPersonalizado{
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hac� doble clic para editar el campo o presion� Supr para eliminar");
+		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {     // to detect doble click events
+				if (e.getClickCount() == 2) {
 		               JTable target = (JTable)e.getSource();
-		               int row = target.getSelectedRow(); // select a row
-		               int column = target.getSelectedColumn(); // select a column
-		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
+		               int row = target.getSelectedRow();
+		               int column = target.getSelectedColumn();
 		               String original = (String)tabla.getValueAt(row, column);
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingres� otro valor para: "+original); // get the value of a row and column.
 		               
 		               switch(column) {
 		               case 0:
@@ -132,7 +130,6 @@ public class PanelPlantas extends PanelPersonalizado{
 		});
 		
 		scroll_pane = new JScrollPane(tabla);
-		//tabla.setFillsViewportHeight(true);
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
 		
@@ -168,8 +165,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		});
 		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		//boton_agregar.setForeground(Color.WHITE);
-		//boton_agregar.setBackground(Color.BLUE);
+
 		boton_agregar.addActionListener( e ->
 		{
 			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));

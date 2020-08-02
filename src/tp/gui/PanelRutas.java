@@ -10,7 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -29,7 +28,6 @@ import javax.swing.border.TitledBorder;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
 import tp.controller.RutaController;
-import tp.dominio.Planta;
 import tp.dominio.Ruta;
 
 public class PanelRutas extends PanelPersonalizado{
@@ -57,10 +55,10 @@ public class PanelRutas extends PanelPersonalizado{
 	private JTextField campo_peso_maximo = new JTextField();
 
 	private JLabel texto_planta_origen = new JLabel("Origen: ",SwingConstants.RIGHT);
-	private JComboBox campo_planta_origen;
+	private JComboBox<String> campo_planta_origen;
 	
 	private JLabel texto_planta_destino = new JLabel("Destino: ",SwingConstants.RIGHT);
-	private JComboBox campo_planta_destino;
+	private JComboBox<String> campo_planta_destino;
 	
 	private JButton boton_agregar = botonAgregar("Agregar Ruta");
 	
@@ -93,7 +91,7 @@ public class PanelRutas extends PanelPersonalizado{
 	public PanelRutas() {
 		super();
 		this.setLayout(new GridBagLayout());
-		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
+		this.setBackground(new Color(250, 216, 214));
 		this.fileFondo="icon/fondo2.png";
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
@@ -108,18 +106,16 @@ public class PanelRutas extends PanelPersonalizado{
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
+		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {     // to detect doble click events
+				if (e.getClickCount() == 2) {
 		               JTable target = (JTable)e.getSource();
-		               int row = target.getSelectedRow(); // select a row
-		               int column = target.getSelectedColumn(); // select a column
+		               int row = target.getSelectedRow();
+		               int column = target.getSelectedColumn();
 		               Ruta ruta = tableModel.getRuta(row);
-		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		              
-		               //String nuevo  = JOptionPane.showInputDialog(null, "Ingres� otro valor para: "+original); // get the value of a row and column.
-		               
 		               switch(column) {
 		               case 3:
 		            	   String original = (String) tabla.getValueAt(row, column);
@@ -162,7 +158,6 @@ public class PanelRutas extends PanelPersonalizado{
 		});
 		
 		scroll_pane = new JScrollPane(tabla);
-		//tabla.setFillsViewportHeight(true);
 
 	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
 		
@@ -173,23 +168,6 @@ public class PanelRutas extends PanelPersonalizado{
 			}
 		});
 		
-	
-	//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		//boton_agregar.setForeground(Color.WHITE);
-		//boton_agregar.setBackground(Color.BLUE);
-		/*boton_agregar.addActionListener( e ->
-		{
-			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
-			notificacionPopUp(m);
-			if(m.exito()) {
-				StockInsumoController sic = new StockInsumoController();
-				sic.addAll(new Planta(null,campo_nombre.getText()));
-				actualizarTabla();
-			}
-			
-		}
-	);
-	*/
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
@@ -234,6 +212,10 @@ public class PanelRutas extends PanelPersonalizado{
 		campo_planta_origen = new JComboBox<String>(items);
 		campo_planta_destino = new JComboBox<String>(items);
 		texto_planta_origen.setForeground(color_letras);
+		campo_planta_origen.setSelectedItem(null);
+		AutoCompletion.enable(campo_planta_origen);
+		campo_planta_destino.setSelectedItem(null);
+		AutoCompletion.enable(campo_planta_destino);
 		colocar(0,2,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_planta_origen);
 		colocar(1,2,1,1,0,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_planta_origen);
 		
