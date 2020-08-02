@@ -15,9 +15,11 @@ public class InsumoGeneralService {
 
 	InsumoGeneralDAO dao;
 	InsumoDAO insumoDao;
-	InsumoService insumoSer = new InsumoService();
+	InsumoService insumoSer ;
 	public InsumoGeneralService(){
 		dao = new InsumoGeneralDAO();
+		insumoDao = new InsumoDAO();
+		insumoSer = new InsumoService();
 	}
 	
 	public Mensaje add(String descripcion, Unidad unidadDeMedida, Double costoPorUnidad, Double peso) {
@@ -42,7 +44,6 @@ public class InsumoGeneralService {
 	public Mensaje update(String id_original, String id_nuevo, String descripcion_nuevo, Unidad unidadDeMedida_nuevo, Double costoPorUnidad_nuevo,Double peso) {
 		
 		insumoSer.update(id_original, id_nuevo, descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo);
-		InsumoGeneralDAO insumoGeneralDAO = new InsumoGeneralDAO() ;
 		InsumoGeneral m1 = new InsumoGeneral(id_original," ",unidadDeMedida_nuevo,0d,0d);
 		InsumoGeneral m2 = new InsumoGeneral( id_nuevo,descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo, peso);
 		

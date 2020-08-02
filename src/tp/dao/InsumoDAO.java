@@ -118,11 +118,11 @@ public class InsumoDAO implements Registrable<Insumo>{
 			pstm = con.prepareStatement(
 
 					"SELECT id_insumo FROM tp.Insumo WHERE descripcion=?;");
-			pstm.setInt(1, Integer.parseInt(descripcion[0]));
+			pstm.setString(1, descripcion[0]);
 
 			rs = pstm.executeQuery();
 			if(rs.next()) {
-				return  rs.toString();
+				return  Integer.toString(rs.getInt(1));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

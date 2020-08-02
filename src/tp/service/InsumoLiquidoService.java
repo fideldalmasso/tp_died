@@ -14,10 +14,12 @@ import tp.enumerados.Unidad;
 public class InsumoLiquidoService {
 
 	InsumoLiquidoDAO dao;
-	InsumoDAO insumoDao;
-	InsumoService insumoSer = new InsumoService();
+	InsumoDAO insumoDao ;
+	InsumoService insumoSer ;
 	public InsumoLiquidoService(){
 		dao = new InsumoLiquidoDAO();
+		insumoDao = new InsumoDAO();
+		insumoSer = new InsumoService();
 	}
 	
 	public Mensaje add(String descripcion, Unidad unidadDeMedida, Double costoPorUnidad, Double densidad) {
@@ -42,7 +44,6 @@ public class InsumoLiquidoService {
 	public Mensaje update(String id_original, String id_nuevo, String descripcion_nuevo, Unidad unidadDeMedida_nuevo, Double costoPorUnidad_nuevo,Double densidad) {
 		
 		insumoSer.update(id_original, id_nuevo, descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo);
-		InsumoLiquidoDAO insumoLiquidoDAO = new InsumoLiquidoDAO() ;
 		InsumoLiquido m1 = new InsumoLiquido(id_original," ",unidadDeMedida_nuevo,0d,0d);
 		InsumoLiquido m2 = new InsumoLiquido( id_nuevo,descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo, densidad);
 		

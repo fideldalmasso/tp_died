@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import tp.controller.InsumoController;
+import tp.controller.InsumoGeneralController;
 import tp.controller.InsumoLiquidoController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
@@ -41,8 +42,10 @@ public class PanelInsumos extends PanelPersonalizado {
 
 	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.LEFT);
 	
-	private InsumoTM tableModel;
-	private InsumoLiquidoController controller = new InsumoLiquidoController();
+	private InsumoLiquidoTM tableModelLiquidos;
+	private InsumoGeneralTM tableModelGenerales;
+	private InsumoLiquidoController controllerIL = new InsumoLiquidoController();
+	private InsumoGeneralController controllerIG = new InsumoGeneralController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
@@ -52,10 +55,12 @@ public class PanelInsumos extends PanelPersonalizado {
 	private JLabel texto_unidad = new JLabel("Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_tipo = new JLabel("Ver Insumos:",SwingConstants.RIGHT);
+	private JLabel texto_tipo2 = new JLabel("Tipo:",SwingConstants.RIGHT);
 	private JLabel texto_densidad = new JLabel("Densidad:",SwingConstants.RIGHT);
 	private JLabel texto_peso = new JLabel("Peso:",SwingConstants.RIGHT);
 	private JLabel espacio = new JLabel("          ",SwingConstants.RIGHT);
 	private JTextField campo_id = new JTextField();
+	JComboBox<String> comboBoxTipo2 = new JComboBox<String>();
 	private JTextField campo_descripcion = new JTextField();
 	private JTextField campo_costo = new JTextField();
 	private JTextField dyp = new JTextField();
@@ -71,26 +76,33 @@ public class PanelInsumos extends PanelPersonalizado {
 			
 			int resultado = eliminarPopUp("¿Eliminar insumo:"+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
-				notificacionPopUp(controller.delete(identificador));
+				if(this.texto_densidad.isVisible()) {
+				notificacionPopUp(controllerIL.delete(identificador));
+				}else {
+					notificacionPopUp(controllerIG.delete(identificador));
+				}
 				actualizarTabla();
 				}
 			}
 	}
 	private void cambiarTabla(String tipo) {
 		if(tipo == "Líquidos") {
-			tabla.setModel(new InsumoLiquidoTM());
+			tabla.setModel(this.tableModelLiquidos);
 			texto_peso.setVisible(false);
 			texto_densidad.setVisible(true);
+			
 		}else {
-			tabla.setModel(new InsumoGeneralTM());
+			tabla.setModel(this.tableModelGenerales);
 			texto_peso.setVisible(true);
 			texto_densidad.setVisible(false);
 		}
 	}
 	
 	private void actualizarTabla() {
-		tableModel.fireTableDataChanged();
-		tableModel.recargarTabla();
+		tableModelLiquidos.fireTableDataChanged();
+		tableModelLiquidos.recargarTabla();
+		tableModelGenerales.fireTableDataChanged();
+		tableModelGenerales.recargarTabla();
 		tabla.repaint();
 		//tabla.validate();
 	}
@@ -107,15 +119,16 @@ public class PanelInsumos extends PanelPersonalizado {
 		this.comboBoxTipo.addItem("Generales");
 		
 	//TABLA------------------------------------------------------------------------------------------------
-		tableModel = new InsumoTM();
+		tableModelLiquidos = new InsumoLiquidoTM();
+		tableModelGenerales = new InsumoGeneralTM();
 		tabla = new JTable();
-		tabla.setModel(tableModel);
+		tabla.setModel(tableModelLiquidos);
 		tabla.setIgnoreRepaint(false);
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
-	    
+	    this.texto_peso.setVisible(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -134,14 +147,22 @@ public class PanelInsumos extends PanelPersonalizado {
 						            	 if(nuevo == null) {
 								           	 return ; // en caso de que seleccione cancelar
 								          }
-					            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+						            	if( texto_densidad.isVisible()) {
+					            		  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+						            	}else {
+						            		notificacionPopUp(controllerIG.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)nuevo,Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+						            	}
 					            		  break;
 				            	   
 			            	  case 2: 
 					            		 nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
 					            		 try {
-					            			 notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
-					            		 }
+						            			 if( texto_densidad.isVisible()) {
+						            			 notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
+						            			 }else {
+						            				 notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4))); 
+						            			 }
+					            			 }
 					            		 catch(Exception ex) {
 					            			 return;
 					            		 }  
@@ -153,8 +174,11 @@ public class PanelInsumos extends PanelPersonalizado {
 						            	catch(Exception ex) {
 						            	 return;// en caso de que seleccione cancelar
 						            	 }
-				            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo,(Double)tabla.getValueAt(row, 4)));
-				            		   
+				            		  if( texto_densidad.isVisible()) {
+				            			  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo,(Double)tabla.getValueAt(row, 4)));
+					            		   }else {
+					            			   notificacionPopUp(controllerIG.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)nuevo,(Double)tabla.getValueAt(row, 4)));
+							            		   }
 				            	   break;
 				            	   
 			            	  case 4:
@@ -164,8 +188,11 @@ public class PanelInsumos extends PanelPersonalizado {
 					            	catch(Exception ex) {
 					            	 return;// en caso de que seleccione cancelar
 					            	 }
-			            		  notificacionPopUp(controller.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)nuevo));
-			            		   
+			            		  if( texto_densidad.isVisible()) {
+			            			  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)nuevo));
+					            		  }else {
+					            			  notificacionPopUp(controllerIG.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)tabla.getValueAt(row, 2)),(Double)tabla.getValueAt(row, 3),(Double)nuevo));
+					            		  	}
 			            	   break;
 			            	  }
 		            	  actualizarTabla();  
@@ -215,8 +242,13 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
 		{	
-			Object novo = this.comboBoxAgregarInsumo.getSelectedItem();
-			Mensaje m = controller.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
+			Object novo = this.comboBoxAgregarInsumo.getSelectedItem().toString();
+			Mensaje m ;
+			if( this.comboBoxTipo2.getSelectedItem().toString()== "Líquido") {
+				m = controllerIL.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo ),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
+				  }else {
+					m =  controllerIG.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
+					   }
 			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
@@ -251,17 +283,21 @@ public class PanelInsumos extends PanelPersonalizado {
 		texto_costo.setForeground(Color.white);
 		texto_densidad.setForeground(Color.white);
 		texto_peso.setForeground(Color.white);
-		
+		texto_tipo2.setForeground(Color.white);
+		this.comboBoxTipo2.addItem("Líquido");
+		this.comboBoxTipo2.addItem("General");
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
 		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_unidad);
 		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
 		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_densidad);
 		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_peso);
-		colocar(1,0,1,1,0,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo);
+		colocar(4,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_tipo2);
+		colocar(1,0,1,1,0,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_descripcion);
 		colocar(1,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.comboBoxAgregarInsumo);
-		colocar(3,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_descripcion);
+		colocar(3,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,campo_costo);
 		colocar(3,1,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.dyp);
-		colocar(4,0,1,2,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+		colocar(5,0,1,1,1,0,0,10,GridBagConstraints.HORIZONTAL,10,panel2,this.comboBoxTipo2);
+		colocar(4,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
 		texto_tipo.setForeground(Color.white);

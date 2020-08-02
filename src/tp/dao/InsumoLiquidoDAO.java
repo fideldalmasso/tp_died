@@ -24,7 +24,7 @@ public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.InsumoLiquido VALUES (?,?);");
-			pstm.setString(1, en.getId_insumo());
+			pstm.setInt(1,Integer.parseInt( en.getId_insumo()));
 			pstm.setDouble(2, en.getDensidad());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {

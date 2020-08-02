@@ -23,8 +23,9 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.InsumoGeneral VALUES (default,?);");
-			pstm.setDouble(1, en.getPesoPorUnidad());
+					"INSERT INTO tp.InsumoGeneral VALUES (?,?);");
+			pstm.setInt(1,Integer.parseInt( en.getId_insumo()));
+			pstm.setDouble(2, en.getPesoPorUnidad());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -42,7 +43,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"DELETE FROM tp.InsumoGeneral WHERE id_InsumoGeneral=?;");
+					"DELETE FROM tp.InsumoGeneral WHERE id_insumo=?;");
 			pstm.setInt(1, Integer.parseInt(id_InsumoGeneral[0]));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -61,7 +62,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.InsumoGeneral SET peso_por_unidad=? WHERE id_InsumoGeneral=?");
+					"UPDATE tp.InsumoGeneral SET peso_por_unidad=? WHERE id_insumo=?");
 			pstm.setDouble(1, nuevo.getPesoPorUnidad());
 			pstm.setInt(2, Integer.parseInt(original.getId_insumo()));
 			return pstm.executeUpdate() == 1;
@@ -83,7 +84,7 @@ public class InsumoGeneralDAO implements Registrable<InsumoGeneral>{
 		Optional<InsumoGeneral> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.InsumoGeneral WHERE id_InsumoGeneral=?;");
+					"SELECT * FROM tp.InsumoGeneral WHERE id_Insumo=?;");
 			pstm.setInt(1, Integer.parseInt(id_InsumoGeneral[0]));
 			rs = pstm.executeQuery();
 			if(rs.next()) {
