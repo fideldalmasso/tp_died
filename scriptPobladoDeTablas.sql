@@ -36,8 +36,6 @@ insert into tp.insumo values
 (default,'Arena','KILO',100);
 
 insert into tp.insumoLiquido values 
-(default,300);
+(1,300);
 
-insert into tp.stockInsumo values
-(1,1,0,0);
 

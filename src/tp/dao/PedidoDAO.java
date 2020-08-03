@@ -25,9 +25,9 @@ public class PedidoDAO implements Registrable<Pedido>{
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.Pedido VALUES (default,?,?,?,?,?,?,CAST (? AS tp.EstadoPedido),?);");
-			pstm.setInt(1,Integer.parseInt(en.getPlanta_destino().getId_planta()));
+			pstm.setNull(1,0);
 			pstm.setInt(2,Integer.parseInt(en.getPlanta_destino().getId_planta()));
-			pstm.setInt(3,1);
+			pstm.setNull(3,0);
 			pstm.setDate(4,Date.valueOf(en.getFecha_solicitud()));
 			pstm.setNull(5,0);
 			pstm.setDate(6, Date.valueOf(en.getFecha_maxima()));

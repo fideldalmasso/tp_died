@@ -154,16 +154,6 @@ public class PanelPlantas extends PanelPersonalizado{
 			}
 		});
 		
-		
-	//CAMPO NOMBRE------------------------------------------------------------------------------------------------
-		campo_nombre.setToolTipText("Presione Enter para agregar");
-		campo_nombre.addActionListener( e->{
-			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
-			notificacionPopUp(m);
-			if(m.exito()) 
-				actualizarTabla();
-		});
-		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
 
 		boton_agregar.addActionListener( e ->
