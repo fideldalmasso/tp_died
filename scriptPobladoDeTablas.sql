@@ -19,6 +19,7 @@ insert into tp.modelo values
 ('modelo6','Daf');
 
 insert into tp.planta values
+<<<<<<< HEAD
 (1, 'Planta1'),
 (2, 'Planta2'),
 (3, 'Planta3'),
@@ -33,6 +34,9 @@ insert into tp.ruta values
 ('r5',3,5,200,120,1000),
 ('r6',3,4,50,120,2000),
 ('r7',4,5,50,60,3000);
+=======
+(default, 'Planta1');
+>>>>>>> 7f78d0eed52d933af3610b4f97eb76cfe8af48f1
 
 insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
@@ -41,11 +45,13 @@ insert into tp.camion values
 insert into tp.envio values
 (1,null,null);
 
+<<<<<<< HEAD
 insert into tp.insumo values 
 (1,'Arena','KILO',100);
+=======
+>>>>>>> 7f78d0eed52d933af3610b4f97eb76cfe8af48f1
 
-insert into tp.insumoLiquido values 
-(1,300);
+
 
 insert into tp.pedido values
 (1,null,5,null,'03-08-2020',null,'10-10-2020','CREADA',null);

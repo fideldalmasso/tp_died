@@ -34,15 +34,6 @@ import tp.dominio.Planta;
 
 public class PanelCamiones extends PanelPersonalizado {
 
-
-
-	private static void setearFuente(JComponent[] lista) {
-		for(JComponent c : lista){
-			c.setForeground(Color.BLACK);
-			c.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
-		}
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	private JLabel titulo = new JLabel("Administración de Camiones",SwingConstants.CENTER);

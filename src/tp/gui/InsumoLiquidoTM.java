@@ -19,7 +19,7 @@ public class InsumoLiquidoTM extends AbstractTableModel {
 	InsumoLiquidoController controller;
 	
 	private List<InsumoLiquido> data;
-	private String[] columnNames = {"ID", "Descripción","Unidad","Costo","Densidad"};
+	private String[] columnNames = {"ID", "Descripción","Unidad","Costo x U.","Densidad","Stock total"};
 	
 	public InsumoLiquidoTM() {
 		recargarTabla();
@@ -60,6 +60,8 @@ public class InsumoLiquidoTM extends AbstractTableModel {
 			return temp.getCosto_por_unidad();
 		case 4: 
 			return temp.getDensidad();
+		case 5:
+			return temp.getStockTotal();
 		}
 		return null;
 	}

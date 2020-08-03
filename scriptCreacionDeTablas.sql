@@ -74,11 +74,12 @@ CREATE TABLE tp.Detallepedido(
 	primary key (id_insumo, id_pedido)
 );
 CREATE TABLE tp.StockInsumo(
+
 	id_planta integer references tp.Planta(id_planta) on update cascade on delete cascade,
 	id_insumo integer references tp.Insumo(id_insumo) on update cascade on delete cascade,
 	stock integer,
 	punto_de_pedido integer,
-	primary key (id_planta, id_insumo)
+	primary key (id_planta, id_insumo) 
 );
 CREATE TABLE tp.Registro(
 	id_planta integer references tp.StockInsumo(id_planta) on update cascade on delete cascade,

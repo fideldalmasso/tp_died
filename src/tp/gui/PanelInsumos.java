@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -48,9 +49,7 @@ public class PanelInsumos extends PanelPersonalizado {
 	private InsumoGeneralController controllerIG = new InsumoGeneralController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
-	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
-	JComboBox<String> comboBoxAgregarInsumo = new JComboBox<String>(Utilidades.enumToStringArray(Unidad.class));//Es el dropDown de agregar Insumo
-	JComboBox<String> comboBoxTipo = new JComboBox<String>();
+	
 	private JLabel texto_descripcion = new JLabel("Descripcion:",SwingConstants.RIGHT);
 	private JLabel texto_unidad = new JLabel("Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
@@ -59,11 +58,17 @@ public class PanelInsumos extends PanelPersonalizado {
 	private JLabel texto_densidad = new JLabel("Densidad:",SwingConstants.RIGHT);
 	private JLabel texto_peso = new JLabel("Peso:",SwingConstants.RIGHT);
 	private JLabel espacio = new JLabel("          ",SwingConstants.RIGHT);
-	private JTextField campo_id = new JTextField();
+	
+	JComboBox<String> comboBox = new JComboBox<String>();//Es el dropDown de modificar en la Jtable
+	JComboBox<String> comboBoxAgregarInsumo = new JComboBox<String>(Utilidades.enumToStringArray(Unidad.class));//Es el dropDown de agregar Insumo
+	JComboBox<String> comboBoxTipo = new JComboBox<String>();
 	JComboBox<String> comboBoxTipo2 = new JComboBox<String>();
+	
+	private JTextField campo_id = new JTextField();
 	private JTextField campo_descripcion = new JTextField();
 	private JTextField campo_costo = new JTextField();
 	private JTextField dyp = new JTextField();
+	
 	private JButton boton_agregar = botonAgregar("Agregar Insumo");
 	private JButton boton_eliminar = botonEliminar("Eliminar Insumo seleccionado");
 	
@@ -98,6 +103,8 @@ public class PanelInsumos extends PanelPersonalizado {
 		}
 	}
 	
+	
+	
 	private void actualizarTabla() {
 		tableModelLiquidos.fireTableDataChanged();
 		tableModelLiquidos.recargarTabla();
@@ -109,12 +116,13 @@ public class PanelInsumos extends PanelPersonalizado {
 	
 	public PanelInsumos() {
 		super();
+		this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
 		
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
-		titulo.setForeground(Color.WHITE);
+		titulo.setForeground(Color.decode("#dd1c1a"));
 		this.comboBoxTipo.addItem("Líquidos");
 		this.comboBoxTipo.addItem("Generales");
 		
@@ -125,7 +133,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		tabla.setModel(tableModelLiquidos);
 		tabla.setIgnoreRepaint(false);
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
-		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
+		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 	    this.texto_peso.setVisible(false);
@@ -251,6 +259,7 @@ public class PanelInsumos extends PanelPersonalizado {
 					   }
 			notificacionPopUp(m);
 			if(m.exito()) { 
+				
 				actualizarTabla();
 				}
 			
@@ -258,34 +267,21 @@ public class PanelInsumos extends PanelPersonalizado {
 	);
 	
 	//PANEL1------------------------------------------------------------------------------------------------
-		JPanel panel1 = new JPanel();
-		panel1.setLayout(new GridBagLayout());
-		panel1.setOpaque(false);
-		
-		
-		Border borde1 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
-		panel1.setBorder(borde1);
+		JPanel panel1 = crearPanelInterno("Editar/Eliminar");
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
 		
 	//PANEL2------------------------------------------------------------------------------------------------
-		JPanel panel2 = new JPanel();
-		panel2.setLayout(new GridBagLayout());
-		panel2.setOpaque(false);
+		JPanel panel2 = crearPanelInterno("Agregar Insumo");
 		
-		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.YELLOW);
-		borde2 = BorderFactory.createTitledBorder(borde2, "Agregar Insumo", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), Color.white);
-		panel2.setBorder(borde2);
-		texto_descripcion.setForeground(Color.white);
-		texto_unidad.setForeground(Color.white);
-		texto_costo.setForeground(Color.white);
-		texto_densidad.setForeground(Color.white);
-		texto_peso.setForeground(Color.white);
-		texto_tipo2.setForeground(Color.white);
+	
 		this.comboBoxTipo2.addItem("Líquido");
 		this.comboBoxTipo2.addItem("General");
+		
+		setearFuente(new JComponent[]{texto_descripcion,texto_unidad,texto_costo,texto_densidad,texto_peso,texto_tipo2,texto_tipo});
+
+		
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_descripcion);
 		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_unidad);
 		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_costo);
@@ -300,7 +296,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		colocar(4,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
 	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
-		texto_tipo.setForeground(Color.white);
+		
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.titulo);
 		colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,espacio);
 		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,texto_tipo);

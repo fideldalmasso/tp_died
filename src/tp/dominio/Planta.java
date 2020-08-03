@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import tp.dao.Registrable;
+import tp.dao.StockInsumoDAO;
 import tp.enumerados.Estado;
 
 public class Planta{
@@ -49,6 +50,8 @@ public class Planta{
 	public void agregarInsumo(Insumo insumo, Integer stock, Integer puntoDePedido) {
 		// Agregar un insumo e indicar la cantidad de insumo y el punto de pedido que indica para esa planta
 		this.lista_stock_insumos.add(new StockInsumo(this.getId_planta(), insumo.getId_insumo(), stock, puntoDePedido));
+		StockInsumoDAO stockdao = new StockInsumoDAO();
+		stockdao.addAll(insumo);
 	}
 	
 	public void realizarPedido(String id, LocalDate fechaEntrega, LocalDate fechaMaxima,

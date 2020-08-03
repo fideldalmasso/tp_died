@@ -21,7 +21,7 @@ public class InsumoGeneralTM extends AbstractTableModel {
 	InsumoGeneralController controller;
 	
 	private List<InsumoGeneral> data;
-	private String[] columnNames = {"ID", "Descripción","Unidad","Costo","Peso x U."};
+	private String[] columnNames = {"ID", "Descripción","Unidad","Costo x U.","Peso x U.","Stock total"};
 	
 	public InsumoGeneralTM() {
 		recargarTabla();
@@ -62,6 +62,8 @@ public class InsumoGeneralTM extends AbstractTableModel {
 			return temp.getCosto_por_unidad();
 		case 4: 
 			return temp.getPesoPorUnidad();
+		case 5:
+			return temp.getStockTotal();
 		}
 		return null;
 	}
