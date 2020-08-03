@@ -40,6 +40,15 @@ public abstract class PanelPersonalizado extends JPanel{
 	}
 	
 	
+
+	public void setearFuente(JComponent[] lista) {
+		for(JComponent c : lista){
+			c.setForeground(Color.BLACK);
+			c.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
+		}
+	}
+	
+	
 	//Este metodo dibuja la imagen de fondo
 	@Override
 	protected void paintComponent(Graphics g) {

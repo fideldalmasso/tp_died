@@ -1,7 +1,10 @@
 package tp.dominio;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
+import tp.dao.PlantaDAO;
 import tp.enumerados.Unidad;
 
 public class Insumo implements Serializable {
@@ -33,6 +36,21 @@ public class Insumo implements Serializable {
 	public Double pesoPorUnidad(){
 		return 0.0d;
 	};
+	
+	public Integer getStockTotal() {
+			
+			PlantaDAO plantaDao = new PlantaDAO();
+			List<Planta> lista = plantaDao.getAll();
+			Integer stock = 0;
+			for(Planta planta: lista) {
+				Optional<Integer> temp = planta.getLista_stock_insumos().stream().filter(s -> s.getInsumo().equals(this.getId_insumo())).map(t -> t.getStock()).findFirst();
+				if(temp.isPresent()) {
+					stock += temp.get();
+				}
+			}
+		
+		return stock;
+	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
