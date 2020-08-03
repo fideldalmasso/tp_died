@@ -34,6 +34,7 @@ import tp.controller.DetallePedidoController;
 import tp.controller.Mensaje;
 import tp.dominio.DetallePedido;
 import tp.dominio.Pedido;
+import tp.dominio.Planta;
 import tp.controller.PedidoController;
 import tp.controller.PlantaController;
 import tp.dao.PedidoDAO;
@@ -104,6 +105,29 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 		this.scroll_pane_detalle_pedido = new JScrollPane(this.tablaDetallePedido);
 		this.scroll_pane_insumo = new JScrollPane(this.tablaInsumo);
 		
+		//TABLA DETALLE PEDIDO
+		tablaDetallePedido.addMouseListener( new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+		               JTable target = (JTable)e.getSource();
+		               int row = target.getSelectedRow();
+		               int column = target.getSelectedColumn();
+		              
+		               
+		               switch(column) {
+		               case 2:
+		            	   Integer cantidad = (Integer) tablaDetallePedido.getValueAt(row, column);
+		            	   String cantidad_nueva = ingresoPopUp("Ingres� otro valor para: "+cantidad);
+			               if(cantidad_nueva!=null && cantidad_nueva.length()>0) {
+			            	   table_model_detalle_pedido.getDetallePedido(row).setCantidad_de_unidades(Integer.parseInt(cantidad_nueva));
+			            	   actualizarTabla(tablaDetallePedido,table_model_detalle_pedido);
+			               }
+			               break;
+		               }
+				}
+			}
+		});
+		
 		//BOTON AGREGAR INSUMO
 		boton_agregar_insumo.addActionListener(e->{
 			Integer row = tablaInsumo.getSelectedRow();
@@ -135,20 +159,24 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 			List<DetallePedido> detalles = table_model_detalle_pedido.getAll().parallelStream().filter(dp->dp.getCantidad_de_unidades()>0).collect(Collectors.toList());
 			PedidoController controller = new PedidoController();
 			DetallePedidoController cdp = new DetallePedidoController();
-			if(controller.add(nombre_planta_destino,fecha_maxima,detalles).exito()) {
-				PedidoDAO pdd = new PedidoDAO();
-				String id = pdd.getId();
-				Pedido pedido = new Pedido();
-				pedido.setId_pedido(id);
-				for(int i=0; i<detalles.size();i++) {
-					detalles.get(i).setPedido(pedido);
-					notificacionPopUp(cdp.add(detalles.get(i)));
+			if(detalles.parallelStream().filter(d->d.getCantidad_de_unidades()>0).count()>0) {
+				Mensaje m = controller.add(nombre_planta_destino,fecha_maxima,detalles);
+				if(m.exito()) {
+					PedidoDAO pdd = new PedidoDAO();
+					String id = pdd.getId();
+					Pedido pedido = new Pedido();
+					pedido.setId_pedido(id);
+					for(int i=0; i<detalles.size();i++) {
+						detalles.get(i).setPedido(pedido);
+						cdp.add(detalles.get(i));
+					}
+					cambiarPanel(new PanelPedidos());
+				}else {
+					notificacionPopUp(m);
 				}
 			}else {
-				notificacionPopUp(controller.add(nombre_planta_destino,fecha_maxima,detalles));
+				notificacionPopUp(new Mensaje(false,"Error: al menos un insumo debe tener una cantidad mayor a 0."));
 			}
-				
-			cambiarPanel(new PanelPedidos());
 		});
 			
 		//PANEL1

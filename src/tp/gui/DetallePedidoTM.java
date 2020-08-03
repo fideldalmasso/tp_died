@@ -5,16 +5,20 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import tp.controller.InsumoController;
+import tp.controller.DetallePedidoController;
 import tp.dominio.DetallePedido;
 import tp.dominio.Insumo;
 
 public class DetallePedidoTM extends AbstractTableModel{
-	
+	DetallePedidoController controller = new DetallePedidoController();
 	
 	private List<DetallePedido> data = new ArrayList<DetallePedido>();
 	private String[] columnNames = {"Nombre", "Precio unitario","Cantidad","Monto total"};
 	
+	public void recargarTabla(String id_pedido) {
+		controller = new DetallePedidoController();
+		this.data = controller.getAll(id_pedido);
+	}
 	
 	@Override
 	public int getRowCount() {

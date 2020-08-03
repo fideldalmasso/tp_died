@@ -31,4 +31,8 @@ public class DetallePedidoController {
 	public List<DetallePedido> getAll(){
 		return service.getAll();
 	}
+	
+	public List<DetallePedido> getAll(String id_pedido){
+		return service.getAll(id_pedido);
+	}
 }

@@ -39,4 +39,8 @@ public class DetallePedidoService {
 	public List<DetallePedido> getAll(){
 		return dao.getAll();
 	}
+	
+	public List<DetallePedido> getAll(String id_pedido){
+		return dao.getAll(id_pedido);
+	}
 }

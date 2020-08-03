@@ -25,9 +25,9 @@ public class PedidoDAO implements Registrable<Pedido>{
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.Pedido VALUES (default,?,?,?,?,?,?,CAST (? AS tp.EstadoPedido),?);");
-			pstm.setInt(1,Integer.parseInt(en.getPlanta_destino().getId_planta()));
+			pstm.setNull(1,0);
 			pstm.setInt(2,Integer.parseInt(en.getPlanta_destino().getId_planta()));
-			pstm.setInt(3,1);
+			pstm.setNull(3,0);
 			pstm.setDate(4,Date.valueOf(en.getFecha_solicitud()));
 			pstm.setNull(5,0);
 			pstm.setDate(6, Date.valueOf(en.getFecha_maxima()));
@@ -111,6 +111,25 @@ public class PedidoDAO implements Registrable<Pedido>{
 		return m;
 	}
 	
+	public Boolean updateEstado(Pedido original, Pedido nuevo) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(
+					"UPDATE tp.Pedido SET estado_pedido = CAST(? AS tp.estadopedido) WHERE id_Pedido=?");
+			pstm.setString(1,nuevo.getEstado_pedido().toString());
+			pstm.setInt(2,Integer.parseInt(original.getId_pedido()));
+			return pstm.executeUpdate() == 1;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return false;
+	}
+	
 	@Override
 	public List<Pedido> getAll(){
 		Connection con = DataBase.getConexion();
@@ -123,6 +142,38 @@ public class PedidoDAO implements Registrable<Pedido>{
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
 				lista.add(parsearRS(rs));
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return lista;
+	}
+	
+	public List<Pedido> getCreados(){
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<Pedido> lista = new ArrayList<Pedido>();
+		try {
+			pstm = con.prepareStatement(
+					"SELECT * FROM tp.Pedido WHERE estado_pedido='CREADA';");
+			rs = pstm.executeQuery();
+			PlantaDAO dao1 = new PlantaDAO();
+			while(rs.next()) {
+				lista.add(new Pedido(Integer.toString(rs.getInt(1)),
+						null,
+						dao1.get(Integer.toString(rs.getInt(3))).orElse(null),
+						null,
+						rs.getDate(5).toLocalDate(),
+						null,
+						rs.getDate(7).toLocalDate(),
+						Estado.valueOf(rs.getString(8)),
+						null));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -159,11 +210,14 @@ public class PedidoDAO implements Registrable<Pedido>{
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
+		Integer max=0;
 		try {
 			pstm = con.prepareStatement(
-					"SELECT max(id_pedido) FROM tp.pedido ;");
+					"SELECT id_pedido FROM tp.pedido ;");
 			rs = pstm.executeQuery();
-			return Integer.toString(rs.getInt(1));
+			while (rs.next()) {
+				if(rs.getInt(1)>max) max=rs.getInt(1);
+			};
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
 		}
@@ -172,7 +226,7 @@ public class PedidoDAO implements Registrable<Pedido>{
 			DataBase.cerrarPstm(pstm);
 			DataBase.cerrarConexion(con);
 		}
-		return "";
+		return Integer.toString(max);
 	}
 	
 }
