@@ -130,18 +130,39 @@ public class DetallePedidoDAO implements Registrable<DetallePedido>{
 		}
 		return lista;
 	}
+	
+	public List<DetallePedido> getAll(String id_pedido){
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<DetallePedido> lista = new ArrayList<DetallePedido>();
+		try {
+			pstm = con.prepareStatement(
+					"SELECT * FROM tp.DetallePedido WHERE id_pedido=?;");
+			System.out.println(id_pedido);
+			pstm.setInt(1, Integer.parseInt(id_pedido));
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				lista.add(this.parsearRS(rs));
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		System.out.println(lista);
+		return lista;
+	}
 
 	
 
 	DetallePedido parsearRS(ResultSet rs) throws SQLException {
-
-		Insumo insumoTemp = new InsumoDAO().get(rs.getString(1)).get();
-		
+		Insumo insumoTemp = new InsumoDAO().get(Integer.toString(rs.getInt(1))).get();
 		//Ruta rutaTemp = new RutaDAO().get(rs.getString(2)).get();
-
-		Pedido pedidoTemp = new PedidoDAO().get(rs.getString(2)).get();
-		
-		return new DetallePedido(insumoTemp, pedidoTemp, rs.getInt(3));
+		return new DetallePedido(insumoTemp, null, rs.getInt(3));
 	}
 }
 

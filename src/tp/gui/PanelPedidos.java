@@ -116,6 +116,13 @@ public class PanelPedidos extends PanelPersonalizado{
 		//BOTON CANCELAR
 		boton_cancelar.addActionListener(e -> cancelar());
 		
+		//BOTON VER DETALLE
+		boton_ver_detalle.addActionListener(e ->{
+			Integer row = tabla.getSelectedRow();
+			String val = (String) tabla.getValueAt(row, 0);
+			cambiarPanel(new PanelDetallePedido(val));
+		});
+		
 		//PANEL1
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
