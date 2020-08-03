@@ -58,6 +58,10 @@ public class PedidoController {
 		}
 	}
 	
+	public Mensaje updateEstado(Pedido original, Pedido nuevo) {
+		return service.updateEstado(original,nuevo);
+	}
+	
 	public List<Pedido> getAll(){
 		return service.getAll();
 	}

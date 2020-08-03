@@ -139,7 +139,6 @@ public class DetallePedidoDAO implements Registrable<DetallePedido>{
 		try {
 			pstm = con.prepareStatement(
 					"SELECT * FROM tp.DetallePedido WHERE id_pedido=?;");
-			System.out.println(id_pedido);
 			pstm.setInt(1, Integer.parseInt(id_pedido));
 			rs = pstm.executeQuery();
 			while(rs.next()) {

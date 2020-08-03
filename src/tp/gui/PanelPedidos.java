@@ -60,7 +60,7 @@ public class PanelPedidos extends PanelPersonalizado{
 			Pedido nuevo = new Pedido(original.getId_pedido(),original.getPlanta_origen(), original.getPlanta_destino()
 					,original.getEnvio(),original.getFecha_solicitud(), original.getFecha_entrega(),
 					original.getFecha_maxima(), Estado.CANCELADA, original.getCosto_pedido());
-			notificacionPopUp(controller.update(original, nuevo));
+			notificacionPopUp(controller.updateEstado(original, nuevo));
 			actualizarTabla();
 		}
 	}
@@ -119,8 +119,12 @@ public class PanelPedidos extends PanelPersonalizado{
 		//BOTON VER DETALLE
 		boton_ver_detalle.addActionListener(e ->{
 			Integer row = tabla.getSelectedRow();
-			String val = (String) tabla.getValueAt(row, 0);
-			cambiarPanel(new PanelDetallePedido(val));
+			if(row==-1) {
+				notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
+			}else {
+				String val = (String) tabla.getValueAt(row, 0);
+				cambiarPanel(new PanelDetallePedido(val));
+			}
 		});
 		
 		//PANEL1

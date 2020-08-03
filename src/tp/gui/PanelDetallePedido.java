@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,10 +21,6 @@ import javax.swing.border.TitledBorder;
 
 import tp.app.App;
 import tp.controller.DetallePedidoController;
-import tp.controller.Mensaje;
-import tp.controller.PedidoController;
-import tp.dominio.Pedido;
-import tp.enumerados.Estado;
 
 public class PanelDetallePedido extends PanelPersonalizado{
 	private static final long serialVersionUID = 2L;
@@ -95,8 +90,6 @@ public class PanelDetallePedido extends PanelPersonalizado{
 		boton_volver.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_volver);
-		
-		String[] items = {"Creados","Procesados","Entregados","Cancelados"};
 		
 		//ORGANIZACION DE PANELES
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);

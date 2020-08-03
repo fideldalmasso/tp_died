@@ -111,6 +111,25 @@ public class PedidoDAO implements Registrable<Pedido>{
 		return m;
 	}
 	
+	public Boolean updateEstado(Pedido original, Pedido nuevo) {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		try {
+			pstm = con.prepareStatement(
+					"UPDATE tp.Pedido SET estado_pedido = CAST(? AS tp.estadopedido) WHERE id_Pedido=?");
+			pstm.setString(1,nuevo.getEstado_pedido().toString());
+			pstm.setInt(2,Integer.parseInt(original.getId_pedido()));
+			return pstm.executeUpdate() == 1;
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return false;
+	}
+	
 	@Override
 	public List<Pedido> getAll(){
 		Connection con = DataBase.getConexion();

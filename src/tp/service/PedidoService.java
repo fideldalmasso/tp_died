@@ -36,6 +36,12 @@ public class PedidoService {
 				
 	}
 	
+	public Mensaje updateEstado(Pedido original, Pedido nuevo) {
+		if(dao.updateEstado(original,nuevo))
+			return new Mensaje(true,"");
+		else
+			return new Mensaje(false,"No se puede actualizar la fila (Error en la DB)");
+	}
 	
 	public List<Pedido> getAll(){
 		return dao.getAll();

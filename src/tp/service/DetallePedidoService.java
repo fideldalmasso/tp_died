@@ -41,6 +41,6 @@ public class DetallePedidoService {
 	}
 	
 	public List<DetallePedido> getAll(String id_pedido){
-		return dao.getAll();
+		return dao.getAll(id_pedido);
 	}
 }
