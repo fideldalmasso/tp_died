@@ -29,6 +29,8 @@ insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
 ('NIM094',2,'modelo2',0.0,400,1000,'2020-01-17');
 
+insert into tp.envio values
+(1,null,null);
 
 insert into tp.insumo values 
 (default,'Arena','KILO',100);

@@ -9,6 +9,7 @@ import javax.swing.table.TableModel;
 
 import tp.controller.InsumoController;
 import tp.controller.MarcaController;
+import tp.dominio.DetallePedido;
 import tp.dominio.Insumo;
 import tp.dominio.Marca;
 
@@ -17,7 +18,7 @@ public class InsumoTM extends AbstractTableModel {
 	InsumoController controller;
 	
 	private List<Insumo> data;
-	private String[] columnNames = {"ID", "Descripción","Unidad","Costo"};
+	private String[] columnNames = {"ID", "Descripciï¿½n","Unidad","Costo"};
 	
 	public InsumoTM() {
 		recargarTabla();
@@ -68,6 +69,18 @@ public class InsumoTM extends AbstractTableModel {
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return false;
+	}
+	
+	public Insumo getInsumo(Integer row) {
+		return data.get(row);
+	}
+	
+	public void addInsumo(DetallePedido dp) {
+		data.add(dp.getInsumo());
+	}
+	
+	public void deleteInsumo(Integer row) {
+		data.remove(data.get(row));
 	}
 
 }

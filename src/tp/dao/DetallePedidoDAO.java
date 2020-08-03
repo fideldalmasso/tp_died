@@ -23,8 +23,8 @@ public class DetallePedidoDAO implements Registrable<DetallePedido>{
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.DetallePedido VALUES (?,?,?);");
-			pstm.setString(1, dp.getInsumo().getId_insumo());
-			pstm.setString(2, dp.getPedido().getId_pedido());
+			pstm.setInt(1, Integer.parseInt(dp.getInsumo().getId_insumo()));
+			pstm.setInt(2, Integer.parseInt(dp.getPedido().getId_pedido()));
 			pstm.setInt(3,dp.getCantidad_de_unidades());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {

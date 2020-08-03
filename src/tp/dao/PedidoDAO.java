@@ -24,16 +24,15 @@ public class PedidoDAO implements Registrable<Pedido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"INSERT INTO tp.Pedido VALUES (default,?,?,?,?,?,?,?,?);");
-			pstm.setInt(1, Integer.parseInt(en.getPlanta_origen().getId_planta()));
-			pstm.setInt(2, Integer.parseInt(en.getPlanta_destino().getId_planta()));
-			pstm.setNull(3,0);
+					"INSERT INTO tp.Pedido VALUES (default,?,?,?,?,?,?,CAST (? AS tp.EstadoPedido),?);");
+			pstm.setInt(1,Integer.parseInt(en.getPlanta_destino().getId_planta()));
+			pstm.setInt(2,Integer.parseInt(en.getPlanta_destino().getId_planta()));
+			pstm.setInt(3,1);
 			pstm.setDate(4,Date.valueOf(en.getFecha_solicitud()));
 			pstm.setNull(5,0);
 			pstm.setDate(6, Date.valueOf(en.getFecha_maxima()));
 			pstm.setString(7,en.getEstado_pedido().toString());
 			pstm.setNull(8,0);
-			
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -154,6 +153,26 @@ public class PedidoDAO implements Registrable<Pedido>{
 							Estado.valueOf(rs.getString(8)),
 							rs.getDouble(9));
 		
+	}
+	
+	public String getId() {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+			pstm = con.prepareStatement(
+					"SELECT max(id_pedido) FROM tp.pedido ;");
+			rs = pstm.executeQuery();
+			return Integer.toString(rs.getInt(1));
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return "";
 	}
 	
 }

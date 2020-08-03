@@ -56,4 +56,20 @@ public class DetallePedidoTM extends AbstractTableModel{
 	public boolean isCellEditable(int row, int col) {
 		return false;
 	}
+	
+	public List<DetallePedido> getAll(){
+		return data;
+	}
+	
+	public DetallePedido getDetallePedido(Integer row) {
+		return data.get(row);
+	}
+	
+	public void addDetallePedido(Insumo insumo) {
+		data.add(new DetallePedido(insumo,null,0));
+	}
+	
+	public void deleteDetallePedido(Integer row) {
+		data.remove(data.get(row));
+	}
 }
