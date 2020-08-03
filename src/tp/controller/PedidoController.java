@@ -45,14 +45,11 @@ public class PedidoController {
 	
 	public Mensaje update(Pedido original, Pedido nuevo) {
 		String error = "Error: ";
-		if(nuevo.getLista_detalle_pedidos().size()>0 &&
-			nuevo.getFecha_maxima()!=null &&
+		if(nuevo.getFecha_maxima()!=null &&
 			nuevo.getPlanta_destino()!=null) {
-			return service.add(nuevo);
+			return service.update(original,nuevo);
 		}else {
-			if(nuevo.getLista_detalle_pedidos().size()==0) {
-				error+="debe seleccionar al menos un item, ";
-			} else if(nuevo.getFecha_maxima()==null) {
+			if(nuevo.getFecha_maxima()==null) {
 				error+="debe ingresar la fecha maxima ";
 			} else if(nuevo.getPlanta_destino()==null) {
 				error+="debe ingresar la planta de destino";

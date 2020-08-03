@@ -8,26 +8,24 @@ import java.util.stream.Collectors;
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PedidoController;
+import tp.dao.PedidoDAO;
 import tp.dominio.Pedido;
+import tp.enumerados.Estado;
 
 public class PedidoTM extends AbstractTableModel {
 	PedidoController controller;
-	private Predicate<Pedido> filtro;
+	Estado estado;
 	private List<Pedido> data;
 	private String[] columnNames = {"Id Pedido","Destino","Fecha Solicitud","Fecha Maxima"};
 	
-	public void setFiltro(Predicate<Pedido> p) {
-		filtro=p;
-	}
-	
-	public PedidoTM(Predicate<Pedido> filtro) {
-		this.filtro=filtro;
+	public PedidoTM(Estado estado) {
+		this.estado=estado;
 		recargarTabla();
 	}
 	
 	public void recargarTabla() {
-		controller = new PedidoController();
-		this.data = controller.getAll().parallelStream().filter(filtro).collect(Collectors.toList());
+		PedidoDAO pd = new PedidoDAO();
+		this.data = pd.getCreados();
 	}
 	
 	@Override
@@ -48,17 +46,17 @@ public class PedidoTM extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Pedido temp = data.get(rowIndex);
-		switch(columnIndex) {
-		case 0:
-			return temp.getId_pedido();
-		case 1:
-			return temp.getPlanta_origen();
-		case 2:
-			return temp.getPlanta_destino();
-		case 3:
-			return temp.getFecha_solicitud();
-		case 4:
-			return temp.getFecha_maxima();
+		if(this.estado==Estado.CREADA) {
+			switch(columnIndex) {
+			case 0:
+				return temp.getId_pedido();
+			case 1:
+				return temp.getPlanta_destino();
+			case 2:
+				return temp.getFecha_solicitud();
+			case 3:
+				return temp.getFecha_maxima();
+			}
 		}
 		return null;
 	}

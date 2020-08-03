@@ -89,9 +89,7 @@ public class PanelPedidos extends PanelPersonalizado{
 		titulo.setForeground(color_titulo);
 		
 		//TABLA
-		Predicate<Pedido> p = ped -> ped.getEstado_pedido()==Estado.CREADA;
-		tableModel = new PedidoTM(p);
-		tableModel.setFiltro(p);
+		tableModel = new PedidoTM(Estado.CREADA);
 		tabla = new JTable();
 		tabla.setModel(tableModel);
 		tabla.setIgnoreRepaint(false);
