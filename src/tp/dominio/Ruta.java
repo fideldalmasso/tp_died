@@ -52,19 +52,28 @@ public class Ruta {
 	}
 	
 	@Override
-	public boolean equals(Object r) {
-		Ruta r1;
-		if(r.getClass()==this.getClass()) {
-			r1 = (Ruta) r;
-		}else {
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id_ruta == null) ? 0 : id_ruta.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
-		return this.id_ruta==r1.id_ruta /*&&
-		this.planta_origen==r1.planta_origen &&
-		this.planta_destino==r1.planta_destino &&
-		this.duracion_en_minutos==r1.duracion_en_minutos &&
-		this.distancia_en_km==r1.distancia_en_km &&
-		this.peso_maximo_por_dia_en_kg==r1.peso_maximo_por_dia_en_kg*/;
+		if (getClass() != obj.getClass())
+			return false;
+		Ruta other = (Ruta) obj;
+		if (id_ruta == null) {
+			if (other.id_ruta != null)
+				return false;
+		} else if (!id_ruta.equals(other.id_ruta))
+			return false;
+		return true;
 	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------

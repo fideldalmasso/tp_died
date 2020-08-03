@@ -34,4 +34,8 @@ public class PlantaController {
 	public List<Planta> getAll(){
 		return service.getAll();
 	}
+	
+	public List<Planta> getAll(String id_pedido){
+		return service.getAll(id_pedido);
+	}
 }

@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class Empresa {
 	private String id_empresa;
-	private List<Ruta> rutas;
-	private List<Planta> plantas;
+	private List<Ruta> rutas = new ArrayList<Ruta>();
+	private List<Planta> plantas = new ArrayList<Planta>();
 	private Planta planta_puerto;
 	private Planta planta_final;
 	
@@ -31,19 +31,25 @@ public class Empresa {
 		this.plantas = new ArrayList<Planta>();
 	}
 	
+	public Empresa(List<Ruta> rutas, List<Planta> plantas) {
+		super();
+		this.rutas = rutas;
+		this.plantas = plantas;
+	}
+	
 	public void agregarRuta(String id,Double distancia,Double duracion,Double peso_maximo_dia,String planta_origen,String planta_destino) {
 		rutas.add(new Ruta(id,this.getPlanta(planta_origen),this.getPlanta(planta_destino),distancia,duracion,peso_maximo_dia));
 		//rutas.add(new Ruta(id,distancia,duracion,peso_maximo_dia,peso_utilizado,this.getPlanta(planta_origen),this.getPlanta(planta_destino)));
 	}
 	
 	public void agregarPlanta(String nombre){
-		plantas.add(new Planta(nombre));
+		plantas.add(new Planta("1",nombre));
 	}
 	
 	public List<Ruta> getRutas(Planta origen){
 		List<Ruta> adyacentes = new ArrayList<Ruta>();
 		for(int i=0;i<this.rutas.size();i++) {
-			if(this.rutas.get(i).getOrigen()==origen){
+			if(this.rutas.get(i).getOrigen().equals(origen)){
 				adyacentes.add(this.rutas.get(i));
 			}
 		}
@@ -52,7 +58,6 @@ public class Empresa {
 	
 	public Planta getPlanta(String nombre_planta) {
 		Planta ans = null;
-		
 		for(int i=0;i<this.plantas.size();i++) {
 			if(this.plantas.get(i).nombreIgual(nombre_planta)) {
 				ans=this.plantas.get(i);
@@ -280,7 +285,7 @@ public class Empresa {
 		List<Ruta> adyacentes = this.getRutas(origen);
 		for(int i=0;i<adyacentes.size();i++) {
 			List<Ruta> copiaMarcados = marcados.stream().collect(Collectors.toList());
-			if(adyacentes.get(i).getDestino()==destino) {
+			if(adyacentes.get(i).getDestino().equals(destino)) {
 				copiaMarcados.add(adyacentes.get(i));
 				salida.add(copiaMarcados);
 			}else if(!copiaMarcados.contains(adyacentes.get(i))){

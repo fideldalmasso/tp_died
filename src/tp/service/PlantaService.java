@@ -42,4 +42,8 @@ public class PlantaService {
 		return dao.getAll();
 	}
 	
+	public List<Planta> getAll(String id_pedido){
+		return dao.getAll(id_pedido);
+	}
+	
 }
