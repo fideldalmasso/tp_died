@@ -19,11 +19,7 @@ insert into tp.modelo values
 ('modelo6','Daf');
 
 insert into tp.planta values
-(default, 'Planta1'),
-(default, 'Planta2'),
-(default, 'Planta3'),
-(default, 'Planta4'),
-(default, 'Planta5');
+(default, 'Planta1');
 
 insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
@@ -32,12 +28,5 @@ insert into tp.camion values
 insert into tp.envio values
 (1,null,null);
 
-insert into tp.insumo values 
-(default,'Arena','KILO',100);
 
-insert into tp.insumoLiquido values 
-(default,300);
-
-insert into tp.stockInsumo values
-(1,1,0,0);
 

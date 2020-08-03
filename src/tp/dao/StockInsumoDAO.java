@@ -45,7 +45,7 @@ public class StockInsumoDAO {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.StockInsumo "
 					+ "SELECT planta.id_planta, insumo.id_insumo, 0, 0"
-					+ " FROM tp.planta planta, tp.insumo insumo"
+					+ " FROM  tp.planta planta, tp.insumo insumo"
 					+ " WHERE planta.nombre=?;");
 			pstm.setString(1, planta.getNombre());
 			return pstm.executeUpdate() == 1;
@@ -65,8 +65,7 @@ public class StockInsumoDAO {
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.StockInsumo "
-					+ "SELECT planta.id_planta, ?, 0, 0"
-					+ " FROM tp.planta planta, tp.insumo insumo");
+					+ "SELECT  planta.id_planta, ?, 0, 0 FROM tp.planta planta ");
 			pstm.setInt(1, Integer.parseInt(insumo.getId_insumo()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
