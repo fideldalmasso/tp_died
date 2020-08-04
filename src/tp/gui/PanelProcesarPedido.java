@@ -82,7 +82,6 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 		String[] items = pc.getAll(pedido.getId_pedido()).parallelStream().map(p->p.getNombre()).collect(Collectors.toList()).toArray(new String[0]);
 		if(items.length==0) {
 			notificacionPopUp(new Mensaje(false,"No hay plantas que puedan satisfacer el pedido."));
-			
 			cambiarPanel(new PanelPedidos());
 		}else {
 			this.setLayout(new GridBagLayout());

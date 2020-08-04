@@ -1,10 +1,6 @@
 package tp.gui;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PedidoController;
@@ -20,12 +16,22 @@ public class PedidoTM extends AbstractTableModel {
 	
 	public PedidoTM(Estado estado) {
 		this.estado=estado;
+		if(this.estado==Estado.CREADA || this.estado==Estado.CANCELADA) {
+			String[] aux = {"Id Pedido","Destino","Fecha Solicitud","Fecha Maxima"};
+			columnNames = aux;
+		}else if(this.estado==Estado.PROCESADA) {
+			String[] aux = {"Id Pedido","Origen","Destino","Id_envio","Fecha Solicitud","Fecha Maxima","Costo Total"};
+			columnNames = aux;
+		}else if(this.estado==Estado.ENTREGADA){
+			String[] aux = {"Id Pedido","Origen","Destino","Id_envio","Fecha Solicitud","Fecha Entrega","Fecha Maxima","Costo Total"};
+			columnNames = aux;
+		}
 		recargarTabla();
 	}
 	
 	public void recargarTabla() {
-		PedidoDAO pd = new PedidoDAO();
-		this.data = pd.getCreados();
+		PedidoController pc = new PedidoController();
+		this.data = pc.getEstado(this.estado);
 	}
 	
 	@Override
@@ -47,6 +53,28 @@ public class PedidoTM extends AbstractTableModel {
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Pedido temp = data.get(rowIndex);
 		if(this.estado==Estado.CREADA) {
+			switch(columnIndex) {
+			case 0:
+				return temp.getId_pedido();
+			case 1:
+				return temp.getPlanta_destino();
+			case 2:
+				return temp.getFecha_solicitud();
+			case 3:
+				return temp.getFecha_maxima();
+			}
+		} else if (this.estado==Estado.PROCESADA) {
+			switch(columnIndex) {
+			case 0:
+				return temp.getId_pedido();
+			case 1:
+				return temp.getPlanta_destino();
+			case 2:
+				return temp.getFecha_solicitud();
+			case 3:
+				return temp.getFecha_maxima();
+			}
+		} else {
 			switch(columnIndex) {
 			case 0:
 				return temp.getId_pedido();
