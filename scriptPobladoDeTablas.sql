@@ -50,7 +50,7 @@ insert into tp.stockinsumo values
 (1,1,100,20);
 
 insert into tp.pedido values
-(1,null,5,null,'03-08-2020',null,'10-10-2020','CREADA',null);
+(default,null,5,null,'08-03-2020',null,'10-10-2020','CREADA',null);
 
 insert into tp.detallepedido values
 (1,1,5);

@@ -48,6 +48,10 @@ public class CamionController {
 
 	}
 
+	public Mensaje update(Camion original, Camion nuevo) {
+		return service.update(original, nuevo);
+	}
+	
 	//	public Mensaje delete(String nombre) {
 	//		return service.delete(nombre);
 	//	}

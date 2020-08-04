@@ -70,7 +70,7 @@ public class CamionDAO implements Registrable<Camion>{
 					"UPDATE tp.Camion SET id_planta=?, "
 					+ "distancia_recorrida_en_km=?, "
 					+ "costo_por_km=?, "
-					+ "costo_por_hora=?, "
+					+ "costo_por_hora=? "
 					+ "WHERE id_camion=?");
 			pstm.setInt(1, Integer.parseInt(nuevo.getPlanta().getId_planta()));
 			pstm.setDouble(2, nuevo.getDistancia_recorrida_en_km());

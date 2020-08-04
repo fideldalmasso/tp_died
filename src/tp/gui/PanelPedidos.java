@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import java.util.function.Predicate;
 
 import javax.swing.BorderFactory;
@@ -46,6 +47,7 @@ public class PanelPedidos extends PanelPersonalizado{
 	private JButton boton_ver_detalle = botonBusqueda("Ver Detalle");
 	private JButton boton_agregar = botonAgregar("Agregar Pedido");
 	private JButton boton_procesar = new JButton("Procesar Pedido",emoji("icon/envio.png",24,24));
+	private JButton boton_entregar = new JButton("Entregar Pedido",emoji("icon/pedido.png",24,24));
 	private JLabel texto_estados = new JLabel("Cambiar vista:");
 	private JComboBox<String> campo_estados = new JComboBox<String>(Utilidades.enumToStringArray(Estado.class)); 
 	private JLabel espacio = new JLabel(" ");
@@ -138,8 +140,24 @@ public class PanelPedidos extends PanelPersonalizado{
 			}
 		});
 		
+		//BOTON ENTREGAR
+		boton_entregar.addActionListener(e ->{
+			int row = tabla.getSelectedRow();
+			if(row==-1) {
+				notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
+			}else {
+				Pedido original = tableModel.getPedido(row);
+				Pedido nuevo = new Pedido(original.getId_pedido(),original.getPlanta_origen(), original.getPlanta_destino()
+						,original.getEnvio(),original.getFecha_solicitud(), LocalDate.now(),
+						original.getFecha_maxima(), Estado.ENTREGADA, original.getCosto_pedido());
+				notificacionPopUp(controller.updateEstado(original, nuevo));
+				actualizarTabla();
+			}
+		});
+		
 		//BOTON CANCELAR
 		boton_cancelar.addActionListener(e -> cancelar());
+		
 		
 		//CAMPO VISTAS
 		campo_estados.addActionListener(e->{
@@ -149,18 +167,22 @@ public class PanelPedidos extends PanelPersonalizado{
 			tabla.setModel(tableModel);
 			if(estado==Estado.CREADA) {
 				titulo.setText("Pedidos Creados");
+				boton_entregar.setVisible(false);
 				boton_procesar.setVisible(true);
 				boton_cancelar.setVisible(true);
 			}else if(estado==Estado.PROCESADA) {
 				titulo.setText("Pedidos Procesados");
+				boton_entregar.setVisible(true);
 				boton_procesar.setVisible(false);
-				boton_cancelar.setVisible(true);
+				boton_cancelar.setVisible(false);
 			}else if(estado==Estado.ENTREGADA) {
 				titulo.setText("Pedidos Entregados");
+				boton_entregar.setVisible(false);
 				boton_procesar.setVisible(false);
-				boton_cancelar.setVisible(true);
+				boton_cancelar.setVisible(false);
 			}else if(estado==Estado.CANCELADA) {
 				titulo.setText("Pedidos Cancelados");
+				boton_entregar.setVisible(false);
 				boton_procesar.setVisible(false);
 				boton_cancelar.setVisible(false);
 			}
@@ -177,12 +199,15 @@ public class PanelPedidos extends PanelPersonalizado{
 		borde1 = BorderFactory.createTitledBorder(borde1, "Editar / Eliminar", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), color_borde);
 		panel1.setBorder(borde1);
 		
-		colocar(0,0,4,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
+		colocar(0,0,5,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
 		colocar(0,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_agregar);
 		colocar(1,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_ver_detalle);
 		boton_procesar.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_procesar);
-		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_cancelar);
+		boton_entregar.setVisible(false);
+		boton_entregar.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_entregar);
+		colocar(4,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_cancelar);
 		
 		//ORGANIZACION DE PANELES
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);
