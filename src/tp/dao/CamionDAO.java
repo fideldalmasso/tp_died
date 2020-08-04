@@ -137,6 +137,39 @@ public class CamionDAO implements Registrable<Camion>{
 		return lista;
 	}
 	
+	public Camion getDisponible(String nombre_planta){
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Camion disponible = null;
+		try {
+			pstm = con.prepareStatement(
+					"select ca.id_camion, ca.id_planta, ca.modelo, ca.distancia_recorrida_en_km, ca.costo_por_km, ca.Costo_por_hora, ca.fecha_de_compra " + 
+					"from tp.camion ca, tp.planta pl " + 
+					"where pl.id_planta=ca.id_planta and pl.nombre=? and not exists( " + 
+					"	(select ped.id_pedido " + 
+					"	from tp.pedido ped " + 
+					"	where ped.estado_pedido='PROCESADA') " + 
+					"	intersect " + 
+					"	(select ped.id_pedido " + 
+					"	from tp.pedido ped, tp.envio env " + 
+					"	where ped.id_envio=env.id_envio and env.id_camion=ca.id_camion) " + 
+					")" +
+					"order by ca.distancia_recorrida_en_km asc "+
+					"limit 1");
+			pstm.setString(1, nombre_planta);
+			rs = pstm.executeQuery();
+			if(rs.next()) disponible = parsearRS(rs);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return disponible;
+	}
 	
 	private Camion parsearRS(ResultSet rs) throws SQLException {
 		//ModeloDAO modeloDAOTemp = new ModeloDAO();

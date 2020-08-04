@@ -10,20 +10,19 @@ import java.util.Optional;
 
 import tp.dominio.*;
 
-public class ASeguirEnDAO implements Registrable<ASeguirEn>{
+public class ASeguirEnDAO {
 
 	public ASeguirEnDAO() {
 		super();
 	}
 
-	@Override
 	public Boolean add(ASeguirEn a) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
 					"INSERT INTO tp.ASeguirEn VALUES (?,?,?);");
-			pstm.setString(1, a.getEnvio().getId_envio());
+			pstm.setInt(1, Integer.parseInt(a.getEnvio().getId_envio()));
 			pstm.setString(2, a.getRuta().getId_ruta());
 			pstm.setInt(3,a.getOrden());
 			return pstm.executeUpdate() == 1;
@@ -37,14 +36,13 @@ public class ASeguirEnDAO implements Registrable<ASeguirEn>{
 		return false;
 	}
 
-	@Override
 	public Boolean delete(String ...ids) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
 					"DELETE FROM tp.ASeguirEn WHERE id_envio=? AND id_ruta=?;");
-			pstm.setString(1, ids[0]);
+			pstm.setInt(1, Integer.parseInt(ids[0]));
 			pstm.setString(2, ids[1]);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
@@ -57,18 +55,15 @@ public class ASeguirEnDAO implements Registrable<ASeguirEn>{
 		return false;
 	}
 
-	@Override
-	public Boolean update(ASeguirEn original, ASeguirEn nuevo) {
+	public Boolean update(ASeguirEn nuevo) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.ASeguirEn SET id_envio=?, id_ruta=?, orden=? WHERE id_envio=? AND id_ruta=?");
-			pstm.setString(1, nuevo.getEnvio().getId_envio());
-			pstm.setString(2, nuevo.getRuta().getId_ruta());
+					"UPDATE tp.ASeguirEn SET  orden=? WHERE id_envio=? AND id_ruta=?");
 			pstm.setInt(3,nuevo.getOrden());
-			pstm.setString(4, original.getEnvio().getId_envio());
-			pstm.setString(5, original.getRuta().getId_ruta());
+			pstm.setInt(4, Integer.parseInt(nuevo.getEnvio().getId_envio()));
+			pstm.setString(5, nuevo.getRuta().getId_ruta());
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -80,7 +75,6 @@ public class ASeguirEnDAO implements Registrable<ASeguirEn>{
 		return false;
 	}
 
-	@Override
 	public Optional<ASeguirEn> get(String ...ids) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
@@ -107,7 +101,6 @@ public class ASeguirEnDAO implements Registrable<ASeguirEn>{
 		return m;
 	}
 
-	@Override
 	public List<ASeguirEn> getAll(){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
