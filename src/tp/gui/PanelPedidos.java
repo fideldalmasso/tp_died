@@ -26,14 +26,17 @@ import javax.swing.border.TitledBorder;
 import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PedidoController;
+import tp.controller.Utilidades;
 import tp.dominio.Pedido;
 import tp.enumerados.Estado;
+import tp.enumerados.Unidad;
 
 public class PanelPedidos extends PanelPersonalizado{
 	private static final long serialVersionUID = 2L;
 
 	private JLabel titulo = new JLabel("Pedidos Creados",SwingConstants.CENTER);
 	
+	private Estado estado;
 	private PedidoTM tableModel;
 	private PedidoController controller = new PedidoController();
 	private JScrollPane scroll_pane;
@@ -44,7 +47,7 @@ public class PanelPedidos extends PanelPersonalizado{
 	private JButton boton_agregar = botonAgregar("Agregar Pedido");
 	private JButton boton_procesar = new JButton("Procesar Pedido",emoji("icon/envio.png",24,24));
 	private JLabel texto_estados = new JLabel("Cambiar vista:");
-	private JComboBox<String> campo_estados = new JComboBox<String>(); 
+	private JComboBox<String> campo_estados = new JComboBox<String>(Utilidades.enumToStringArray(Estado.class)); 
 	private JLabel espacio = new JLabel(" ");
 	
 	private static Color color_borde =  Color.decode("#33658a");
@@ -138,6 +141,32 @@ public class PanelPedidos extends PanelPersonalizado{
 		//BOTON CANCELAR
 		boton_cancelar.addActionListener(e -> cancelar());
 		
+		//CAMPO VISTAS
+		campo_estados.addActionListener(e->{
+			String s_estado = (String) campo_estados.getSelectedItem();
+			estado = Estado.valueOf(s_estado);
+			tableModel = new PedidoTM(estado);
+			tabla.setModel(tableModel);
+			if(estado==Estado.CREADA) {
+				titulo.setText("Pedidos Creados");
+				boton_procesar.setVisible(true);
+				boton_cancelar.setVisible(true);
+			}else if(estado==Estado.PROCESADA) {
+				titulo.setText("Pedidos Procesados");
+				boton_procesar.setVisible(false);
+				boton_cancelar.setVisible(true);
+			}else if(estado==Estado.ENTREGADA) {
+				titulo.setText("Pedidos Entregados");
+				boton_procesar.setVisible(false);
+				boton_cancelar.setVisible(true);
+			}else if(estado==Estado.CANCELADA) {
+				titulo.setText("Pedidos Cancelados");
+				boton_procesar.setVisible(false);
+				boton_cancelar.setVisible(false);
+			}
+			actualizarTabla();
+		});
+		
 		//PANEL1
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
@@ -154,9 +183,6 @@ public class PanelPedidos extends PanelPersonalizado{
 		boton_procesar.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		colocar(2,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_procesar);
 		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_cancelar);
-		
-		String[] items = {"Creados","Procesados","Entregados","Cancelados"};
-		campo_estados = new JComboBox<String>(items);
 		
 		//ORGANIZACION DE PANELES
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);

@@ -70,12 +70,13 @@ public class PedidoDAO implements Registrable<Pedido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Pedido SET id_envio=?, fecha_entrega=?, estado_pedido= CAST(? AS tp.estadopedido), costo_pedido=? WHERE id_Pedido=?");
-			pstm.setInt(1,Integer.parseInt(nuevo.getEnvio().getId_envio()));
-			pstm.setDate(2,Date.valueOf(nuevo.getFecha_entrega()));
-			pstm.setString(3,nuevo.getEstado_pedido().toString());
-			pstm.setDouble(4,nuevo.getCosto_pedido());
-			pstm.setInt(5,Integer.parseInt(original.getId_pedido()));
+					"UPDATE tp.Pedido SET id_planta_origen=?,id_envio=?, fecha_entrega=?, estado_pedido= CAST(? AS tp.estadopedido), costo_pedido=? WHERE id_Pedido=?");
+			pstm.setInt(1,Integer.parseInt(nuevo.getPlanta_origen().getId_planta()));
+			pstm.setInt(2,Integer.parseInt(nuevo.getEnvio().getId_envio()));
+			pstm.setDate(3,Date.valueOf(nuevo.getFecha_entrega()));
+			pstm.setString(4,nuevo.getEstado_pedido().toString());
+			pstm.setDouble(5,nuevo.getCosto_pedido());
+			pstm.setInt(6,Integer.parseInt(original.getId_pedido()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
