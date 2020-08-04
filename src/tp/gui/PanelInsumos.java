@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
@@ -35,6 +36,12 @@ import tp.controller.InsumoLiquidoController;
 import tp.controller.MarcaController;
 import tp.controller.Mensaje;
 import tp.controller.Utilidades;
+import tp.dao.InsumoDAO;
+import tp.dao.InsumoLiquidoDAO;
+import tp.dao.PlantaDAO;
+import tp.dao.StockInsumoDAO;
+import tp.dominio.Planta;
+import tp.dominio.StockInsumo;
 import tp.enumerados.Unidad;
 
 public class PanelInsumos extends PanelPersonalizado {
@@ -246,6 +253,10 @@ public class PanelInsumos extends PanelPersonalizado {
 //		});
 		
 	//BOTON AGREGAR------------------------------------------------------------------------------------------------
+		PlantaDAO plantaDao = new PlantaDAO();
+		StockInsumoDAO sid = new StockInsumoDAO();
+		InsumoDAO insumodao = new InsumoDAO();
+		List<Planta> lista = plantaDao.getAll();
 		boton_agregar.setForeground(Color.WHITE);
 		boton_agregar.setBackground(Color.BLUE);
 		boton_agregar.addActionListener( e ->
@@ -258,8 +269,11 @@ public class PanelInsumos extends PanelPersonalizado {
 					m =  controllerIG.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
 					   }
 			notificacionPopUp(m);
-			if(m.exito()) { 
-				
+			if(m.exito()) {
+				//Le asigna un stock a cada planta
+				for(Planta planta : lista) {
+					sid.add(new StockInsumo(planta.getId_planta(),insumodao.getID(campo_descripcion.getText().toString()),0,0));
+				}
 				actualizarTabla();
 				}
 			

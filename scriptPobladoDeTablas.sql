@@ -18,8 +18,7 @@ insert into tp.modelo values
 ('modelo5','Man'),
 ('modelo6','Daf');
 
-insert into tp.planta values
-(default, 'Planta1');
+
 
 insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),

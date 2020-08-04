@@ -161,8 +161,6 @@ public class PanelPlantas extends PanelPersonalizado{
 			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) {
-				StockInsumoController sic = new StockInsumoController();
-				sic.addAll(new Planta(null,campo_nombre.getText()));
 				actualizarTabla();
 			}
 			

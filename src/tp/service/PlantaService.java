@@ -4,6 +4,7 @@ import java.util.List;
 
 import tp.controller.Mensaje;
 import tp.dao.PlantaDAO;
+import tp.dao.StockInsumoDAO;
 import tp.dominio.Planta;
 
 public class PlantaService {
@@ -15,8 +16,11 @@ public class PlantaService {
 	
 	public Mensaje add(Planta p1) {
 		
-		if(dao.add(p1))
-			return new Mensaje(true,"");
+		if(dao.add(p1)) {
+			StockInsumoDAO sid = new StockInsumoDAO();
+			sid.addAll(p1);
+				return new Mensaje(true,"");
+			}
 		else
 			return new Mensaje(false,"Nombre ya existente");
 	}

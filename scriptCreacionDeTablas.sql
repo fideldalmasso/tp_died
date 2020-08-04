@@ -82,8 +82,8 @@ CREATE TABLE tp.StockInsumo(
 	primary key (id_planta, id_insumo) 
 );
 CREATE TABLE tp.Registro(
-	id_planta integer references tp.StockInsumo(id_planta) on update cascade on delete cascade,
-	id_insumo integer references tp.StockInsumo(id_insumo) on update cascade on delete cascade,
+	id_planta integer ,
+	id_insumo integer ,
 	fecha_registro date,
 	stock integer,
 	variacion integer,

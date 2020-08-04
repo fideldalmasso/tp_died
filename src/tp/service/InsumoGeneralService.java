@@ -32,9 +32,6 @@ public class InsumoGeneralService {
 		PlantaDAO plantaDao = new PlantaDAO();
 		List<Planta> lista = plantaDao.getAll();
 		if(dao.add(m1)) {
-			for(Planta planta: lista) {
-				planta.agregarInsumo(m1, 0, 0);
-			}
 			return new Mensaje(true,"");}
 		else
 			return new Mensaje(false,"ID ya existente");
