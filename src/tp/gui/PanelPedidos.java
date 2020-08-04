@@ -113,9 +113,6 @@ public class PanelPedidos extends PanelPersonalizado{
 		//BOTON AGREGAR PEDIDO
 		boton_agregar.addActionListener( e-> cambiarPanel(new PanelAgregarPedido()));
 		
-		//BOTON CANCELAR
-		boton_cancelar.addActionListener(e -> cancelar());
-		
 		//BOTON VER DETALLE
 		boton_ver_detalle.addActionListener(e ->{
 			Integer row = tabla.getSelectedRow();
@@ -126,6 +123,20 @@ public class PanelPedidos extends PanelPersonalizado{
 				cambiarPanel(new PanelDetallePedido(val));
 			}
 		});
+		
+		//BOTON PROCESAR PEDIDO
+		boton_procesar.addActionListener(e->{
+			Integer row = tabla.getSelectedRow();
+			if(row==-1) {
+				notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
+			}else {
+				Pedido pedido = tableModel.getPedido(row);
+				cambiarPanel(new PanelProcesarPedido(pedido));
+			}
+		});
+		
+		//BOTON CANCELAR
+		boton_cancelar.addActionListener(e -> cancelar());
 		
 		//PANEL1
 		JPanel panel1 = new JPanel();

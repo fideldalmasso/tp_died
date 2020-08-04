@@ -69,7 +69,7 @@ public class PedidoDAO implements Registrable<Pedido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Pedido SET id_envio=?, fecha_entrega=?, estado_pedido=?, costo_pedido=? WHERE id_Pedido=?");
+					"UPDATE tp.Pedido SET id_envio=?, fecha_entrega=?, estado_pedido= CAST(? AS tp.estadopedido), costo_pedido=? WHERE id_Pedido=?");
 			pstm.setInt(1,Integer.parseInt(nuevo.getEnvio().getId_envio()));
 			pstm.setDate(2,Date.valueOf(nuevo.getFecha_entrega()));
 			pstm.setString(3,nuevo.getEstado_pedido().toString());
@@ -213,7 +213,7 @@ public class PedidoDAO implements Registrable<Pedido>{
 		Integer max=0;
 		try {
 			pstm = con.prepareStatement(
-					"SELECT id_pedido FROM tp.pedido ;");
+					"SELECT id_pedido FROM tp.pedido;");
 			rs = pstm.executeQuery();
 			while (rs.next()) {
 				if(rs.getInt(1)>max) max=rs.getInt(1);

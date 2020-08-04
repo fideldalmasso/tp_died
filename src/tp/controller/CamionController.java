@@ -17,25 +17,25 @@ public class CamionController {
 			String costo_por_km, String costo_por_hora, String fecha_de_compra) {
 
 		if(id_camion == null || id_camion.length()==0) 
-			return new Mensaje(false,"Error: id_camion inválido");
+			return new Mensaje(false,"Error: id_camion invï¿½lido");
 
 		if(id_planta == null || id_planta.length()==0) 
-			return new Mensaje(false,"Error: id_planta inválido");
+			return new Mensaje(false,"Error: id_planta invï¿½lido");
 
 		if(nombre_modelo == null || nombre_modelo.length()==0) 
-			return new Mensaje(false,"Error: nombre_modelo inválido");
+			return new Mensaje(false,"Error: nombre_modelo invï¿½lido");
 
 		if(distancia== null || distancia.length()==0)// || !Utilidades.esDouble(distancia)) 
-			return new Mensaje(false,"Error: distancia_recorrida_en_km inválida");
+			return new Mensaje(false,"Error: distancia_recorrida_en_km invï¿½lida");
 
 		if(costo_por_km == null || costo_por_km.length()==0)// !Utilidades.esDouble(costo_por_km)) 
-			return new Mensaje(false,"Error: costo_por_km inválido");
+			return new Mensaje(false,"Error: costo_por_km invï¿½lido");
 
 		if(costo_por_hora == null || costo_por_hora.length()==0)// !Utilidades.esDouble(costo_por_hora)) 
-			return new Mensaje(false,"Error: costo_por_hora inválido");
+			return new Mensaje(false,"Error: costo_por_hora invï¿½lido");
 
 		if(fecha_de_compra== null || fecha_de_compra.length()==0 || !Utilidades.esFecha(fecha_de_compra)) 
-			return new Mensaje(false,"Error: fecha_de_compra inválida. El formato debe ser DD/MM/AAAA");
+			return new Mensaje(false,"Error: fecha_de_compra invï¿½lida. El formato debe ser DD/MM/AAAA");
 
 
 		return service.add(id_camion,
@@ -56,11 +56,15 @@ public class CamionController {
 	//		if(nueva!=null && nueva.length()>0) 
 	//			return service.update(original,nueva);
 	//		else 
-	//			return new Mensaje(false,"Error: nombre inválido");
+	//			return new Mensaje(false,"Error: nombre invï¿½lido");
 	//	}
 	//	
 	public List<Camion> getAll(){
 		return service.getAll();
+	}
+	
+	public Camion getDisponible(String nombre_planta){
+		return service.getDisponible(nombre_planta);
 	}
 
 }

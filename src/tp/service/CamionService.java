@@ -61,5 +61,8 @@ public class CamionService {
 		return dao.getAll();
 	}
 	
+	public Camion getDisponible(String nombre_planta){
+		return dao.getDisponible(nombre_planta);
+	}
 	
 }

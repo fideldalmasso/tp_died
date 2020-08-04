@@ -27,7 +27,9 @@ public class EmpresaTest {
 		meli.agregarRuta("r5", 1000D, 2D, 2D,"p3", "p5");
 		meli.agregarRuta("r6", 1000D, 2D, 1D,"p4", "p5");
 		meli.agregarRuta("r7", 2000D, 2D, 4D,"p5", "p1");
-		assertTrue(meli.flujoMaximo("p1","p5")==4D);
+		Double d= meli.flujoMaximo("p1","p5");
+		Double d1 = 4D;
+		assertEquals(d1,d);
 	}
 	
 	@Test

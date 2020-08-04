@@ -123,7 +123,7 @@ public class RutaDAO {
 				String id_destino = Integer.toString(rs.getInt(3));
 				Planta origen = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
 						.findFirst().orElse(new Planta(id_origen));
-				Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+				Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_destino))
 						.findFirst().orElse(new Planta(id_destino));
 				lista.add(new Ruta(rs.getString(1),
 						origen,
@@ -150,7 +150,7 @@ public class RutaDAO {
 		String id_destino = Integer.toString(rs.getInt(3));
 		Planta origen = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
 				.findFirst().orElse(new Planta(id_origen));
-		Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_origen))
+		Planta destino = plantas.parallelStream().filter(p->p.getId_planta().equals(id_destino))
 				.findFirst().orElse(new Planta(id_destino));
 		return new Ruta(rs.getString(1),
 							origen,

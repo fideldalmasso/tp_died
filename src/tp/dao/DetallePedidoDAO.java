@@ -152,7 +152,6 @@ public class DetallePedidoDAO implements Registrable<DetallePedido>{
 			DataBase.cerrarPstm(pstm);
 			DataBase.cerrarConexion(con);
 		}
-		System.out.println(lista);
 		return lista;
 	}
 

@@ -123,6 +123,39 @@ public class PlantaDAO implements Registrable<Planta> {
 		return lista;
 	}
 	
+	public List<Planta> getAll(String id_pedido){
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<Planta> lista = new ArrayList<Planta>();
+		try {
+			pstm = con.prepareStatement(
+					"select * "+
+					"from tp.Planta pl "+
+					"where not exists ( "+
+					"	select dp.id_insumo "+
+					"	from tp.Detallepedido dp "+
+					"	where dp.id_pedido=? "+
+					"except "+
+					"	select dp.id_insumo "+
+					"	from tp.stockinsumo si, tp.detallepedido dp "+
+					"	where si.id_planta=pl.id_planta and dp.id_insumo=si.id_insumo and dp.cantidad_de_unidades<=si.stock "+
+					");");
+			pstm.setInt(1, Integer.parseInt(id_pedido));
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				lista.add(new Planta(rs.getString(1),rs.getString(2)));
+			}
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return lista;
+	}
 }
 
 

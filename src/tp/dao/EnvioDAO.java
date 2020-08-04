@@ -134,6 +134,27 @@ public class EnvioDAO implements Registrable<Envio>{
 						rs.getDouble(3));
 	}
 	
+	public String getId() {
+		Connection con = DataBase.getConexion();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		Integer max=1;
+		try {
+			pstm = con.prepareStatement(
+					"SELECT id_envio FROM tp.envio ORDER BY 1 LIMIT 1;");
+			rs = pstm.executeQuery();
+			if (rs.next()) max=rs.getInt(1);
+		}catch(Exception e) {
+			System.out.println(e.getMessage());	
+		}
+		finally {
+			DataBase.cerrarRs(rs);
+			DataBase.cerrarPstm(pstm);
+			DataBase.cerrarConexion(con);
+		}
+		return Integer.toString(max);
+	}
+	
 }
 
 
