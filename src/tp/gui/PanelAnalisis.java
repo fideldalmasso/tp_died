@@ -3,6 +3,7 @@ package tp.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,15 +96,18 @@ public class PanelAnalisis extends PanelPersonalizado{
 	}
 	
 	public PanelAnalisis() {
-		super();
-			
+			super();
+			this.setLayout(new GridBagLayout());
 			//CABECERA
 			titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 			titulo.setForeground(color_titulo);
 			
+			Border borde0 = BorderFactory.createMatteBorder(3, 3, 3, 3, color_borde);
+			borde0 = BorderFactory.createTitledBorder(borde0, "Seleccionar Analisis", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), color_borde);
+			panel_cabecera.setBorder(borde0);
+			
 			Border borde = BorderFactory.createMatteBorder(3, 3, 3, 3, color_borde);
-			borde = BorderFactory.createTitledBorder(borde, "Seleccionar Camino", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), color_borde);
-			panel_cabecera.setBorder(borde);
+			borde = BorderFactory.createTitledBorder(borde, "", TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20), color_borde);
 			
 			//PAGE RANK
 			this.table_model_plantas = new PlantaTM();
@@ -120,6 +124,9 @@ public class PanelAnalisis extends PanelPersonalizado{
 			colocar(3,0,1,1,0,0,0,0,GridBagConstraints.BOTH, 10, panel_plantas, scroll_pane_plantas);
 			
 			//CAMINOS MINIMOS
+			panel_caminos.setLayout(new GridBagLayout());
+			panel_caminos.setOpaque(false);
+			
 			this.table_model_caminos = new CaminoTM();
 			this.tabla_caminos = new JTable();
 			this.tabla_caminos.setModel(this.table_model_caminos);
@@ -147,11 +154,15 @@ public class PanelAnalisis extends PanelPersonalizado{
 			panel_plantas.setBorder(borde);
 			
 			//MATRIZ CAMINOS MINIMOS
+			panel_matriz.setLayout(new GridBagLayout());
+			panel_matriz.setOpaque(false);
 			colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_matriz, texto_modo);
 			colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_matriz, campo_modo);
 			panel_matriz.setBorder(borde);
 			
 			//FLUJO MAXIMO
+			panel_flujo.setLayout(new GridBagLayout());
+			panel_flujo.setOpaque(false);
 			colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_flujo, texto_planta_origen_flujo);
 			colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_flujo, campo_planta_origen_flujo);
 			colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_flujo, texto_planta_destino_flujo);
@@ -161,6 +172,8 @@ public class PanelAnalisis extends PanelPersonalizado{
 			panel_flujo.setBorder(borde);
 			
 			//PANEL CABECERA
+			panel_cabecera.setLayout(new GridBagLayout());
+			panel_cabecera.setOpaque(false);
 			colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_plant_rank);
 			colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_caminos);
 			colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_matriz);
@@ -168,7 +181,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 			//ORGANIZACION DE PANELES
 			colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
-			colocar(0,1,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
+			colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
 			
 //BOTONES CABECERA
 			//BOTON PLANT RANK
@@ -176,7 +189,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
-				this.add(panel_plantas);
+				colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_plantas);
 				this.empresa.plantRank();
 				this.empresa.getPlantas().sort((p1,p2)->p1.getPlant_rank().compareTo(p2.getPlant_rank()));
 				table_model_plantas = new PlantaTM(this.empresa.getPlantas());
@@ -188,7 +201,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_plantas);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
-				this.add(panel_caminos);
+				colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_caminos);
 			});
 			
 			//BOTON MATRIZ
@@ -196,7 +209,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_plantas);
-				this.add(panel_matriz);
+				colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_matriz);
 			});
 			
 			//BOTON FLUJO MAXIMO
@@ -204,11 +217,10 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_plantas);
 				this.remove(panel_matriz);
-				this.add(panel_flujo);
+				colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_flujo);
 			});
 			
 //BOTONES CAMINOS MINIMOS
-			
 			//BOTON CALCULAR CAMINOS
 			boton_calcular_caminos.addActionListener(e->{
 				String nombre_destino = "";
