@@ -40,10 +40,17 @@ insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
 ('NIM094',2,'modelo2',0.0,400,1000,'2020-01-17');
 
+insert into tp.insumo values 
+(1,'Arena','KILO',100);
 
+insert into tp.insumoLiquido values 
+(1,300);
+
+insert into tp.stockinsumo values
+(1,1,100,20);
 
 insert into tp.pedido values
-(1,null,5,null,'03-08-2020',null,'10-10-2020','CREADA',null);
+(default,null,5,null,'08-03-2020',null,'10-10-2020','CREADA',null);
 
 insert into tp.detallepedido values
 (1,1,5);

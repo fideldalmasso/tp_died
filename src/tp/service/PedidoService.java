@@ -5,6 +5,7 @@ import java.util.List;
 import tp.controller.Mensaje;
 import tp.dao.PedidoDAO;
 import tp.dominio.Pedido;
+import tp.enumerados.Estado;
 
 public class PedidoService {
 
@@ -45,5 +46,9 @@ public class PedidoService {
 	
 	public List<Pedido> getAll(){
 		return dao.getAll();
+	}
+	
+	public List<Pedido> getEstado(Estado e){
+		return dao.getEstado(e);
 	}
 }

@@ -37,6 +37,7 @@ import tp.dao.PedidoDAO;
 import tp.dominio.Camion;
 import tp.dominio.DetallePedido;
 import tp.dominio.Envio;
+import tp.dominio.Modelo;
 import tp.dominio.Pedido;
 import tp.dominio.Planta;
 import tp.dominio.Ruta;
@@ -82,12 +83,10 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 		String[] items = pc.getAll(pedido.getId_pedido()).parallelStream().map(p->p.getNombre()).collect(Collectors.toList()).toArray(new String[0]);
 		if(items.length==0) {
 			notificacionPopUp(new Mensaje(false,"No hay plantas que puedan satisfacer el pedido."));
-			
 			cambiarPanel(new PanelPedidos());
 		}else {
 			this.setLayout(new GridBagLayout());
 			this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
-			this.fileFondo="icon/fondo2.png";
 			
 			//TITULO
 			titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
@@ -132,9 +131,13 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 			//BOTON SELECCIONAR CAMINO
 			boton_seleccionar_camino.addActionListener(e->{
 				Integer row = tabla_distancia.getSelectedRow();
-				table_model.setData(table_model_distancia.getCamino(row));
-				table_model.setCamion(table_model_distancia.getCamion());
-				actualizarTabla(tabla,table_model);
+				if(row==-1) {
+					notificacionPopUp(new Mensaje(false,"Debe seleccionar un camino."));
+				}else {
+					table_model.setData(table_model_distancia.getCamino(row));
+					table_model.setCamion(table_model_distancia.getCamion());
+					actualizarTabla(tabla,table_model);
+				}
 			});
 			
 			//BOTON PROCESAR PEDIDO
@@ -143,14 +146,28 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 				if(caminos.size()==0) {
 					notificacionPopUp(new Mensaje(false,"Seleccione al menos un camino para realizar el envío."));
 				}else {
+					//CREO ENVIO
 					Double costo = (Double) table_model.getValueAt(0,3);
 					EnvioController ec = new EnvioController();
 					ec.add(new Envio(null,table_model.getCamion(),costo));
+					//CREO ASEGUIREN
 					String id = ec.getId();
 					ASeguirEnController asc = new ASeguirEnController();
 					for(int i=0; i<caminos.get(0).size();i++) {
 						asc.add(id,caminos.get(0).get(i).getId_ruta(),i);
 					}
+					//ACTUALIZO CAMION
+					Double distancia = (Double) table_model.getValueAt(0,1);
+					Camion cam = table_model.getCamion();
+					CamionController cc = new CamionController();
+					cc.update(cam,new Camion(cam.getId_camion(), 
+							cam.getPlanta(), 
+							cam.getModelo(), 
+							cam.getDistancia_recorrida_en_km()+distancia,
+							cam.getCosto_por_km(), 
+							cam.getCosto_por_hora(), 
+							cam.getFecha_de_compra()));
+					//ACTUALIZO PEDIDO
 					PedidoController pec = new PedidoController();
 					String nombre_planta = (String) campo_planta_origen.getSelectedItem();
 					Planta planta = pc.getAll().parallelStream().filter(p->p.getNombre().equals(nombre_planta)).findFirst().orElse(null);

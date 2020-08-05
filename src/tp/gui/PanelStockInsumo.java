@@ -65,7 +65,6 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
-		this.fileFondo="icon/fondo2.png";
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setText("Stock de Insumos de: "+planta.getNombre());
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
@@ -94,7 +93,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		               switch(column) {
 		               case 2:
 		            	   Integer original = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo1 = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
+		            	   String nuevo1 = ingresoPopUp("Ingresá otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
 			            	   notificacionPopUp(controller.update(actual,
 			            			   new StockInsumo(actual.getPlanta(),actual.getInsumo(),Integer.parseInt(nuevo1),actual.getPuntoDePedido())));
@@ -103,7 +102,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   break;
 		               case 3:
 		            	   Integer original2 = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo2 = ingresoPopUp("Ingresï¿½ otro valor para: "+original2);
+		            	   String nuevo2 = ingresoPopUp("Ingresá otro valor para: "+original2);
 			               if(nuevo2!=null && nuevo2.length()>0) {
 			            	   notificacionPopUp(controller.update(actual,
 			            			   new StockInsumo(actual.getPlanta(),actual.getInsumo(),actual.getStock(),Integer.parseInt(nuevo2))));

@@ -65,4 +65,8 @@ public class PedidoController {
 	public List<Pedido> getAll(){
 		return service.getAll();
 	}
+	
+	public List<Pedido> getEstado(Estado e){
+		return service.getEstado(e);
+	}
 }

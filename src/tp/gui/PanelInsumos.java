@@ -123,7 +123,6 @@ public class PanelInsumos extends PanelPersonalizado {
 	
 	public PanelInsumos() {
 		super();
-		this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
 		

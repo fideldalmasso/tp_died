@@ -14,7 +14,7 @@ public class CamionTM extends AbstractTableModel {
 
 	
 	private List<Camion> data;
-	private String[] columnNames = {"Id camion","Id Planta","Modelo","Distancia (km)","Costo por km","Costo por hora","Fecha de compra"};
+	private String[] columnNames = {"Patente","Id Planta","Modelo","Distancia (km)","Costo por km","Costo por hora","Fecha de compra"};
 	
 	public CamionTM() {
 		controller = new CamionController();
@@ -59,9 +59,9 @@ public class CamionTM extends AbstractTableModel {
 		case 3:
 			return temp.getDistancia_recorrida_en_km().toString();
 		case 4:
-			return temp.getCosto_por_hora().toString();
-		case 5:
 			return temp.getCosto_por_km().toString();
+		case 5:
+			return temp.getCosto_por_hora().toString();
 		case 6:
 			return Utilidades.formatearFecha(temp.getFecha_de_compra());
 		}
@@ -76,6 +76,10 @@ public class CamionTM extends AbstractTableModel {
 	@Override
 	public boolean isCellEditable(int row, int col) {
 		return false;
+	}
+	
+	public void setData(List<Camion>lista ) {
+		this.data = lista;
 	}
 
 }

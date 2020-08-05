@@ -1,14 +1,9 @@
 package tp.gui;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PedidoController;
-import tp.dao.PedidoDAO;
 import tp.dominio.Pedido;
 import tp.enumerados.Estado;
 
@@ -20,12 +15,23 @@ public class PedidoTM extends AbstractTableModel {
 	
 	public PedidoTM(Estado estado) {
 		this.estado=estado;
+		if(this.estado==Estado.CREADA || this.estado==Estado.CANCELADA) {
+			String[] aux = {"Id Pedido","Destino","Fecha Solicitud","Fecha Maxima"};
+			columnNames = aux;
+		}else if(this.estado==Estado.PROCESADA) {
+			String[] aux = {"Id Pedido","Origen","Destino","Id_envio","Fecha Solicitud","Fecha Maxima","Costo Total"};
+			columnNames = aux;
+		}else if(this.estado==Estado.ENTREGADA){
+			String[] aux = {"Id Pedido","Origen","Destino","Id_envio","Fecha Solicitud","Fecha Entrega","Fecha Maxima","Costo Total"};
+			columnNames = aux;
+		}
 		recargarTabla();
 	}
 	
+	
 	public void recargarTabla() {
-		PedidoDAO pd = new PedidoDAO();
-		this.data = pd.getCreados();
+		PedidoController pc = new PedidoController();
+		this.data = pc.getEstado(this.estado);
 	}
 	
 	@Override
@@ -46,7 +52,7 @@ public class PedidoTM extends AbstractTableModel {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Pedido temp = data.get(rowIndex);
-		if(this.estado==Estado.CREADA) {
+		if(this.estado==Estado.CREADA || this.estado==Estado.CANCELADA) {
 			switch(columnIndex) {
 			case 0:
 				return temp.getId_pedido();
@@ -56,6 +62,42 @@ public class PedidoTM extends AbstractTableModel {
 				return temp.getFecha_solicitud();
 			case 3:
 				return temp.getFecha_maxima();
+			}
+		} else if (this.estado==Estado.PROCESADA) {
+			switch(columnIndex) {
+			case 0:
+				return temp.getId_pedido();
+			case 1:
+				return temp.getPlanta_origen();
+			case 2:
+				return temp.getPlanta_destino();
+			case 3:
+				return temp.getEnvio().getId_envio();
+			case 4:
+				return temp.getFecha_solicitud();
+			case 5:
+				return temp.getFecha_maxima();
+			case 6:
+				return temp.getCosto_pedido();
+			}
+		} else {
+			switch(columnIndex) {
+			case 0:
+				return temp.getId_pedido();
+			case 1:
+				return temp.getPlanta_origen();
+			case 2:
+				return temp.getPlanta_destino();
+			case 3:
+				return temp.getEnvio().getId_envio();
+			case 4:
+				return temp.getFecha_solicitud();
+			case 5:
+				return temp.getFecha_entrega();
+			case 6:
+				return temp.getFecha_maxima();
+			case 7:
+				return temp.getCosto_pedido();
 			}
 		}
 		return null;
@@ -74,4 +116,5 @@ public class PedidoTM extends AbstractTableModel {
 	public Pedido getPedido(Integer row) {
 		return data.get(row);
 	}
+	
 }

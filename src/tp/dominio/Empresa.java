@@ -68,6 +68,14 @@ public class Empresa {
 		return ans;
 	}
 	
+	public List<Ruta>getRutas() {
+		return this.rutas;
+	}
+	
+	public List<Planta>getPlantas() {
+		return this.plantas;
+	}
+	
 	/*public List<Ruta> subgrafo(String plantaOrigen, String plantaDestino){
 		Double min;
 		List<Ruta> camino = new ArrayList<Ruta>();
@@ -209,13 +217,14 @@ public class Empresa {
 		
 	}
 	
-	public Double[][] matrizCaminoMinimo(Integer modo){
+	public Double[][] matrizCaminoMinimo(Integer modo, Map<Integer,Planta> m2){
 		int tam=this.plantas.size();
 		Map<Planta,Integer> m = new HashMap<Planta,Integer>();
 		Double[][] caminosMinimos = new Double[tam][tam];
 		
 		for(int i=0;i<tam;i++) {
 			m.put(this.plantas.get(i),i);
+			m2.put(i, this.plantas.get(i));
 		}
 		
 		for(int i=0;i<tam;i++) {

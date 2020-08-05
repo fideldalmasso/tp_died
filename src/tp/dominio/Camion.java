@@ -29,6 +29,19 @@ public class Camion{
 		this.costo_por_hora = costo_por_hora;
 		this.fecha_de_compra = fecha_de_compra;
 	}
+	
+	//Constructor para deep copy, usado en CamionController
+	public Camion(Camion original) {
+		this(original.getId_camion(),
+				original.getPlanta(),
+				original.getModelo(),
+				original.getDistancia_recorrida_en_km(),
+				original.getCosto_por_km(),
+				original.getCosto_por_hora(),
+				original.getFecha_de_compra());
+	}
+	
+
 	public void agregarKm(Double kilometers) {// le suma kilometros
 		this.distancia_recorrida_en_km += kilometers;
 	}

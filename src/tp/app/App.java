@@ -1,15 +1,13 @@
 package tp.app;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import tp.controller.Mensaje;
 import tp.dao.DataBase;
 import tp.gui.*;
 
@@ -39,6 +37,18 @@ public class App extends JFrame {
 		this.revalidate();
 		this.repaint();
 		this.setSize(d);
+		
+		if(p.getClass() == PanelHome.class && !DataBase.funciona) {
+			Mensaje m = DataBase.leerJson();
+			
+			if(m.exito())
+				DataBase.inicializarTablas();
+			else {
+				PanelPersonalizado.notificacionPopUp(m);
+				cambiarPanel(new PanelDataBase());
+			}
+		}
+		
 	}
 
 	private App() {
@@ -74,45 +84,40 @@ public class App extends JFrame {
 		
 		//MENU------------------------------------------------------------------------------------------------
 
-		this.menuBar = new JMenuBar();
-
-		this.menuArchivo = new JMenu("Archivo");
-		this.menuItemSalir = new JMenuItem("Salir");
-		this.menuItemSalir.addActionListener( e -> System.exit(0));
-		this.menuArchivo.add(menuItemSalir);
-
-		this.menuEntidades = new JMenu("Entidades");
-		this.menuItemMarcas = new JMenuItem("Marcas");
-		this.menuItemInsumos = new JMenuItem("Insumos");
-		this.menuItemPlantas = new JMenuItem("Plantas");
-
-
-		//Setea el boton "Marcas"
-
-		this.menuItemMarcas.addActionListener( e -> {
-			cambiarPanel(new PanelMarcas());
-		});
-
-		//Setea el boton "Insumos"
-
-		this.menuItemInsumos.addActionListener( e -> {
-			cambiarPanel(new PanelInsumos());
-		});
-		
-		
-		//Setea el botón "Plantas"
-		this.menuItemPlantas.addActionListener( e -> {
-			cambiarPanel(new PanelPlantas());
-		});
-
-		this.menuEntidades.add(menuItemMarcas);
-		this.menuEntidades.add(menuItemInsumos);
-		this.menuEntidades.add(menuItemPlantas);
-
-		menuBar.add(this.menuArchivo);
-		menuBar.add(this.menuEntidades );
-
-		this.setJMenuBar(menuBar);
+		/*
+		 * this.menuBar = new JMenuBar();
+		 * 
+		 * this.menuArchivo = new JMenu("Archivo"); this.menuItemSalir = new
+		 * JMenuItem("Salir"); this.menuItemSalir.addActionListener( e ->
+		 * System.exit(0)); this.menuArchivo.add(menuItemSalir);
+		 * 
+		 * this.menuEntidades = new JMenu("Entidades"); this.menuItemMarcas = new
+		 * JMenuItem("Marcas"); this.menuItemInsumos = new JMenuItem("Insumos");
+		 * this.menuItemPlantas = new JMenuItem("Plantas");
+		 * 
+		 * 
+		 * //Setea el boton "Marcas"
+		 * 
+		 * this.menuItemMarcas.addActionListener( e -> { cambiarPanel(new
+		 * PanelMarcas()); });
+		 * 
+		 * //Setea el boton "Insumos"
+		 * 
+		 * this.menuItemInsumos.addActionListener( e -> { cambiarPanel(new
+		 * PanelInsumos()); });
+		 * 
+		 * 
+		 * //Setea el botón "Plantas" this.menuItemPlantas.addActionListener( e -> {
+		 * cambiarPanel(new PanelPlantas()); });
+		 * 
+		 * this.menuEntidades.add(menuItemMarcas);
+		 * this.menuEntidades.add(menuItemInsumos);
+		 * this.menuEntidades.add(menuItemPlantas);
+		 * 
+		 * menuBar.add(this.menuArchivo); menuBar.add(this.menuEntidades );
+		 * 
+		 * this.setJMenuBar(menuBar);
+		 */
 
 		//TOOLBAR------------------------------------------------------------------------------------------------
 
@@ -135,6 +140,7 @@ public class App extends JFrame {
 
 		this.add(toolBar,BorderLayout.NORTH);
 
+		
 	}
 
 
@@ -155,7 +161,6 @@ public class App extends JFrame {
 					System.out.println(e.getMessage());
 				}
 				
-				DataBase.resetDB();
 				new App().setVisible(true);
 				
 			}

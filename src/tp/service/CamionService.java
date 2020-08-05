@@ -45,6 +45,10 @@ public class CamionService {
 			return new Mensaje(false,"No se puede eliminar la fila (error en la DB).");
 	}
 	
+	public Mensaje update(Camion original, Camion nuevo) {
+		return new Mensaje(dao.update(original, nuevo),"No se puedo actualizar la fila (error en la DB).");
+	}
+	
 //	public Mensaje update(String original, String nueva) {
 //		Marca m1 = new Marca(original);
 //		Marca m2 = new Marca(nueva);
@@ -63,6 +67,10 @@ public class CamionService {
 	
 	public Camion getDisponible(String nombre_planta){
 		return dao.getDisponible(nombre_planta);
+	}
+	
+	public List<Camion> query(String[] parametros){
+		return dao.query(parametros);
 	}
 	
 }

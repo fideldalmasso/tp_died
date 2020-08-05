@@ -18,7 +18,7 @@ public class InsumoTM extends AbstractTableModel {
 	InsumoController controller;
 	
 	private List<Insumo> data;
-	private String[] columnNames = {"ID", "Descripciï¿½n","Unidad","Costo"};
+	private String[] columnNames = {"ID", "Descripción","Unidad","Costo"};
 	
 	public InsumoTM() {
 		recargarTabla();

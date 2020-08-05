@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,12 +70,13 @@ public class PedidoDAO implements Registrable<Pedido>{
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
-					"UPDATE tp.Pedido SET id_envio=?, fecha_entrega=?, estado_pedido= CAST(? AS tp.estadopedido), costo_pedido=? WHERE id_Pedido=?");
-			pstm.setInt(1,Integer.parseInt(nuevo.getEnvio().getId_envio()));
-			pstm.setDate(2,Date.valueOf(nuevo.getFecha_entrega()));
-			pstm.setString(3,nuevo.getEstado_pedido().toString());
-			pstm.setDouble(4,nuevo.getCosto_pedido());
-			pstm.setInt(5,Integer.parseInt(original.getId_pedido()));
+					"UPDATE tp.Pedido SET id_planta_origen=?,id_envio=?, fecha_entrega=?, estado_pedido= CAST(? AS tp.estadopedido), costo_pedido=? WHERE id_Pedido=?");
+			pstm.setInt(1,Integer.parseInt(nuevo.getPlanta_origen().getId_planta()));
+			pstm.setInt(2,Integer.parseInt(nuevo.getEnvio().getId_envio()));
+			pstm.setDate(3,Date.valueOf(nuevo.getFecha_entrega()));
+			pstm.setString(4,nuevo.getEstado_pedido().toString());
+			pstm.setDouble(5,nuevo.getCosto_pedido());
+			pstm.setInt(6,Integer.parseInt(original.getId_pedido()));
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
@@ -154,26 +156,50 @@ public class PedidoDAO implements Registrable<Pedido>{
 		return lista;
 	}
 	
-	public List<Pedido> getCreados(){
+	public List<Pedido> getEstado(Estado est){
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		List<Pedido> lista = new ArrayList<Pedido>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Pedido WHERE estado_pedido='CREADA';");
+					"SELECT * FROM tp.Pedido WHERE estado_pedido=CAST(? AS tp.estadopedido);");
+			pstm.setString(1, est.toString());
 			rs = pstm.executeQuery();
 			PlantaDAO dao1 = new PlantaDAO();
+			EnvioDAO dao2 = new EnvioDAO();
 			while(rs.next()) {
-				lista.add(new Pedido(Integer.toString(rs.getInt(1)),
-						null,
-						dao1.get(Integer.toString(rs.getInt(3))).orElse(null),
-						null,
-						rs.getDate(5).toLocalDate(),
-						null,
-						rs.getDate(7).toLocalDate(),
-						Estado.valueOf(rs.getString(8)),
-						null));
+				Integer id_pedido = (Integer) rs.getObject(1);
+				Integer id_planta_origen = (Integer) rs.getObject(2);
+				Integer id_planta_destino = (Integer) rs.getObject(3);
+				Integer id_envio = (Integer) rs.getObject(4);
+				Date fecha_solicitud = (Date) rs.getObject(5);
+				Date fecha_entrega = (Date) rs.getObject(6);
+				Date fecha_maxima = (Date) rs.getObject(7);
+				String estado = rs.getString(8);
+				Double costo = (Double) rs.getObject(9);
+				
+				Planta planta_origen=null, planta_destino=null;
+				Envio envio=null;
+				LocalDate ld_fecha_solicitud=null, ld_fecha_entrega=null, ld_fecha_maxima=null;
+				
+				if(id_planta_origen != null) planta_origen = dao1.get(Integer.toString(id_planta_origen)).get();
+				if(id_planta_destino != null) planta_destino = dao1.get(Integer.toString(id_planta_destino)).get();
+				if(id_envio != null)  envio = dao2.get(Integer.toString(id_envio)).get();
+				if(fecha_solicitud != null)  ld_fecha_solicitud = fecha_solicitud.toLocalDate();
+				if(fecha_entrega != null)  ld_fecha_entrega = fecha_entrega.toLocalDate();
+				if(fecha_maxima != null)  ld_fecha_maxima = fecha_maxima.toLocalDate();
+				Estado e_estado = Estado.valueOf(estado);
+				
+				lista.add(new Pedido(Integer.toString(id_pedido),
+						planta_origen,
+						planta_destino,
+						envio,
+						ld_fecha_solicitud,
+						ld_fecha_entrega,
+						ld_fecha_maxima,
+						e_estado,
+						costo));
 			}
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	
