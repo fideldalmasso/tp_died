@@ -97,16 +97,16 @@ public class StockInsumoDAO {
 		return false;
 	}
 	
-	public Boolean update(StockInsumo original, StockInsumo nuevo) {
+	public Boolean update(Integer stockNuevo, Integer ppNuevo, Integer planta, Integer insumo ) {
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		try {
 			pstm = con.prepareStatement(
 					"UPDATE tp.StockInsumo SET stock=?, punto_de_pedido=? WHERE id_planta=? AND id_insumo=?");
-			pstm.setInt(1, nuevo.getStock());
-			pstm.setInt(2, nuevo.getPuntoDePedido());
-			pstm.setInt(3, Integer.parseInt(original.getPlanta()));
-			pstm.setInt(4, Integer.parseInt(original.getInsumo()));
+			pstm.setInt(1, stockNuevo);
+			pstm.setInt(2, ppNuevo);
+			pstm.setInt(3, planta);
+			pstm.setInt(4, insumo);
 			return pstm.executeUpdate() == 1;
 		}catch(Exception e) {
 			System.out.println(e.getMessage());	

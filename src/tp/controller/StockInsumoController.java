@@ -38,13 +38,13 @@ public class StockInsumoController {
 		return service.delete(stock_insumo);
 	}
 	
-	public Mensaje update(StockInsumo original, StockInsumo nuevo) {
+	public Mensaje update(Integer stockNuevo, Integer ppNuevo, Integer planta, Integer insumo) {
 		String error="Error: ";
-		if(nuevo.getPuntoDePedido()>=0 && nuevo.getStock()>=0) {
-			return service.update(original,nuevo);
-		}else if(nuevo.getPuntoDePedido()<0) {
+		if(ppNuevo>=0 && stockNuevo>=0) {
+			return service.update(stockNuevo, ppNuevo, planta, insumo);
+		}else if(ppNuevo<0) {
 			error+="el punto de pedido no debe ser negativo, ";
-		}else if(nuevo.getStock()<0) {
+		}else if(stockNuevo<0) {
 			error+="el stock no debe ser negativo";
 		}
 		return new Mensaje(false,error);

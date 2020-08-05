@@ -10,15 +10,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.StockInsumoController;
 import tp.dominio.Planta;
@@ -29,6 +33,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
 	private JLabel titulo = new JLabel("",SwingConstants.CENTER);
+	
+	private JButton boton_volver = new JButton("Back",PanelPersonalizado.emoji("icon/back.png", 32,32));
 	
 	private StockInsumoTM tableModel;
 	private StockInsumoController controller = new StockInsumoController();
@@ -60,6 +66,11 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		tabla.repaint();
 		//tabla.validate();
 	}
+	private void cambiarPanel(PanelPersonalizado p1) {
+		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
+        App app = (App) frame;
+        app.cambiarPanel(p1);
+	}
 	
 	public PanelStockInsumo(Planta planta) {
 		super();
@@ -78,7 +89,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hace doble clic para editar el campo o presiona Supr para eliminar");
+		tabla.setToolTipText("Hace doble clic para editar el campo");
 		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
@@ -88,15 +99,14 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		               int row = target.getSelectedRow(); 
 		               int column = target.getSelectedColumn();
 		               
-		               StockInsumo actual = tableModel.getStockInsumo(row);
+//		               StockInsumo actual = tableModel.getStockInsumo(row);
 		               
 		               switch(column) {
 		               case 2:
 		            	   Integer original = (Integer) tabla.getValueAt(row, column);
 		            	   String nuevo1 = ingresoPopUp("Ingresá otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
-			            	   notificacionPopUp(controller.update(actual,
-			            			   new StockInsumo(actual.getPlanta(),actual.getInsumo(),Integer.parseInt(nuevo1),actual.getPuntoDePedido())));
+			            	  // notificacionPopUp(controller.update(Integer.parseInt(nuevo1),tabla.getValueAt(row, 4),tabla.getValueAt(row, 1),);
 			            	   actualizarTabla();
 			               }
 		            	   break;
@@ -104,8 +114,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   Integer original2 = (Integer) tabla.getValueAt(row, column);
 		            	   String nuevo2 = ingresoPopUp("Ingresá otro valor para: "+original2);
 			               if(nuevo2!=null && nuevo2.length()>0) {
-			            	   notificacionPopUp(controller.update(actual,
-			            			   new StockInsumo(actual.getPlanta(),actual.getInsumo(),actual.getStock(),Integer.parseInt(nuevo2))));
+			            	  // notificacionPopUp(controller.update(actual,
+			            		//	   new StockInsumo(actual.getPlanta(),actual.getInsumo(),actual.getStock(),Integer.parseInt(nuevo2))));
 			            	   actualizarTabla();
 			               }
 		            	   break;
@@ -124,6 +134,12 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		
 		scroll_pane = new JScrollPane(tabla);
 		
+		
+		
+		this.boton_volver.addActionListener(e -> {
+			cambiarPanel(new PanelPlantas());
+		});
+		
 	//PANEL1------------------------------------------------------------------------------------------------
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
@@ -137,9 +153,9 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
 		
 		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
-		
-		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
-		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
+		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.boton_volver);
+		colocar(1,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,GridBagConstraints.WEST,this,titulo);
+		colocar(0,1,3,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
 		
 		
 	}

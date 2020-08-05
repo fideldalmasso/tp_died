@@ -45,9 +45,9 @@ public class StockInsumoService {
 			return new Mensaje(false,"No se puede eliminar la fila (error en la DB).");
 	}
 	
-	public Mensaje update(StockInsumo original, StockInsumo nueva) {
+	public Mensaje update(Integer stockNuevo, Integer ppNuevo, Integer planta, Integer insumo) {
 		
-		if(dao.update(original,nueva))
+		if(dao.update(stockNuevo, ppNuevo, planta, insumo))
 			return new Mensaje(true,"");
 		else
 			return new Mensaje(false,"Nombre ya existente");
