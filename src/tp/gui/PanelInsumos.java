@@ -314,7 +314,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.titulo);
 		colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,espacio);
 		colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,this,texto_tipo);
-		colocar(3,0,1,1,0,0,0,0 ,GridBagConstraints.HORIZONTAL,10,this,this.comboBoxTipo);
+		colocar(3,0,1,1,0,0,0,0 ,GridBagConstraints.NONE,GridBagConstraints.WEST,this,this.comboBoxTipo);
 		colocar(0,1,4,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);
 		colocar(0,2,4,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
 		

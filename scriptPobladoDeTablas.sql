@@ -40,14 +40,27 @@ insert into tp.camion values
 ('IXM242',1,'modelo1',0.0,400,1000,'2017-01-10'),
 ('NIM094',2,'modelo2',0.0,400,1000,'2020-01-17');
 
-insert into tp.insumo values 
-(1,'Arena','KILO',100);
+insert into tp.Insumo values 
+(default,'Arena','KILO',670),
+(default,'Agua','LITRO',500),
+(default,'Aceite','METRO_CUBICO',30),
+(default,'Soja','KILO',146),
+(default,'Fertilizantes','GRAMO',34),
+(default,'Desinfectante','LITRO',339),
+(default,'Lavandina','PIEZA',16),
+(default,'Caucho','METRO_CUADRADO',980);
 
-insert into tp.insumoLiquido values 
-(1,300);
+insert into tp.InsumoGeneral values 
+(1,500),
+(4,90),
+(5,307),
+(8,900);
 
-insert into tp.stockinsumo values
-(1,1,100,20);
+insert into tp.InsumoLiquido values 
+(2,1),
+(3, 0.8),
+(6, 2.5),
+(7, 1.2);
 
 insert into tp.pedido values
 (default,null,5,null,'08-03-2020',null,'10-10-2020','CREADA',null);
