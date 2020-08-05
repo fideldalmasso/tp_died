@@ -129,7 +129,7 @@ public class Empresa {
     	HashSet<Planta> m= new HashSet<Planta>();
     	
     	q.add(origen);
-    	
+    	m.add(origen);
     	while(!q.isEmpty()){
     		Planta act = q.poll();
     		List<Ruta> ady = this.getRutas(act);
@@ -145,7 +145,7 @@ public class Empresa {
     	if(m.contains(destino)) {
     		Planta act = destino;
     		for(int i=camino.size()-1;i>-1;i--){
-	    		if(camino.get(i).getDestino()==act) {
+	    		if(camino.get(i).getDestino().equals(act)) {
 	    			ans.add(camino.get(i));
 	    			act=camino.get(i).getOrigen();
 	    		}
@@ -211,6 +211,7 @@ public class Empresa {
 		}
 		
 		for(int i=0;i<pageRank.length;i++) {
+			System.out.println(pageRank[i]);
 			m2.get(i).setPlant_rank(pageRank[i]);
 			ans.put(pageRank[i],m2.get(i));
 		}

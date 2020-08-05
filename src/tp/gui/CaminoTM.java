@@ -28,6 +28,11 @@ public class CaminoTM extends AbstractTableModel{
 		data.addAll(emp.caminosMinimos(nombre_origen, nombre_destino, 1));
 	}
 	
+	public void recargarTabla(Empresa emp, String nombre_origen, String nombre_destino) {
+		data = emp.caminosMinimos(nombre_origen, nombre_destino, 0);
+		data.addAll(emp.caminosMinimos(nombre_origen, nombre_destino, 1));
+	}
+	
 	@Override
 	public int getRowCount() {
 		return data.size();

@@ -5,20 +5,22 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PlantaController;
+import tp.dominio.Empresa;
 import tp.dominio.Planta;
 
 public class PlantaTM extends AbstractTableModel{
 	PlantaController controller;
 	private List<Planta> data;
-	private String[] columnNames = {"Id Planta","Nombre Planta"};
+	private String[] columnNames = {"Id Planta","Nombre Planta","Plant Rank"};
 	
 	public PlantaTM(){
 		this.controller = new PlantaController();
 		this.data = this.controller.getAll();
 	}
 	
-	public PlantaTM(List<Planta> plantas){
-		this.data = plantas;
+	public PlantaTM(Empresa emp){
+		emp.plantRank();
+		this.data = emp.getPlantas();
 	}
 	
 	public void recargarTabla() {
@@ -48,6 +50,9 @@ public class PlantaTM extends AbstractTableModel{
 			return actual.getId_planta();
 		case 1:
 			return actual.getNombre();
+		case 2:
+			System.out.println(actual.getPlant_rank());
+			return actual.getPlant_rank();
 		}
 		return null;
 	}

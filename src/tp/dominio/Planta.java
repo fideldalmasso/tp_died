@@ -29,6 +29,7 @@ public class Planta{
 		this.lista_stock_insumos = new ArrayList<StockInsumo>();
 		this.lista_pedidos = new ArrayList<Pedido>();
 		this.id_planta = id_planta;
+		this.plant_rank=0D;
 	}
 	
 	public Planta(String id, String nombre) {
@@ -37,6 +38,7 @@ public class Planta{
 		this.lista_camiones = new ArrayList<Camion>();
 		this.lista_stock_insumos = new ArrayList<StockInsumo>();
 		this.lista_pedidos = new ArrayList<Pedido>();
+		this.plant_rank=0D;
 	}
 	
 	public Planta(String id, String nombre, List<Camion> camiones, List<StockInsumo> insumos) {
@@ -45,6 +47,7 @@ public class Planta{
 		this.nombre = nombre;
 		this.lista_camiones = camiones;
 		this.lista_stock_insumos = insumos;
+		this.plant_rank=0D;
 	}
 	
 	public void agregarInsumo(Insumo insumo, Integer stock, Integer puntoDePedido) {
