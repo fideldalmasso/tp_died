@@ -1,5 +1,6 @@
 package tp.gui;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -20,7 +21,10 @@ public class PlantaTM extends AbstractTableModel{
 	
 	public PlantaTM(Empresa emp){
 		emp.plantRank();
-		this.data = emp.getPlantas();
+		List<Planta> plantas = emp.getPlantas();
+		plantas.sort((p1,p2)->p1.getPlant_rank().compareTo(p2.getPlant_rank()));
+		Collections.reverse(plantas);
+		this.data = plantas;
 	}
 	
 	public void recargarTabla() {
@@ -51,7 +55,6 @@ public class PlantaTM extends AbstractTableModel{
 		case 1:
 			return actual.getNombre();
 		case 2:
-			System.out.println(actual.getPlant_rank());
 			return actual.getPlant_rank();
 		}
 		return null;

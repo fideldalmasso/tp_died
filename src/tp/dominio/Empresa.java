@@ -159,11 +159,11 @@ public class Empresa {
 		Double d=0.85D;
 		Map<Planta,Integer> m = new HashMap<Planta,Integer>();
 		Map<Integer,Planta> m2 = new HashMap<Integer,Planta>();
-		Map<Double,Planta> ans = new TreeMap<Double,Planta>();
 		Double[] actual = new Double[this.plantas.size()];
 		Double[] pageRank = new Double[this.plantas.size()];
 		Double[] gradoNegativo = new Double[this.plantas.size()];
 		Double[][] mat = new Double[this.plantas.size()][this.plantas.size()];
+		
 		
 		for(int i=0;i<this.plantas.size();i++){
 			m2.put(i,this.plantas.get(i));
@@ -211,11 +211,8 @@ public class Empresa {
 		}
 		
 		for(int i=0;i<pageRank.length;i++) {
-			System.out.println(pageRank[i]);
-			m2.get(i).setPlant_rank(pageRank[i]);
-			ans.put(pageRank[i],m2.get(i));
+			this.plantas.get(i).setPlant_rank(pageRank[i]);
 		}
-		
 	}
 	
 	public Double[][] matrizCaminoMinimo(Integer modo, Map<Integer,Planta> m2){

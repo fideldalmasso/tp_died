@@ -93,6 +93,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 	}
 	
 	private void actualizarTabla(JTable tabla, AbstractTableModel modelo) {
+		tabla.setModel(modelo);
 		modelo.fireTableDataChanged();
 		tabla.repaint();
 	}
