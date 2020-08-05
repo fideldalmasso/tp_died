@@ -59,7 +59,7 @@ public class PanelHome extends PanelPersonalizado {
 		boton_rutas.addActionListener(e -> cambiarPanel(new PanelRutas()));
 		boton_pedidos.addActionListener(e -> cambiarPanel(new PanelPedidos()));
 		boton_base_de_datos.addActionListener(e -> cambiarPanel(new PanelDataBase()));
-		
+		boton_envios.addActionListener(e -> cambiarPanel(new PanelAnalisis()));
 
 		
 		

@@ -17,6 +17,10 @@ public class PlantaTM extends AbstractTableModel{
 		this.data = this.controller.getAll();
 	}
 	
+	public PlantaTM(List<Planta> plantas){
+		this.data = plantas;
+	}
+	
 	public void recargarTabla() {
 		this.data = this.controller.getAll();
 	}
@@ -56,5 +60,7 @@ public class PlantaTM extends AbstractTableModel{
 	public Planta getPlanta(Integer row) {
 		return data.get(row);
 	}
+	
+	
 
 }
