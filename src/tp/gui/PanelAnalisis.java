@@ -68,6 +68,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 	private JButton boton_calcular_caminos = new JButton("Calcular Caminos");
 	
 	//MATRIZ CAMINOS MINIMOS
+	private JScrollPane scroll_pane_matriz = new JScrollPane();
 	private JPanel panel_matriz = new JPanel();
 	private JPanel matriz_p = new JPanel();
 	private JLabel texto_modo = new JLabel("Modo:");
@@ -127,6 +128,8 @@ public class PanelAnalisis extends PanelPersonalizado{
 			colocar(3,0,1,1,0,0,0,0,GridBagConstraints.BOTH, 10, panel_plantas, scroll_pane_plantas);
 			
 			//CAMINOS MINIMOS
+			panel_caminos.setBorder(borde);
+			panel_caminos.setOpaque(false);
 			panel_caminos.setLayout(new GridBagLayout());
 			
 			this.table_model_caminos = new CaminoTM();
@@ -150,14 +153,16 @@ public class PanelAnalisis extends PanelPersonalizado{
 			colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_caminos,	texto_planta_destino_caminos);
 			colocar(3,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_caminos, campo_planta_destino_caminos);
 			colocar(4,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_caminos, boton_calcular_caminos);
-			colocar(0,1,5,1,0,0,0,0,GridBagConstraints.BOTH, 10, panel_caminos, scroll_pane_caminos);
+			colocar(0,1,5,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel_caminos, scroll_pane_caminos);
 			panel_plantas.setBorder(borde);
+			panel_plantas.setOpaque(false);
 			
 			//MATRIZ CAMINOS MINIMOS
 			panel_matriz.setLayout(new GridBagLayout());
 			colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_matriz, texto_modo);
 			colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_matriz, campo_modo);
 			panel_matriz.setBorder(borde);
+			panel_matriz.setOpaque(false);
 			
 			//FLUJO MAXIMO
 			panel_flujo.setLayout(new GridBagLayout());
@@ -168,9 +173,12 @@ public class PanelAnalisis extends PanelPersonalizado{
 			colocar(4,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_flujo, boton_calcular_flujo);
 			colocar(0,1,5,0,0,0,0,0,GridBagConstraints.NONE, 10, panel_flujo, texto_flujo);
 			panel_flujo.setBorder(borde);
+			panel_flujo.setOpaque(false);
 			
 			//PANEL CABECERA
 			panel_cabecera.setLayout(new GridBagLayout());
+			panel_cabecera.setBorder(borde);
+			panel_cabecera.setOpaque(false);
 			colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_plant_rank);
 			colocar(1,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_caminos);
 			colocar(2,0,1,1,0,0,0,0,GridBagConstraints.NONE, 10, panel_cabecera, boton_matriz);
@@ -178,7 +186,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 			//ORGANIZACION DE PANELES
 			colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
-			colocar(0,1,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
+			colocar(0,1,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
 			
 //BOTONES CABECERA
 			//BOTON PLANT RANK
@@ -186,7 +194,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
-				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_plantas);
+				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_plantas);
 				this.empresa.plantRank();
 				this.empresa.getPlantas().sort((p1,p2)->p1.getPlant_rank().compareTo(p2.getPlant_rank()));
 				List<Planta> plantas = this.empresa.getPlantas();
@@ -202,7 +210,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_plantas);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
-				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_caminos);
+				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_caminos);
 				this.validate();
 				this.repaint();
 			});
@@ -212,7 +220,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_plantas);
-				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_matriz);
+				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_matriz);
 				this.validate();
 				this.repaint();
 			});
@@ -222,7 +230,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.remove(panel_caminos);
 				this.remove(panel_plantas);
 				this.remove(panel_matriz);
-				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.NONE,10,this,panel_flujo);
+				colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_flujo);
 				this.validate();
 				this.repaint();
 			});
@@ -250,6 +258,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 //BOTONES MATRIZ
 			campo_modo.addActionListener(e->{
+				matriz_p.removeAll();
 				String modo = (String) campo_modo.getSelectedItem();
 				Double[][] matriz_d = null;
 				Integer tam =this.empresa.getPlantas().size();
@@ -259,31 +268,36 @@ public class PanelAnalisis extends PanelPersonalizado{
 					matriz_d = this.empresa.matrizCaminoMinimo(0,m);
 				}else if(modo=="Menor duracion"){
 					matriz_d = this.empresa.matrizCaminoMinimo(1,m);
-					
 				}else {
 					notificacionPopUp(new Mensaje(false,"Debe seleccionar un modo."));
 					return;
 				}
 				
-				matriz_p.setLayout(new GridLayout(tam+1,tam+1));
-				for(int i=1;i<tam+1;i++) {
-					GridBagConstraints gbc = new GridBagConstraints();
-					gbc.gridx=i;
-					gbc.gridy=0;
-					matriz_p.add(new JLabel(m.get(i-1).getNombre()));
-					GridBagConstraints gbc2 = new GridBagConstraints();
-					gbc2.gridx=0;
-					gbc2.gridy=i;
-					matriz_p.add(new JLabel(m.get(i-1).getNombre()));
-				}
-				for(int i=1;i<tam+1;i++) {
-					for(int j=1;j<tam+1;j++) {
-						GridBagConstraints gbc = new GridBagConstraints();
-						gbc.gridx=i;
-						gbc.gridy=0;
-						matriz_p.add(new JLabel(Double.toString(matriz_d[i-1][j-1])),gbc);
+				matriz_p.setLayout(new GridLayout(tam+1,tam+1,1,1));
+				for(int i=0;i<tam+1;i++) {
+					for(int j=0;j<tam+1;j++) {
+						JLabel l;
+						if(i==0 && j!=0) {
+							l = new JLabel(m.get(j-1).getNombre());
+						}else if(j==0 && i!=0) {
+							l = new JLabel(m.get(i-1).getNombre());
+						}else if(i==0 && j==0) {
+							l = new JLabel(" ");
+						}else{
+							if(matriz_d[i-1][j-1]!=Double.MAX_VALUE) {
+								l = new JLabel(Double.toString(matriz_d[i-1][j-1]));
+							}else {
+								l = new JLabel("-");
+							}
+							
+						}
+						matriz_p.add(l);
 					}
 				}
+				
+				colocar(1,1,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,panel_matriz,matriz_p);
+				this.validate();
+				this.repaint();
 			});
 
 //BOTONES FLUJO MAXIMO
