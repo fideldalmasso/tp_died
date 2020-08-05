@@ -1,23 +1,29 @@
 package tp.gui;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
 import tp.controller.PlantaController;
+import tp.dominio.Empresa;
 import tp.dominio.Planta;
 
 public class PlantaTM extends AbstractTableModel{
 	PlantaController controller;
 	private List<Planta> data;
-	private String[] columnNames = {"Id Planta","Nombre Planta"};
+	private String[] columnNames = {"Id Planta","Nombre Planta","Plant Rank"};
 	
 	public PlantaTM(){
 		this.controller = new PlantaController();
 		this.data = this.controller.getAll();
 	}
 	
-	public PlantaTM(List<Planta> plantas){
+	public PlantaTM(Empresa emp){
+		emp.plantRank();
+		List<Planta> plantas = emp.getPlantas();
+		plantas.sort((p1,p2)->p1.getPlant_rank().compareTo(p2.getPlant_rank()));
+		Collections.reverse(plantas);
 		this.data = plantas;
 	}
 	
@@ -48,6 +54,8 @@ public class PlantaTM extends AbstractTableModel{
 			return actual.getId_planta();
 		case 1:
 			return actual.getNombre();
+		case 2:
+			return actual.getPlant_rank();
 		}
 		return null;
 	}
