@@ -47,7 +47,7 @@ public class Pedido {
 			}
 		}
 		/*Si no existe una planta que tenga disponible stock de
-		todos los productos se mostrarï¿½ un mensaje de error y el pedido
+		todos los productos se mostrará un mensaje de error y el pedido
 		pasa a estado CANCELADO*/
 		if(plantasConStock.isEmpty()){
 			this.estado_pedido = Estado.CANCELADA;

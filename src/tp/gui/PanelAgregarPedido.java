@@ -117,7 +117,7 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 		               switch(column) {
 		               case 2:
 		            	   Integer cantidad = (Integer) tablaDetallePedido.getValueAt(row, column);
-		            	   String cantidad_nueva = ingresoPopUp("Ingresï¿½ otro valor para: "+cantidad);
+		            	   String cantidad_nueva = ingresoPopUp("Ingresá otro valor para: "+cantidad);
 			               if(cantidad_nueva!=null && cantidad_nueva.length()>0) {
 			            	   table_model_detalle_pedido.getDetallePedido(row).setCantidad_de_unidades(Integer.parseInt(cantidad_nueva));
 			            	   actualizarTabla(tablaDetallePedido,table_model_detalle_pedido);

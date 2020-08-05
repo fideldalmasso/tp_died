@@ -34,7 +34,7 @@ import tp.dominio.Planta;
 public class PanelPlantas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraciï¿½n de Plantas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Plantas",SwingConstants.CENTER);
 	
 	private PlantaTM tableModel;
 	private PlantaController controller = new PlantaController();
@@ -95,7 +95,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
@@ -110,7 +110,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		               case 0:
 		            	   break;
 		               case 1:
-		            	   String nuevo = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
+		            	   String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 			               if(nuevo!=null && nuevo.length()>0) {
 			            	   notificacionPopUp(controller.update(tableModel.getPlanta(row),new Planta(null,nuevo)));
 			            	   actualizarTabla();

@@ -53,9 +53,9 @@ public class PanelCamiones extends PanelPersonalizado {
 	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra (dd/MM/yyyy):",SwingConstants.RIGHT);
 
 	//campos de entrada
-	private JTextField campo_id_camion = new JTextField();
-	private JComboBox<String> campo_id_planta = null;
-	private JComboBox<String> campo_nombre_modelo = null;
+	private JTextField			campo_id_camion = new JTextField();
+	private JComboBox<String> 	campo_id_planta = null;
+	private JComboBox<String>	campo_nombre_modelo = null;
 	private JFormattedTextField campo_distancia = crearCampoDouble();
 	private JFormattedTextField campo_costo_por_km = crearCampoDinero();
 	private JFormattedTextField campo_costo_por_hora = crearCampoDinero();
@@ -68,8 +68,10 @@ public class PanelCamiones extends PanelPersonalizado {
 	String [] desplegable_modelos;
 
 
-	private JButton boton_agregar = botonAgregar("Agregar Camion");
 	private JButton boton_eliminar = botonEliminar("Eliminar Camion seleccionado");
+	private JButton boton_buscar = botonBusqueda("Filtrar por campos");
+	private JButton boton_limpiar = botonLimpiar("Limpiar campos");
+	private JButton boton_agregar = botonAgregar("Agregar Camion");
 
 
 	private void intentarEliminar() {
@@ -89,8 +91,8 @@ public class PanelCamiones extends PanelPersonalizado {
 
 
 	private void actualizarTabla() {
-		tableModel.fireTableDataChanged();
 		tableModel.recargarTabla();
+		tableModel.fireTableDataChanged();
 		tabla.repaint();
 		//tabla.validate();
 	}
@@ -164,26 +166,66 @@ public class PanelCamiones extends PanelPersonalizado {
 		//tabla.setFillsViewportHeight(true);
 
 		//BOTON ELIMINAR------------------------------------------------------------------------------------------------
-		//boton_eliminar.setForeground(Color.WHITE);
-		//boton_eliminar.setBackground(Color.RED);
 		boton_eliminar.addActionListener(e ->{
 			intentarEliminar();
 		});
 
-
+		//BOTON BUSCAR------------------------------------------------------------------------------------------------
+		
+		boton_buscar.addActionListener( e-> {
+			int indicePlanta = campo_id_planta.getSelectedIndex();
+			int indiceModelo = campo_nombre_modelo.getSelectedIndex();
+			Long distancia = (Long) campo_distancia.getValue();
+			Double costo_km = (Double) campo_costo_por_km.getValue();
+			Double costo_hora = (Double) campo_costo_por_hora.getValue();
+			
+			String parametros[] = {
+					campo_id_camion.getText(),
+					indicePlanta==-1?null:todasLasPlantas.get(indicePlanta).getId_planta(),
+					indiceModelo==-1?null:todosLosModelos.get(indiceModelo).getNombre(),
+					distancia==null?null:((Double)distancia.doubleValue()).toString(),
+					costo_km==null?null:costo_km.toString(),
+					costo_hora==null?null:costo_hora.toString(),
+					campo_fecha_de_compra.getText().length()==0?null:campo_fecha_de_compra.getText()
+			};
+			
+			
+			tableModel.setData(controller.query(parametros));
+			tableModel.fireTableDataChanged();
+			tabla.repaint();
+			
+		});
+		
+		//BOTON LIMPIAR------------------------------------------------------------------------------------------------
+		boton_limpiar.addActionListener( e-> {
+			
+			campo_id_camion.setText(null);
+			campo_id_planta.setSelectedIndex(-1);
+			campo_nombre_modelo.setSelectedIndex(-1);
+			campo_distancia.setValue(null);
+			campo_costo_por_km.setValue(null);
+			campo_costo_por_hora.setValue(null);
+			campo_fecha_de_compra.setText(null);
+		});
+		
 		//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		//boton_agregar.setForeground(Color.WHITE);
-		//boton_agregar.setBackground(Color.BLUE);
+		
 
 		boton_agregar.addActionListener( e ->
 		{
+			int indicePlanta = campo_id_planta.getSelectedIndex();
+			int indiceModelo = campo_nombre_modelo.getSelectedIndex();
+			Long distancia = (Long) campo_distancia.getValue();
+			Double costo_km = (Double) campo_costo_por_km.getValue();
+			Double costo_hora = (Double) campo_costo_por_hora.getValue();
+			
 			Mensaje m = controller.add(
 					campo_id_camion.getText(),
-					todasLasPlantas.get(campo_id_planta.getSelectedIndex()).getId_planta(),
-					todosLosModelos.get(campo_nombre_modelo.getSelectedIndex()).getNombre(),
-					campo_distancia.getText(),
-					campo_costo_por_km.getValue().toString(),
-					campo_costo_por_hora.getValue().toString(),
+					indicePlanta==-1?null:todasLasPlantas.get(indicePlanta).getId_planta(),
+					indiceModelo==-1?null:todosLosModelos.get(indiceModelo).getNombre(),
+					distancia==null?null:distancia.doubleValue(),
+					costo_km==null?null:costo_km,
+					costo_hora==null?null:costo_hora,
 					campo_fecha_de_compra.getText()
 					);
 			notificacionPopUp(m);
@@ -191,7 +233,7 @@ public class PanelCamiones extends PanelPersonalizado {
 				actualizarTabla();
 			}
 
-		}
+		} 
 				);
 
 
@@ -229,7 +271,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		//PANEL2------------------------------------------------------------------------------------------------
 
 
-		JPanel panel2 = crearPanelInterno("Agregar");
+		JPanel panel2 = crearPanelInterno("Agregar/Buscar");
 
 		setearFuente(new JComponent[]{texto_id_camion,texto_id_planta,texto_nombre_modelo,texto_distancia,texto_costo_por_km,texto_costo_por_hora,texto_fecha_de_compra});
 
@@ -254,7 +296,9 @@ public class PanelCamiones extends PanelPersonalizado {
 		colocar(0,6,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,texto_fecha_de_compra);
 		colocar(1,6,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_fecha_de_compra);
 
-		colocar(1,7,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
+		colocar(0,7,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,boton_buscar);
+		colocar(1,7,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.WEST,panel2,boton_limpiar);
+		colocar(2,7,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,boton_agregar);
 
 
 		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	

@@ -34,7 +34,7 @@ import tp.dominio.Ruta;
 public class PanelRutas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraciï¿½n de Rutas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Rutas",SwingConstants.CENTER);
 	
 	private RutaTM tableModel;
 	private RutaController controller = new RutaController();
@@ -144,13 +144,13 @@ public class PanelRutas extends PanelPersonalizado{
 		               
 		               switch(column) {
 		               case 3:
-		            	   distancia = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+distancia));
+		            	   distancia = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+distancia));
 		            	   break;
 		               case 4:
-		            	   duracion = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+duracion));
+		            	   duracion = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+duracion));
 			               break;
 		               case 5:
-		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+peso_maximo));
+		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+peso_maximo));
 		            	   break;
 		               }
 		               

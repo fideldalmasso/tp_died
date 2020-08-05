@@ -16,11 +16,11 @@ public class CamionController {
 		service = new CamionService();
 	}
 
-	public Mensaje add(String id_camion, String id_planta, String nombre_modelo, String distancia,
-			String costo_por_km, String costo_por_hora, String fecha_de_compra) {
+	public Mensaje add(String id_camion, String id_planta, String nombre_modelo, Double distancia,
+			Double costo_por_km, Double costo_por_hora, String fecha_de_compra) {
 
 		if(id_camion == null || id_camion.length()==0) 
-			return new Mensaje(false,"Error: id_camion inválido");
+			return new Mensaje(false,"Error: patente inválida");
 
 		if(id_planta == null || id_planta.length()==0) 
 			return new Mensaje(false,"Error: id_planta inválido");
@@ -28,13 +28,13 @@ public class CamionController {
 		if(nombre_modelo == null || nombre_modelo.length()==0) 
 			return new Mensaje(false,"Error: nombre_modelo inválido");
 
-		if(distancia== null || distancia.length()==0)// || !Utilidades.esDouble(distancia)) 
+		if(distancia== null)
 			return new Mensaje(false,"Error: distancia_recorrida_en_km inválida");
 
-		if(costo_por_km == null || costo_por_km.length()==0)// !Utilidades.esDouble(costo_por_km)) 
+		if(costo_por_km == null)
 			return new Mensaje(false,"Error: costo_por_km inválido");
 
-		if(costo_por_hora == null || costo_por_hora.length()==0)// !Utilidades.esDouble(costo_por_hora)) 
+		if(costo_por_hora == null) 
 			return new Mensaje(false,"Error: costo_por_hora inválido");
 
 		if(fecha_de_compra== null || fecha_de_compra.length()==0 || !Utilidades.esFecha(fecha_de_compra)) 
@@ -44,9 +44,9 @@ public class CamionController {
 		return service.add(id_camion,
 				id_planta,
 				nombre_modelo,
-				Double.parseDouble(distancia),
-				Double.parseDouble(costo_por_km),
-				Double.parseDouble(costo_por_hora),
+				distancia,
+				costo_por_km,
+				costo_por_hora,
 				Utilidades.parsearFecha(fecha_de_compra));
 
 	}
@@ -92,6 +92,11 @@ public class CamionController {
 	public Mensaje delete(String nombre) {
 		return service.delete(nombre);
 	}
+	
+	public List<Camion> query(String[] parametros) {
+		return service.query(parametros);
+	}
+	
 	//	
 	//	public Mensaje update(String original, String nueva) {
 	//		if(nueva!=null && nueva.length()>0) 

@@ -69,4 +69,8 @@ public class CamionService {
 		return dao.getDisponible(nombre_planta);
 	}
 	
+	public List<Camion> query(String[] parametros){
+		return dao.query(parametros);
+	}
+	
 }
