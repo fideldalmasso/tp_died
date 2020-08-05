@@ -271,10 +271,11 @@ public class PanelInsumos extends PanelPersonalizado {
 			notificacionPopUp(m);
 			if(m.exito()) {
 				//Le asigna un stock a cada planta
+				actualizarTabla();
 				for(Planta planta : lista) {
 					sid.add(new StockInsumo(planta.getId_planta(),insumodao.getID(campo_descripcion.getText().toString()),0,0));
 				}
-				actualizarTabla();
+				
 				}
 			
 		}
