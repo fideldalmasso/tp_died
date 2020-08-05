@@ -81,7 +81,7 @@ public class PanelCamiones extends PanelPersonalizado {
 
 			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
-				//	notificacionPopUp(controller.delete(identificador));
+				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
 			}
 		}
@@ -98,7 +98,7 @@ public class PanelCamiones extends PanelPersonalizado {
 	public PanelCamiones() {
 
 		super();
-		
+
 		this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
@@ -124,22 +124,29 @@ public class PanelCamiones extends PanelPersonalizado {
 					JTable target = (JTable)e.getSource();
 					int row = target.getSelectedRow(); 
 					int column = target.getSelectedColumn(); 
-					String original = (String)tabla.getValueAt(row, column);
-					String nuevo = "";
-					Boolean procesar = true;
+					String valorOriginal = (String)tabla.getValueAt(row, column);
+					String valorNuevo = "";
+					Boolean continuar = true;
 					switch (column) {
 					case 1:
-						nuevo = ingresoComboPopUp("Seleccioná una planta distinta a "+original, desplegable_plantas);
+						int indice = ingresoComboPopUpInt("Seleccioná una planta distinta a "+valorOriginal, desplegable_plantas);
+						if (indice!= -1)
+							valorNuevo = todasLasPlantas.get(indice).getId_planta();
+						break;
+					case 3:
+					case 4:
+					case 5:
+						valorNuevo = ingresoPopUp("Ingresá un valor distinto para "+valorOriginal);
 						break;
 					default:
-						procesar = false;
 						notificacionPopUp(new Mensaje(false, "Este campo no es modificable"));
+						continuar = false;
 					}
-					if(procesar && nuevo!=null && nuevo.length()>0) {
-						//	Mensaje m = controller.update(column,nuevo,tableModel.getObject(row));
-						//	notificacionPopUp(m);
-						//	if(m.exito())
-						actualizarTabla();
+					if(continuar && valorNuevo!=null && valorNuevo.length()>0) {
+						Mensaje m = controller.update(column,valorNuevo,tableModel.getObject(row));
+						notificacionPopUp(m);
+						if(m.exito())
+							actualizarTabla();
 					}
 				}
 			}
@@ -159,11 +166,8 @@ public class PanelCamiones extends PanelPersonalizado {
 		//BOTON ELIMINAR------------------------------------------------------------------------------------------------
 		//boton_eliminar.setForeground(Color.WHITE);
 		//boton_eliminar.setBackground(Color.RED);
-		boton_eliminar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				intentarEliminar();
-			}
+		boton_eliminar.addActionListener(e ->{
+			intentarEliminar();
 		});
 
 
@@ -213,7 +217,7 @@ public class PanelCamiones extends PanelPersonalizado {
 				.toArray(new String[0]);
 		campo_nombre_modelo = new JComboBox<String>(desplegable_modelos);
 		campo_nombre_modelo.setSelectedItem(null);
-		
+
 		AutoCompletion.enable(campo_nombre_modelo);
 
 		//PANEL1------------------------------------------------------------------------------------------------

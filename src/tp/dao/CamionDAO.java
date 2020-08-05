@@ -121,7 +121,7 @@ public class CamionDAO implements Registrable<Camion>{
 		List<Camion> lista = new ArrayList<Camion>();
 		try {
 			pstm = con.prepareStatement(
-					"SELECT * FROM tp.Camion;");
+					"SELECT * FROM tp.Camion ORDER BY 1;");
 			 rs = pstm.executeQuery();
 			while(rs.next()) {
 				lista.add(parsearRS(rs));

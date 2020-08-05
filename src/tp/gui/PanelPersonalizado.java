@@ -38,8 +38,8 @@ public abstract class PanelPersonalizado extends JPanel{
 		super();
 		this.fileFondo =  "icon/fondo.png";
 	}
-	
-	
+
+
 
 	public void setearFuente(JComponent[] lista) {
 		for(JComponent c : lista){
@@ -47,8 +47,8 @@ public abstract class PanelPersonalizado extends JPanel{
 			c.setFont(new Font("Comic Sans MS", Font.BOLD, 14));
 		}
 	}
-	
-	
+
+
 	//Este metodo dibuja la imagen de fondo
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -76,7 +76,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
 		panel2.setOpaque(false);
-		
+
 		Border borde2 = BorderFactory.createMatteBorder(3, 3, 3, 3, Color.decode("#33658a"));
 		borde2 = BorderFactory.createTitledBorder(borde2, titulo, TitledBorder.LEFT, TitledBorder.TOP, new Font("Comic Sans MS", Font.BOLD, 20),  Color.decode("#33658a"));
 		panel2.setBorder(borde2);
@@ -119,7 +119,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		NumberFormat format1 = DecimalFormat.getInstance(Locale.US);
 		format1.setMinimumFractionDigits(2);
 		format1.setMaximumFractionDigits(2);
-		
+
 		//format1.setRoundingMode(RoundingMode.HALF_UP);
 
 		NumberFormat format3 = NumberFormat.getNumberInstance(Locale.US);
@@ -154,86 +154,103 @@ public abstract class PanelPersonalizado extends JPanel{
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), null, null);	 
 	}
 
-	
+
 	static public String ingresoComboPopUp(String mensaje, String []lista) {
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
 	}
 
-
-	static public int eliminarPopUp(String mensaje) {
-		return JOptionPane.showOptionDialog(null, mensaje, "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, PanelPersonalizado.emoji("icon/warning.png", 32,32), null, null);
+	//este método retorna el índice seleccionado de la lista 
+	static public Integer ingresoComboPopUpInt(String mensaje, String[] lista) {
+		String valor = (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
+		if(valor == null)
+			return -1;
+		else {
+			int i = 0;
+			while(true) {
+				if(lista[i].equals(valor))
+					return i;
+				else
+					i++;	
+			}
+		}
+		
 	}
 
-	static public String seleccionPopUp(String[] valores) {
-		return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
-	}
 
-	//CREAR BOTONES-------------------------------------------------------------------------------------------------------------------------
-	
-	static public JButton botonEliminar(String mensaje) {
-		JButton boton = new JButton(mensaje,emoji("icon/trash.png", 24,24));
-		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		return boton;
-	}
+		static public int eliminarPopUp(String mensaje) {
+			return JOptionPane.showOptionDialog(null, mensaje, "Eliminar",JOptionPane.OK_CANCEL_OPTION , JOptionPane.QUESTION_MESSAGE, PanelPersonalizado.emoji("icon/warning.png", 32,32), null, null);
+		}
 
-	static public JButton botonAgregar(String mensaje) {
-		JButton boton = new JButton(mensaje,emoji("icon/save.png", 24,24));
-		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		return boton;
-	}
+		static public String seleccionPopUp(String[] valores) {
+			return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
+		}
 
-	static public JButton botonEditar(String mensaje) {
-		JButton boton = new JButton(mensaje,emoji("icon/pencil.png",24,24));
-		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		return boton;
-	}
-	
-	static public JButton botonBusqueda(String mensaje) {
-		JButton boton = new JButton(mensaje,emoji("icon/search.png",24,24));
-		boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
-		return boton;
-	}
+		//CREAR BOTONES-------------------------------------------------------------------------------------------------------------------------
 
-	//USAR ESTE Mï¿½TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
-	static public void colocar(
-			int column,
-			int row, 
-			int width, 
-			int height, 
-			double weightX, 
-			double weightY, 
-			int ipadx, 
-			int ipady, 
-			int fill, 
-			int anchor, 
-			JPanel panel, 
-			JComponent comp/*,
+		static public JButton botonEliminar(String mensaje) {
+			JButton boton = new JButton(mensaje,emoji("icon/trash.png", 24,24));
+			boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+			return boton;
+		}
+
+		static public JButton botonAgregar(String mensaje) {
+			JButton boton = new JButton(mensaje,emoji("icon/save.png", 24,24));
+			boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+			return boton;
+		}
+
+		static public JButton botonEditar(String mensaje) {
+			JButton boton = new JButton(mensaje,emoji("icon/pencil.png",24,24));
+			boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+			return boton;
+		}
+
+		static public JButton botonBusqueda(String mensaje) {
+			JButton boton = new JButton(mensaje,emoji("icon/search.png",24,24));
+			boton.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
+			return boton;
+		}
+
+		//USAR ESTE Mï¿½TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
+		static public void colocar(
+				int column,
+				int row, 
+				int width, 
+				int height, 
+				double weightX, 
+				double weightY, 
+				int ipadx, 
+				int ipady, 
+				int fill, 
+				int anchor, 
+				JPanel panel, 
+				JComponent comp/*,
 			int marginTop, int marginLeft, int marginBottom, int marginRight */){
-		//https://stackoverflow.com/questions/45175343/how-do-you-add-empty-cells-to-gridbaglayout
-		//GridBagConstraints constraints = new GridBagConstraints();
-		GridBagConstraints c1 = new GridBagConstraints();
-		c1.gridx = column;      // column to start
-		c1.gridy = row;         // row to start
-		c1.gridwidth = width;   // number of cells wide
-		c1.gridheight = height; // number of cells tall
-		c1.weightx = weightX;   // when size is changed, grow in x direction
-		c1.weighty = weightY;   // when size is changed, grow in y direction
-		c1.ipadx = ipadx;       // espacio extra en x
-		c1.ipady = ipady;		  // espacio extra en y
-		c1.fill = fill;         // 0 NONE, 1 BOTH, 2 HORIZONTAL, 3 VERTICAL
-		c1.anchor = anchor; 	  //10 CENTER
-		c1.insets = new Insets(5,10,5,10);
-//		c1.insets = new Insets( marginTop, marginLeft, marginBottom, marginRight );
-		panel.add(comp,c1);  
+			//https://stackoverflow.com/questions/45175343/how-do-you-add-empty-cells-to-gridbaglayout
+			//GridBagConstraints constraints = new GridBagConstraints();
+			GridBagConstraints c1 = new GridBagConstraints();
+			c1.gridx = column;      // column to start
+			c1.gridy = row;         // row to start
+			c1.gridwidth = width;   // number of cells wide
+			c1.gridheight = height; // number of cells tall
+			c1.weightx = weightX;   // when size is changed, grow in x direction
+			c1.weighty = weightY;   // when size is changed, grow in y direction
+			c1.ipadx = ipadx;       // espacio extra en x
+			c1.ipady = ipady;		  // espacio extra en y
+			c1.fill = fill;         // 0 NONE, 1 BOTH, 2 HORIZONTAL, 3 VERTICAL
+			c1.anchor = anchor; 	  //10 CENTER
+			c1.insets = new Insets(5,10,5,10);
+			//		c1.insets = new Insets( marginTop, marginLeft, marginBottom, marginRight );
+			panel.add(comp,c1);  
+
+		}
+
+		//CARGAR EMOJIS-------------------------------------------------------------------------------------------------------------------------
+
+		static public ImageIcon emoji(String fileName, int width, int height) {
+			Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
+			return new ImageIcon(imagen);
+		}
+
 
 	}
-
-	//CARGAR EMOJIS-------------------------------------------------------------------------------------------------------------------------
-	
-	static public ImageIcon emoji(String fileName, int width, int height) {
-		Image imagen = new ImageIcon(fileName).getImage().getScaledInstance(width,height, Image.SCALE_SMOOTH);
-		return new ImageIcon(imagen);
-	}
-
-
-}
