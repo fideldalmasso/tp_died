@@ -1,15 +1,13 @@
 package tp.app;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+import tp.controller.Mensaje;
 import tp.dao.DataBase;
 import tp.gui.*;
 
@@ -39,6 +37,18 @@ public class App extends JFrame {
 		this.revalidate();
 		this.repaint();
 		this.setSize(d);
+		
+		if(p.getClass() == PanelHome.class && !DataBase.funciona) {
+			Mensaje m = DataBase.leerJson();
+			
+			if(m.exito())
+				DataBase.inicializarTablas();
+			else {
+				PanelPersonalizado.notificacionPopUp(m);
+				cambiarPanel(new PanelDataBase());
+			}
+		}
+		
 	}
 
 	private App() {
@@ -130,6 +140,7 @@ public class App extends JFrame {
 
 		this.add(toolBar,BorderLayout.NORTH);
 
+		
 	}
 
 
@@ -150,7 +161,6 @@ public class App extends JFrame {
 					System.out.println(e.getMessage());
 				}
 				
-				DataBase.resetDB();
 				new App().setVisible(true);
 				
 			}

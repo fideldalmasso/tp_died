@@ -82,7 +82,6 @@ public class PanelPlantas extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
-		this.fileFondo="icon/fondo2.png";
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(color_titulo);

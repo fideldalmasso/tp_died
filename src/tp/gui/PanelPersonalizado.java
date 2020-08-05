@@ -20,8 +20,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultFormatterFactory;
@@ -32,11 +34,11 @@ import tp.controller.Mensaje;
 public abstract class PanelPersonalizado extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	String fileFondo;;
+	protected String fileFondo;
 
 	public  PanelPersonalizado() {
 		super();
-		this.fileFondo =  "icon/fondo.png";
+		this.fileFondo = "icon/fondo2.png";
 	}
 
 
@@ -186,6 +188,15 @@ public abstract class PanelPersonalizado extends JPanel{
 			return (String) JOptionPane.showInputDialog(null, "Seleccione un valor de la lista", "Ingreso",JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), valores, null);
 		}
 
+		//CREAR TITULO
+		static public JLabel crearTitulo(String mensaje) {
+			JLabel titulo = new JLabel(mensaje,SwingConstants.CENTER);
+			titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
+			titulo.setForeground(Color.decode("#dd1c1a"));
+			return titulo;
+		}
+		
+		
 		//CREAR BOTONES-------------------------------------------------------------------------------------------------------------------------
 
 		static public JButton botonEliminar(String mensaje) {

@@ -54,7 +54,6 @@ public class PanelDetallePedido extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
-		this.fileFondo="icon/fondo2.png";
 		
 		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));

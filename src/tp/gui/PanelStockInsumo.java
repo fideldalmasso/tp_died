@@ -65,7 +65,6 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
-		this.fileFondo="icon/fondo2.png";
 	//TITULO------------------------------------------------------------------------------------------------
 		titulo.setText("Stock de Insumos de: "+planta.getNombre());
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));

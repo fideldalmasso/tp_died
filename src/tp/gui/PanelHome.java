@@ -10,6 +10,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import tp.app.App;
+import tp.controller.Mensaje;
+import tp.dao.DataBase;
 
 public class PanelHome extends PanelPersonalizado {
 	
@@ -41,7 +43,7 @@ public class PanelHome extends PanelPersonalizado {
 	public PanelHome() {
 		super();
 		this.setLayout(new GridLayout(0,3,20,20));
-		
+		this.fileFondo="icon/fondo.png";
 		this.add(boton_insumos);
 		this.add(boton_plantas);
 		this.add(boton_pedidos);
@@ -51,11 +53,15 @@ public class PanelHome extends PanelPersonalizado {
 		this.add(boton_rutas);
 		this.add(boton_salir);
 		
-		this.getBoton_insumos().addActionListener( e-> cambiarPanel(new PanelInsumos()));
-		this.getBoton_camiones().addActionListener( e-> cambiarPanel(new PanelCamiones()));
-		this.getBoton_plantas().addActionListener( e-> cambiarPanel(new PanelPlantas()));
-		this.getBoton_rutas().addActionListener(e -> cambiarPanel(new PanelRutas()));
-		this.getBoton_pedidos().addActionListener(e -> cambiarPanel(new PanelPedidos()));
+		boton_insumos.addActionListener( e-> cambiarPanel(new PanelInsumos()));
+		boton_camiones.addActionListener( e-> cambiarPanel(new PanelCamiones()));
+		boton_plantas.addActionListener( e-> cambiarPanel(new PanelPlantas()));
+		boton_rutas.addActionListener(e -> cambiarPanel(new PanelRutas()));
+		boton_pedidos.addActionListener(e -> cambiarPanel(new PanelPedidos()));
+		boton_base_de_datos.addActionListener(e -> cambiarPanel(new PanelDataBase()));
+		
+
+		
 		
 	}
 	
