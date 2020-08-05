@@ -1,6 +1,5 @@
 package tp.gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -10,8 +9,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import tp.app.App;
-import tp.controller.Mensaje;
-import tp.dao.DataBase;
 
 public class PanelHome extends PanelPersonalizado {
 	
@@ -19,7 +16,7 @@ public class PanelHome extends PanelPersonalizado {
 	private JButton boton_plantas = botonPrincipal("Plantas", "icon/planta.png");
 	private JButton boton_pedidos = botonPrincipal("Pedidos", "icon/pedido.png");
 	private JButton boton_base_de_datos = botonPrincipal("Base de Datos", "icon/database.png");
-	private JButton boton_envios= botonPrincipal("Envios", "icon/envio.png");
+	private JButton boton_envios= botonPrincipal("Analisis", "icon/grafico.png");
 	private JButton boton_camiones = botonPrincipal("Camiones", "icon/truck.png");
 	private JButton boton_rutas= botonPrincipal("Rutas", "icon/ruta.png");
 	private JButton boton_salir = botonPrincipal("Salir", "icon/salir.png");
@@ -60,8 +57,7 @@ public class PanelHome extends PanelPersonalizado {
 		boton_pedidos.addActionListener(e -> cambiarPanel(new PanelPedidos()));
 		boton_base_de_datos.addActionListener(e -> cambiarPanel(new PanelDataBase()));
 		boton_envios.addActionListener(e -> cambiarPanel(new PanelAnalisis()));
-
-		
+		boton_salir.addActionListener(e -> System.exit(0));
 		
 	}
 	

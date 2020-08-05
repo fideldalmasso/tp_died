@@ -14,18 +14,15 @@ import java.util.stream.Collectors;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
-import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
 import tp.controller.RutaController;
@@ -42,6 +39,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 	private String[] items = pc.getAll().parallelStream().map(p->p.getNombre()).collect(Collectors.toList()).toArray(new String[0]);
 	private String[] items2 = {"Menor distancia","Menor duracion"};
 	//CABECERA
+	private JPanel panel_espacio = new JPanel();
 	private JPanel panel_cabecera = new JPanel();
 	private JLabel titulo = new JLabel("Analisis",SwingConstants.CENTER);
 	
@@ -68,7 +66,6 @@ public class PanelAnalisis extends PanelPersonalizado{
 	private JButton boton_calcular_caminos = new JButton("Calcular Caminos");
 	
 	//MATRIZ CAMINOS MINIMOS
-	private JScrollPane scroll_pane_matriz = new JScrollPane();
 	private JPanel panel_matriz = new JPanel();
 	private JPanel matriz_p = new JPanel();
 	private JLabel texto_modo = new JLabel("Modo:");
@@ -87,12 +84,6 @@ public class PanelAnalisis extends PanelPersonalizado{
 	private static Color color_titulo =  Color.decode("#dd1c1a");
 	private static Color color_letras = Color.BLACK;
 	
-	private void cambiarPanel(PanelPersonalizado p1) {
-		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
-        App app = (App) frame;
-        app.cambiarPanel(p1);
-	}
-	
 	private void actualizarTabla(JTable tabla, AbstractTableModel modelo) {
 		tabla.setModel(modelo);
 		modelo.fireTableDataChanged();
@@ -102,7 +93,9 @@ public class PanelAnalisis extends PanelPersonalizado{
 	public PanelAnalisis() {
 			super();
 			this.setLayout(new GridBagLayout());
+			
 			//CABECERA
+			panel_espacio.setOpaque(false);
 			titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 			titulo.setForeground(color_titulo);
 			
@@ -125,7 +118,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			this.scroll_pane_plantas = new JScrollPane(this.tabla_plantas);
 			
 			panel_plantas.setBorder(borde);
-			colocar(3,0,1,1,0,0,0,0,GridBagConstraints.BOTH, 10, panel_plantas, scroll_pane_plantas);
+			colocar(0,0,1,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel_plantas, scroll_pane_plantas);
 			
 			//CAMINOS MINIMOS
 			panel_caminos.setBorder(borde);
@@ -187,10 +180,12 @@ public class PanelAnalisis extends PanelPersonalizado{
 			//ORGANIZACION DE PANELES
 			colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 			colocar(0,1,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
+			colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_espacio);
 			
 //BOTONES CABECERA
 			//BOTON PLANT RANK
 			boton_plant_rank.addActionListener(e->{
+				this.remove(panel_espacio);
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
@@ -207,6 +202,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 			//BOTON CAMINOS MINIMOS
 			boton_caminos.addActionListener(e->{
+				this.remove(panel_espacio);
 				this.remove(panel_plantas);
 				this.remove(panel_flujo);
 				this.remove(panel_matriz);
@@ -217,6 +213,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 			//BOTON MATRIZ
 			boton_matriz.addActionListener(e->{
+				this.remove(panel_espacio);
 				this.remove(panel_caminos);
 				this.remove(panel_flujo);
 				this.remove(panel_plantas);
@@ -227,6 +224,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			
 			//BOTON FLUJO MAXIMO
 			boton_flujo.addActionListener(e->{
+				this.remove(panel_espacio);
 				this.remove(panel_caminos);
 				this.remove(panel_plantas);
 				this.remove(panel_matriz);
