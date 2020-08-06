@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -36,14 +34,14 @@ public class PanelCamiones extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Camiones",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administraciï¿½n de Camiones",SwingConstants.CENTER);
 
 	private CamionTM tableModel;
 	private CamionController controller = new CamionController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
 
-	//labels
+	//LABELS
 	private JLabel texto_id_camion = new JLabel("Patente:",SwingConstants.RIGHT);
 	private JLabel texto_id_planta = new JLabel("Id planta:",SwingConstants.RIGHT);
 	private JLabel texto_nombre_modelo = new JLabel("Modelo:",SwingConstants.RIGHT);
@@ -52,7 +50,7 @@ public class PanelCamiones extends PanelPersonalizado {
 	private JLabel texto_costo_por_hora = new JLabel("Costo por hora:",SwingConstants.RIGHT);
 	private JLabel texto_fecha_de_compra = new JLabel("Fecha de compra (dd/MM/yyyy):",SwingConstants.RIGHT);
 
-	//campos de entrada
+	//CAMPOS ENTRADA
 	private JTextField			campo_id_camion = new JTextField();
 	private JComboBox<String> 	campo_id_planta = null;
 	private JComboBox<String>	campo_nombre_modelo = null;
@@ -81,7 +79,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 
-			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
+			int resultado = eliminarPopUp("ï¿½Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
@@ -94,22 +92,20 @@ public class PanelCamiones extends PanelPersonalizado {
 		tableModel.recargarTabla();
 		tableModel.fireTableDataChanged();
 		tabla.repaint();
-		//tabla.validate();
 	}
 
 	public PanelCamiones() {
 
 		super();
 
-		//this.fileFondo = "icon/fondo2.png";
 		this.setLayout(new GridBagLayout());
-		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
+		this.setBackground(new Color(250, 216, 214));
 
-		//TITULO------------------------------------------------------------------------------------------------
+		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(Color.decode("#dd1c1a"));
 
-		//TABLA------------------------------------------------------------------------------------------------
+		//TABLA
 		tableModel = new CamionTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
@@ -118,7 +114,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
 		tabla.getTableHeader().setReorderingAllowed(false);
-		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
+		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
 
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -131,14 +127,14 @@ public class PanelCamiones extends PanelPersonalizado {
 					Boolean continuar = true;
 					switch (column) {
 					case 1:
-						int indice = ingresoComboPopUpInt("Seleccioná una planta distinta a "+valorOriginal, desplegable_plantas);
+						int indice = ingresoComboPopUpInt("Seleccionï¿½ una planta distinta a "+valorOriginal, desplegable_plantas);
 						if (indice!= -1)
 							valorNuevo = todasLasPlantas.get(indice).getId_planta();
 						break;
 					case 3:
 					case 4:
 					case 5:
-						valorNuevo = ingresoPopUp("Ingresá un valor distinto para "+valorOriginal);
+						valorNuevo = ingresoPopUp("Ingresï¿½ un valor distinto para "+valorOriginal);
 						break;
 					default:
 						notificacionPopUp(new Mensaje(false, "Este campo no es modificable"));
@@ -163,15 +159,13 @@ public class PanelCamiones extends PanelPersonalizado {
 		});
 
 		scroll_pane = new JScrollPane(tabla);
-		//tabla.setFillsViewportHeight(true);
 
-		//BOTON ELIMINAR------------------------------------------------------------------------------------------------
+		//BOTON ELIMINAR
 		boton_eliminar.addActionListener(e ->{
 			intentarEliminar();
 		});
 
-		//BOTON BUSCAR------------------------------------------------------------------------------------------------
-		
+		//BOTON BUSCAR
 		boton_buscar.addActionListener( e-> {
 			int indicePlanta = campo_id_planta.getSelectedIndex();
 			int indiceModelo = campo_nombre_modelo.getSelectedIndex();
@@ -196,9 +190,8 @@ public class PanelCamiones extends PanelPersonalizado {
 			
 		});
 		
-		//BOTON LIMPIAR------------------------------------------------------------------------------------------------
+		//BOTON LIMPIAR
 		boton_limpiar.addActionListener( e-> {
-			
 			campo_id_camion.setText(null);
 			campo_id_planta.setSelectedIndex(-1);
 			campo_nombre_modelo.setSelectedIndex(-1);
@@ -208,11 +201,8 @@ public class PanelCamiones extends PanelPersonalizado {
 			campo_fecha_de_compra.setText(null);
 		});
 		
-		//BOTON AGREGAR------------------------------------------------------------------------------------------------
-		
-
-		boton_agregar.addActionListener( e ->
-		{
+		//BOTON AGREGAR
+		boton_agregar.addActionListener( e ->{
 			int indicePlanta = campo_id_planta.getSelectedIndex();
 			int indiceModelo = campo_nombre_modelo.getSelectedIndex();
 			Long distancia = (Long) campo_distancia.getValue();
@@ -231,13 +221,10 @@ public class PanelCamiones extends PanelPersonalizado {
 			notificacionPopUp(m);
 			if(m.exito()) { 
 				actualizarTabla();
-			}
-
-		} 
-				);
+			}});
 
 
-		//COMBOBOX PLANTAS------------------------------------------------------------------------------------------------
+		//COMBOBOX PLANTAS
 		todasLasPlantas = new PlantaDAO().getAll();
 		desplegable_plantas = todasLasPlantas
 				.stream()
@@ -248,9 +235,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		campo_id_planta.setSelectedItem(null);
 		AutoCompletion.enable(campo_id_planta);
 
-
-
-		//COMBOBOX MODELOS------------------------------------------------------------------------------------------------
+		//COMBOBOX MODELOS
 		todosLosModelos = new ModeloDAO().getAll();
 		desplegable_modelos = todosLosModelos
 				.stream()
@@ -262,14 +247,14 @@ public class PanelCamiones extends PanelPersonalizado {
 
 		AutoCompletion.enable(campo_nombre_modelo);
 
-		//PANEL1------------------------------------------------------------------------------------------------
+	//PANEL1
+		
 		JPanel panel1 = crearPanelInterno("Editar/Eliminar");
 
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH, 10, panel1, scroll_pane);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
 
-		//PANEL2------------------------------------------------------------------------------------------------
-
+	//PANEL2
 
 		JPanel panel2 = crearPanelInterno("Agregar/Buscar");
 
@@ -300,8 +285,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		colocar(1,7,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.WEST,panel2,boton_limpiar);
 		colocar(2,7,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel2,boton_agregar);
 
-
-		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
+	//ORGANIZACION DE PANELES	
 
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);

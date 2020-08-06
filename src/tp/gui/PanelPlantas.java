@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -28,13 +26,12 @@ import javax.swing.border.TitledBorder;
 import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
-import tp.controller.StockInsumoController;
 import tp.dominio.Planta;
 
 public class PanelPlantas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Plantas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administraciï¿½n de Plantas",SwingConstants.CENTER);
 	
 	private PlantaTM tableModel;
 	private PlantaController controller = new PlantaController();
@@ -81,12 +78,13 @@ public class PanelPlantas extends PanelPersonalizado{
 	public PanelPlantas() {
 		super();
 		this.setLayout(new GridBagLayout());
-		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
-	//TITULO------------------------------------------------------------------------------------------------
+		this.setBackground(new Color(250, 216, 214));
+		
+		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(color_titulo);
 		
-	//TABLA------------------------------------------------------------------------------------------------
+		//TABLA
 		tableModel = new PlantaTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
@@ -94,7 +92,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
+		tabla.setToolTipText("Hacï¿½ doble clic para editar el campo o presionï¿½ Supr para eliminar");
 		tabla.getTableHeader().setReorderingAllowed(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
@@ -109,7 +107,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		               case 0:
 		            	   break;
 		               case 1:
-		            	   String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
+		            	   String nuevo = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
 			               if(nuevo!=null && nuevo.length()>0) {
 			            	   notificacionPopUp(controller.update(tableModel.getPlanta(row),new Planta(null,nuevo)));
 			            	   actualizarTabla();
@@ -130,43 +128,30 @@ public class PanelPlantas extends PanelPersonalizado{
 		
 		scroll_pane = new JScrollPane(tabla);
 
-	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
+		//BOTON ELIMINAR
+		boton_eliminar.addActionListener(e->intentarEliminar());
 		
-		boton_eliminar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				intentarEliminar();
-			}
-		});
-		//BOTON VER STOCK------------------------------------------------------------------------------------------------
-		boton_stock_insumo.addActionListener(new ActionListener() {
-			
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		//BOTON VER STOCK
+		boton_stock_insumo.addActionListener(e->{
 				Integer row = tabla.getSelectedRow();
 				if(row==-1) {
 					notificacionPopUp(new Mensaje(false, "Ninguna fila seleccionada"));
 				}else {
 					cambiarPanel(new PanelStockInsumo(tableModel.getPlanta(row)));
 				}
-			}
 		});
 		
-	//BOTON AGREGAR------------------------------------------------------------------------------------------------
-
-		boton_agregar.addActionListener( e ->
-		{
+		//BOTON AGREGAR
+		boton_agregar.addActionListener( e ->{
 			Mensaje m = controller.add(new Planta(null,campo_nombre.getText()));
 			notificacionPopUp(m);
 			if(m.exito()) {
 				actualizarTabla();
 			}
-			
-		}
-	);
+		});
 	
-	//PANEL1------------------------------------------------------------------------------------------------
+	//PANEL1
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -180,8 +165,8 @@ public class PanelPlantas extends PanelPersonalizado{
 		colocar(0,1,1,1,1,1,0,0,GridBagConstraints.NONE,10,panel1,boton_stock_insumo);
 		colocar(1,1,1,1,1,1,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
 		
-		
-	//PANEL2------------------------------------------------------------------------------------------------
+	//PANEL2
+
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
 		panel2.setOpaque(false);
@@ -194,7 +179,7 @@ public class PanelPlantas extends PanelPersonalizado{
 		colocar(1,0,1,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel2,campo_nombre);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel2,boton_agregar);
 		
-	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
+	//ORGANIZACION DE PANELES
 		
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);

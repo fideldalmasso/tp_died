@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -28,13 +26,11 @@ import javax.swing.border.TitledBorder;
 import tp.controller.Mensaje;
 import tp.controller.PlantaController;
 import tp.controller.RutaController;
-import tp.dominio.Planta;
-import tp.dominio.Ruta;
 
 public class PanelRutas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administración de Rutas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administraciï¿½n de Rutas",SwingConstants.CENTER);
 	
 	private RutaTM tableModel;
 	private RutaController controller = new RutaController();
@@ -113,11 +109,12 @@ public class PanelRutas extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
-	//TITULO------------------------------------------------------------------------------------------------
+	
+		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(color_titulo);
 		
-	//TABLA------------------------------------------------------------------------------------------------
+		//TABLA
 		tableModel = new RutaTM();
 		tabla = new JTable();
 		tabla.setModel(tableModel);
@@ -143,13 +140,13 @@ public class PanelRutas extends PanelPersonalizado{
 		               
 		               switch(column) {
 		               case 3:
-		            	   distancia = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+distancia));
+		            	   distancia = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+distancia));
 		            	   break;
 		               case 4:
-		            	   duracion = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+duracion));
+		            	   duracion = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+duracion));
 			               break;
 		               case 5:
-		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+peso_maximo));
+		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingresï¿½ otro valor para: "+peso_maximo));
 		            	   break;
 		               }
 		               
@@ -169,11 +166,12 @@ public class PanelRutas extends PanelPersonalizado{
 		
 		scroll_pane = new JScrollPane(tabla);
 
-	//BOTON ELIMINAR------------------------------------------------------------------------------------------------
-		
+		//BOTON ELIMINAR
 		boton_eliminar.addActionListener(e -> intentarEliminar());
 		boton_agregar.addActionListener(e -> intentarAgregar());
-	//PANEL1------------------------------------------------------------------------------------------------
+	
+	//PANEL1
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -187,7 +185,8 @@ public class PanelRutas extends PanelPersonalizado{
 		colocar(1,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_eliminar);
 		
 		
-	//PANEL2------------------------------------------------------------------------------------------------
+	//PANEL2
+		
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridBagLayout());
 		panel2.setOpaque(false);
@@ -230,7 +229,7 @@ public class PanelRutas extends PanelPersonalizado{
 		
 		colocar(0,3,4,1,0,0,0,0,GridBagConstraints.CENTER,10,panel2,boton_agregar);
 		
-	//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
+	//ORGANIZACION DE PANELES
 		
 		colocar(0,0,1,1,0,0,0,10,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,1,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);

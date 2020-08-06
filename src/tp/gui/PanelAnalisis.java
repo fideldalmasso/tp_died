@@ -182,7 +182,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 			colocar(0,1,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,panel_cabecera);
 			colocar(0,2,1,1,1,1,0,10 ,GridBagConstraints.BOTH,10,this,panel_espacio);
 			
-//BOTONES CABECERA
+		//BOTONES CABECERA
 			//BOTON PLANT RANK
 			boton_plant_rank.addActionListener(e->{
 				this.remove(panel_espacio);
@@ -233,7 +233,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.repaint();
 			});
 			
-//BOTONES CAMINOS MINIMOS
+		//BOTONES CAMINOS MINIMOS
 			//BOTON CALCULAR CAMINOS
 			boton_calcular_caminos.addActionListener(e->{
 				String nombre_destino = "";
@@ -254,7 +254,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				actualizarTabla(tabla_caminos,table_model_caminos);
 			});
 			
-//BOTONES MATRIZ
+		//BOTONES MATRIZ
 			campo_modo.addActionListener(e->{
 				matriz_p.removeAll();
 				String modo = (String) campo_modo.getSelectedItem();
@@ -272,23 +272,34 @@ public class PanelAnalisis extends PanelPersonalizado{
 				}
 				
 				matriz_p.setLayout(new GridLayout(tam+1,tam+1,1,1));
+				matriz_p.setBorder(BorderFactory.createEmptyBorder());
 				for(int i=0;i<tam+1;i++) {
 					for(int j=0;j<tam+1;j++) {
 						JLabel l;
 						if(i==0 && j!=0) {
-							l = new JLabel(m.get(j-1).getNombre());
+							l = new JLabel(m.get(j-1).getNombre(),SwingConstants.CENTER);
+							l.setForeground(Color.WHITE);
+							l.setBackground(color_borde);
+							l.setOpaque(true);
 						}else if(j==0 && i!=0) {
-							l = new JLabel(m.get(i-1).getNombre());
+							l = new JLabel(m.get(i-1).getNombre(),SwingConstants.CENTER);
+							l.setForeground(Color.WHITE);
+							l.setBackground(color_borde);
+							l.setOpaque(true);
 						}else if(i==0 && j==0) {
-							l = new JLabel(" ");
+							l = new JLabel(" ",SwingConstants.CENTER);
+							l.setForeground(color_borde);
+							l.setBackground(color_borde);
+							l.setOpaque(true);
 						}else{
 							if(matriz_d[i-1][j-1]!=Double.MAX_VALUE) {
-								l = new JLabel(Double.toString(matriz_d[i-1][j-1]));
+								l = new JLabel(Double.toString(matriz_d[i-1][j-1]),SwingConstants.CENTER);
 							}else {
-								l = new JLabel("-");
+								l = new JLabel("-",SwingConstants.CENTER);
 							}
 							
 						}
+						l.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 						matriz_p.add(l);
 					}
 				}
@@ -298,7 +309,7 @@ public class PanelAnalisis extends PanelPersonalizado{
 				this.repaint();
 			});
 
-//BOTONES FLUJO MAXIMO
+		//BOTONES FLUJO MAXIMO
 			boton_calcular_flujo.addActionListener(e->{
 				String nombre_destino = "";
 				String nombre_origen = "";

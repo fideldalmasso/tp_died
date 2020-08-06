@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -148,7 +147,7 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
-			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
+			JOptionPane.showMessageDialog(null, "Operaciï¿½n exitosa","ï¿½xito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
 		else
 			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE,PanelPersonalizado.emoji("icon/error.png", 32,32));
 	}
@@ -162,7 +161,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
 	}
 
-	//este método retorna el índice seleccionado de la lista 
+	//este mï¿½todo retorna el ï¿½ndice seleccionado de la lista 
 	static public Integer ingresoComboPopUpInt(String mensaje, String[] lista) {
 		String valor = (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
 		if(valor == null)
@@ -230,7 +229,7 @@ public abstract class PanelPersonalizado extends JPanel{
 			return boton;
 		}
 
-		//USAR ESTE MÉTODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
+		//USAR ESTE Mï¿½TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
 		static public void colocar(
 				int column,
 				int row, 

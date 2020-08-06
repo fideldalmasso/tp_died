@@ -4,12 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.time.LocalDate;
-import java.util.function.Predicate;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -30,7 +27,6 @@ import tp.controller.PedidoController;
 import tp.controller.Utilidades;
 import tp.dominio.Pedido;
 import tp.enumerados.Estado;
-import tp.enumerados.Unidad;
 
 public class PanelPedidos extends PanelPersonalizado{
 	private static final long serialVersionUID = 2L;
@@ -80,7 +76,6 @@ public class PanelPedidos extends PanelPersonalizado{
 		tableModel.fireTableDataChanged();
 		tableModel.recargarTabla();
 		tabla.repaint();
-		//tabla.validate();
 	}
 	
 	public PanelPedidos() {
@@ -188,7 +183,8 @@ public class PanelPedidos extends PanelPersonalizado{
 			actualizarTabla();
 		});
 		
-		//PANEL1
+	//PANEL1
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -208,7 +204,8 @@ public class PanelPedidos extends PanelPersonalizado{
 		colocar(3,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_entregar);
 		colocar(4,1,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_cancelar);
 		
-		//ORGANIZACION DE PANELES
+	//ORGANIZACION DE PANELES
+		
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);
 		colocar(3,0,4,1,1,1,0,0,GridBagConstraints.HORIZONTAL,10,this,espacio);
 		colocar(7,0,1,1,1,1,0,0,GridBagConstraints.EAST,10,this,texto_estados);

@@ -4,10 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -34,7 +30,6 @@ import tp.controller.DetallePedidoController;
 import tp.controller.Mensaje;
 import tp.dominio.DetallePedido;
 import tp.dominio.Pedido;
-import tp.dominio.Planta;
 import tp.controller.PedidoController;
 import tp.controller.PlantaController;
 import tp.dao.PedidoDAO;
@@ -46,7 +41,6 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 	
 	private InsumoTM table_model_insumo;
 	private DetallePedidoTM table_model_detalle_pedido;
-	private PedidoController pedidoController = new PedidoController();
 	private JScrollPane scroll_pane_detalle_pedido;
 	private JScrollPane scroll_pane_insumo;
 	private JTable tablaInsumo;
@@ -77,7 +71,7 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 	public PanelAgregarPedido() {
 		super();
 		this.setLayout(new GridBagLayout());
-		this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
+		this.setBackground(new Color(250, 216, 214));
 		this.fileFondo="icon/fondo2.png";
 		
 		//TITULO
@@ -112,12 +106,11 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 		               JTable target = (JTable)e.getSource();
 		               int row = target.getSelectedRow();
 		               int column = target.getSelectedColumn();
-		              
 		               
 		               switch(column) {
 		               case 2:
 		            	   Integer cantidad = (Integer) tablaDetallePedido.getValueAt(row, column);
-		            	   String cantidad_nueva = ingresoPopUp("Ingres� otro valor para: "+cantidad);
+		            	   String cantidad_nueva = ingresoPopUp("Ingres� otro valor para: "+cantidad);
 			               if(cantidad_nueva!=null && cantidad_nueva.length()>0) {
 			            	   table_model_detalle_pedido.getDetallePedido(row).setCantidad_de_unidades(Integer.parseInt(cantidad_nueva));
 			            	   actualizarTabla(tablaDetallePedido,table_model_detalle_pedido);
@@ -140,6 +133,7 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 				notificacionPopUp(new Mensaje(false, "Ningún insumo seleccionado."));
 			}
 		});
+		
 		//BOTON QUITAR INSUMO
 		boton_quitar_insumo.addActionListener(e->{
 			Integer row = tablaDetallePedido.getSelectedRow();
@@ -152,6 +146,7 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 				notificacionPopUp(new Mensaje(false, "Ningún insumo seleccionado."));
 			}
 		});
+		
 		//BOTON AGREGAR PEDIDO
 		boton_agregar_pedido.addActionListener(e->{
 			String nombre_planta_destino = (String) campo_planta_destino.getSelectedItem();
@@ -211,7 +206,6 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 		colocar(1,2,1,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_agregar_insumo);
 		
 		colocar(0,4,4,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_agregar_pedido);
-		
 		
 		//ORGANIZACION DE PANELES
 		

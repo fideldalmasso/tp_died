@@ -26,21 +26,19 @@ public class PanelDataBase extends PanelPersonalizado{
 
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel titulo = crearTitulo("Conexión a Base de Datos");
+	private JLabel titulo = crearTitulo("Conexiï¿½n a Base de Datos");
 	private JLabel texto_url = new JLabel("URL:",SwingConstants.RIGHT);
 	private JLabel texto_user= new JLabel("User:",SwingConstants.RIGHT);
 	private JLabel texto_password = new JLabel("Password:",SwingConstants.RIGHT);
-	private JLabel texto_modo = new JLabel("Modo de operación:",SwingConstants.RIGHT);
+	private JLabel texto_modo = new JLabel("Modo de operaciï¿½n:",SwingConstants.RIGHT);
 
-	//campos de entrada
+	//CAMPOS ENTRADA
 	private JTextField campo_url = new JTextField();
 	private JTextField campo_user = new JTextField();
 	private JTextField campo_password = new JTextField();
 	private JRadioButton boton_load = new JRadioButton("Load");
 	private JRadioButton boton_reset = new JRadioButton("Reset");
 	private ButtonGroup grupo = new ButtonGroup();
-	
-//	private JPasswordField campo_password = new JPasswordField();
 
 	private JTextArea nota = new JTextArea();
 	private JButton boton_guardar = botonAgregar("Guardar cambios");
@@ -48,11 +46,9 @@ public class PanelDataBase extends PanelPersonalizado{
 	public PanelDataBase() {
 		this.setLayout(new GridBagLayout());
 
-		//RADIO BUTTONS------------------------------------------------------------------------------------------------
+		//RADIO BUTTONS
 		grupo.add(boton_load);
 		grupo.add(boton_reset);
-
-		// si la base de datos ya está conectada, rellenar los campos
 
 		if(DataBase.url!=null && DataBase.user!= null && DataBase.password!=null) {
 			campo_url.setText(DataBase.url);
@@ -68,7 +64,7 @@ public class PanelDataBase extends PanelPersonalizado{
 		}
 		campo_password.setVisible(true);
 
-		//BOTON GUARDAR------------------------------------------------------------------------------------------------
+		//BOTON GUARDAR
 
 		boton_guardar.addActionListener( e-> {
 			if(campo_url.getText() == null || campo_url.getText().length()==0)
@@ -78,7 +74,7 @@ public class PanelDataBase extends PanelPersonalizado{
 				notificacionPopUp(new Mensaje(false, "Ingrese un usuario"));
 
 			if(campo_password.getText() == null || campo_password.getText().length()==0)
-				notificacionPopUp(new Mensaje(false, "Ingrese una contraseña"));
+				notificacionPopUp(new Mensaje(false, "Ingrese una contraseï¿½a"));
 
 			DataBase.url = campo_url.getText();
 			DataBase.user = campo_user.getText();
@@ -104,7 +100,7 @@ public class PanelDataBase extends PanelPersonalizado{
 
 		});
 
-		//NOTA------------------------------------------------------------------------------------------------
+		//NOTA
 		nota.setText("El modo LOAD utiliza normalmente la BD, creando y poblando las tablas solo si es necesario. "
 				+ "El modo RESET elimina, crea y puebla todas las tablas cada vez que se reinicia el programa");
 		nota.setAutoscrolls(false);
@@ -113,11 +109,11 @@ public class PanelDataBase extends PanelPersonalizado{
 		nota.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));
 		nota.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 
-		//PANEL1------------------------------------------------------------------------------------------------
-
+	//PANEL1
+		
 		setearFuente(new JComponent[] {texto_url,texto_user,texto_password,texto_modo});
 
-		JPanel panel1 = crearPanelInterno("Configuración");
+		JPanel panel1 = crearPanelInterno("Configuraciï¿½n");
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel1,texto_url);
 		colocar(1,0,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel1,campo_url);
 
@@ -134,8 +130,8 @@ public class PanelDataBase extends PanelPersonalizado{
 		colocar(1,4,2,1,0,0,0,0,GridBagConstraints.HORIZONTAL,GridBagConstraints.EAST,panel1,nota);
 		colocar(2,5,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel1,boton_guardar);
 
-
-		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------
+	//ORGANIZACION DE PANELES
+		
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,1,1,1,0,0,0 ,GridBagConstraints.BOTH,10,this,panel1);
 

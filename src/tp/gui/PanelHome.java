@@ -40,7 +40,7 @@ public class PanelHome extends PanelPersonalizado {
 	public PanelHome() {
 		super();
 		this.setLayout(new GridLayout(0,3,20,20));
-		this.fileFondo="icon/fondo.png";
+		this.fileFondo = "icon/fondo2.png";
 		this.add(boton_insumos);
 		this.add(boton_plantas);
 		this.add(boton_pedidos);

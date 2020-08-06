@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -76,7 +74,8 @@ public class PanelDetallePedido extends PanelPersonalizado{
 		//BOTON VOLVER
 		boton_volver.addActionListener( e-> cambiarPanel(new PanelPedidos()));
 		
-		//PANEL1
+	//PANEL1
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -90,7 +89,8 @@ public class PanelDetallePedido extends PanelPersonalizado{
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
 		colocar(0,1,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_volver);
 		
-		//ORGANIZACION DE PANELES
+	//ORGANIZACION DE PANELES
+		
 		colocar(0,0,1,1,1,1,0,10,GridBagConstraints.NONE,10,this,titulo);
 		colocar(0,1,9,1,1,1,0,0,GridBagConstraints.BOTH,10,this,panel1);
 		

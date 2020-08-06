@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -28,16 +25,12 @@ import javax.swing.table.AbstractTableModel;
 import tp.app.App;
 import tp.controller.ASeguirEnController;
 import tp.controller.CamionController;
-import tp.controller.DetallePedidoController;
 import tp.controller.EnvioController;
 import tp.controller.Mensaje;
 import tp.controller.PedidoController;
 import tp.controller.PlantaController;
-import tp.dao.PedidoDAO;
 import tp.dominio.Camion;
-import tp.dominio.DetallePedido;
 import tp.dominio.Envio;
-import tp.dominio.Modelo;
 import tp.dominio.Pedido;
 import tp.dominio.Planta;
 import tp.dominio.Ruta;
@@ -86,7 +79,7 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 			cambiarPanel(new PanelPedidos());
 		}else {
 			this.setLayout(new GridBagLayout());
-			this.setBackground(new Color(250, 216, 214)); //https://coolors.co/
+			this.setBackground(new Color(250, 216, 214));
 			
 			//TITULO
 			titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
@@ -185,7 +178,8 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 				}
 			});
 			
-			//PANEL1
+		//PANEL1
+			
 			JPanel panel1 = new JPanel();
 			panel1.setLayout(new GridBagLayout());
 			panel1.setOpaque(false);
@@ -209,7 +203,7 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 			
 			colocar(2,3,2,1,0,0,0,0,GridBagConstraints.NONE,10,panel1,boton_procesar_pedido);
 			
-			//ORGANIZACION DE PANELES
+		//ORGANIZACION DE PANELES
 			
 			colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,titulo);
 			colocar(0,1,1,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);

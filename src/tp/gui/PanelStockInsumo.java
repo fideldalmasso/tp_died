@@ -65,8 +65,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		tableModel.recargarTabla();
 		tableModel.fireTableDataChanged();
 		tabla.repaint();
-		//tabla.validate();
 	}
+	
 	private void cambiarPanel(PanelPersonalizado p1) {
 		JFrame frame = (JFrame) SwingUtilities.getRoot(this);
         App app = (App) frame;
@@ -77,12 +77,13 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
-	//TITULO------------------------------------------------------------------------------------------------
+		
+		//TITULO
 		titulo.setText("Stock de Insumos de: "+planta.getNombre());
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(color_titulo);
 		
-	//TABLA------------------------------------------------------------------------------------------------
+		//TABLA
 		tableModel = new StockInsumoTM(planta);
 		tabla = new JTable();
 		tabla.setModel(tableModel);
@@ -99,13 +100,11 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		               JTable target = (JTable)e.getSource();
 		               int row = target.getSelectedRow(); 
 		               int column = target.getSelectedColumn();
-		               
-//		               StockInsumo actual = tableModel.getStockInsumo(row);
-		               
+		                 
 		               switch(column) {
 		               case 2:
 		            	   Integer original = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo1 = ingresoPopUp("Ingresá otro valor para: "+original);
+		            	   String nuevo1 = ingresoPopUp("Ingresï¿½ otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
 			            	  notificacionPopUp(controller.update(Integer.parseInt(nuevo1),(Integer)tabla.getValueAt(row, 3),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
 			            	   actualizarTabla();
@@ -113,7 +112,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   break;
 		               case 3:
 		            	   Integer original2 = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo2 = ingresoPopUp("Ingresá otro valor para: "+original2);
+		            	   String nuevo2 = ingresoPopUp("Ingresï¿½ otro valor para: "+original2);
 			               if(nuevo2!=null && nuevo2.length()>0) {
 			            	  // notificacionPopUp(controller.update(actual,
 			            		//	   new StockInsumo(actual.getPlanta(),actual.getInsumo(),actual.getStock(),Integer.parseInt(nuevo2))));
@@ -135,13 +134,12 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		
 		scroll_pane = new JScrollPane(tabla);
 		
-		
-		
 		this.boton_volver.addActionListener(e -> {
 			cambiarPanel(new PanelPlantas());
 		});
 		
-	//PANEL1------------------------------------------------------------------------------------------------
+	//PANEL1
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridBagLayout());
 		panel1.setOpaque(false);
@@ -153,7 +151,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		
 		colocar(0,0,2,1,1,1,0,0,GridBagConstraints.BOTH,10,panel1,scroll_pane);
 		
-		//ORGANIZACION DE PANELES------------------------------------------------------------------------------------------------	
+	//ORGANIZACION DE PANELES
+		
 		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.boton_volver);
 		colocar(1,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,GridBagConstraints.WEST,this,titulo);
 		colocar(0,1,3,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
