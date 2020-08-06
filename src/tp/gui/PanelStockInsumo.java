@@ -8,6 +8,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,10 +19,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import tp.app.App;
 import tp.controller.Mensaje;
@@ -40,7 +46,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 	private StockInsumoController controller = new StockInsumoController();
 	private JScrollPane scroll_pane;
 	private JTable tabla;
-	
+	private Planta plant;
 	private static Color color_borde =  Color.decode("#33658a");
 	private static Color color_titulo =  Color.decode("#dd1c1a");
 	
@@ -55,14 +61,14 @@ public class PanelStockInsumo extends PanelPersonalizado{
 			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				notificacionPopUp(controller.delete(si));
-				actualizarTabla();
+				actualizarTabla(plant);
 			}
 		}
 	}
 	
-	private void actualizarTabla() {
+	private void actualizarTabla(Planta planta) {
 		
-		tableModel.recargarTabla();
+		tableModel.recargarTabla(planta);
 		tableModel.fireTableDataChanged();
 		tabla.repaint();
 	}
@@ -77,6 +83,8 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		super();
 		this.setLayout(new GridBagLayout());
 		this.setBackground(new Color(250, 216, 214));
+		this.plant = planta;
+		
 		
 		//TITULO
 		titulo.setText("Stock de Insumos de: "+planta.getNombre());
@@ -93,6 +101,12 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		tabla.setRowHeight(20);
 		tabla.setToolTipText("Hace doble clic para editar el campo");
 		tabla.getTableHeader().setReorderingAllowed(false);
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tabla.getModel());
+		tabla.setRowSorter(sorter);
+
+		List<RowSorter.SortKey> sortKeys = new ArrayList<>(25);
+		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+		sorter.setSortKeys(sortKeys);
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -107,16 +121,15 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   String nuevo1 = ingresoPopUp("Ingres� otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
 			            	  notificacionPopUp(controller.update(Integer.parseInt(nuevo1),(Integer)tabla.getValueAt(row, 3),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
-			            	   actualizarTabla();
+			            	   actualizarTabla(planta);
 			               }
 		            	   break;
 		               case 3:
 		            	   Integer original2 = (Integer) tabla.getValueAt(row, column);
 		            	   String nuevo2 = ingresoPopUp("Ingres� otro valor para: "+original2);
 			               if(nuevo2!=null && nuevo2.length()>0) {
-			            	  // notificacionPopUp(controller.update(actual,
-			            		//	   new StockInsumo(actual.getPlanta(),actual.getInsumo(),actual.getStock(),Integer.parseInt(nuevo2))));
-			            	   actualizarTabla();
+			            	   notificacionPopUp(controller.update((Integer)tabla.getValueAt(row, 2),Integer.parseInt(nuevo2),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
+			            	   actualizarTabla(planta);
 			               }
 		            	   break;
 		               }

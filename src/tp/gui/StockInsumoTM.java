@@ -32,6 +32,11 @@ public class StockInsumoTM extends AbstractTableModel{
 	public void recargarTabla() {
 		this.data = controller.getAll();
 	}
+	public void recargarTabla(Planta planta) {
+		this.data = controller.getAll()
+				.parallelStream().filter(si -> si.getPlanta().equals(planta.getId_planta()))
+				.collect(Collectors.toList());
+	}
 	
 	@Override
 	public int getRowCount() {

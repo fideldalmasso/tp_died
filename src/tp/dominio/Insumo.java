@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import tp.dao.PlantaDAO;
+import tp.dao.StockInsumoDAO;
 import tp.enumerados.Unidad;
 
 public class Insumo implements Serializable {
@@ -39,13 +40,12 @@ public class Insumo implements Serializable {
 	
 	public Integer getStockTotal() {
 			
-			PlantaDAO plantaDao = new PlantaDAO();
-			List<Planta> lista = plantaDao.getAll();
+			StockInsumoDAO StockInsumoDao = new StockInsumoDAO();
+			List<StockInsumo> lista = StockInsumoDao.getAll();
 			Integer stock = 0;
-			for(Planta planta: lista) {
-				Optional<Integer> temp = planta.getLista_stock_insumos().stream().filter(s -> s.getInsumo().equals(this.getId_insumo())).map(t -> t.getStock()).findFirst();
-				if(temp.isPresent()) {
-					stock += temp.get();
+			for(StockInsumo StockInsumo: lista) {
+						if(StockInsumo.getInsumo().equals(this.getId_insumo())) {
+					stock += StockInsumo.getStock();
 				}
 			}
 		
