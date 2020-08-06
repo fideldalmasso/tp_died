@@ -138,7 +138,7 @@ public class PanelPlantas extends PanelPersonalizado{
 				intentarEliminar();
 			}
 		});
-		
+		//BOTON VER STOCK------------------------------------------------------------------------------------------------
 		boton_stock_insumo.addActionListener(new ActionListener() {
 			
 			

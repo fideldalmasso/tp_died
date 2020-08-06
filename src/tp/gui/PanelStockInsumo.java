@@ -61,8 +61,9 @@ public class PanelStockInsumo extends PanelPersonalizado{
 	}
 	
 	private void actualizarTabla() {
-		tableModel.fireTableDataChanged();
+		
 		tableModel.recargarTabla();
+		tableModel.fireTableDataChanged();
 		tabla.repaint();
 		//tabla.validate();
 	}
@@ -106,7 +107,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   Integer original = (Integer) tabla.getValueAt(row, column);
 		            	   String nuevo1 = ingresoPopUp("Ingresá otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
-			            	  // notificacionPopUp(controller.update(Integer.parseInt(nuevo1),tabla.getValueAt(row, 4),tabla.getValueAt(row, 1),);
+			            	  notificacionPopUp(controller.update(Integer.parseInt(nuevo1),(Integer)tabla.getValueAt(row, 3),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
 			            	   actualizarTabla();
 			               }
 		            	   break;
