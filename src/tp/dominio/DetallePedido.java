@@ -13,7 +13,7 @@ public class DetallePedido {
 		this.insumo = insumo;
 		this.pedido = pedido;
 		this.cantidad_de_unidades = cantidad_de_unidades;
-		this.precio = insumo.costo_por_unidad * cantidad_de_unidades;
+		this.precio = insumo.getCosto_por_unidad() * cantidad_de_unidades;
 	}
 
 	
@@ -30,6 +30,7 @@ public class DetallePedido {
 	}
 	public void setCantidad_de_unidades(Integer cantidad) {
 		this.cantidad_de_unidades = cantidad;
+		this.precio = insumo.getCosto_por_unidad() * cantidad_de_unidades;
 	}
 	public Double getPrecio() {
 		return precio;

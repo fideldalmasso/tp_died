@@ -82,11 +82,12 @@ CREATE TABLE tp.StockInsumo(
 	primary key (id_planta, id_insumo) 
 );
 CREATE TABLE tp.Registro(
-	id_planta integer ,
-	id_insumo integer ,
+	id_registro serial primary key,
+	id_planta integer,
+	id_insumo integer,
 	fecha_registro date,
 	stock integer,
 	variacion integer,
 	punto_de_pedido integer,
-	primary key (id_planta,id_insumo,fecha_registro)
+	foreign key (id_planta, id_insumo) references tp.StockInsumo(id_planta,id_insumo)
 );
