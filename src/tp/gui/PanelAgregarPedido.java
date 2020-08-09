@@ -99,6 +99,8 @@ public class PanelAgregarPedido extends PanelPersonalizado{
 		this.scroll_pane_detalle_pedido = new JScrollPane(this.tablaDetallePedido);
 		this.scroll_pane_insumo = new JScrollPane(this.tablaInsumo);
 		
+		campo_fecha_maxima.setToolTipText("Ingrese la fecha en formato dd/mm/yyyy");
+		
 		//TABLA DETALLE PEDIDO
 		tablaDetallePedido.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
