@@ -130,17 +130,25 @@ public class PlantaDAO implements Registrable<Planta> {
 		List<Planta> lista = new ArrayList<Planta>();
 		try {
 			pstm = con.prepareStatement(
-					"select * "+
-					"from tp.Planta pl "+
-					"where not exists ( "+
-					"	select dp.id_insumo "+
-					"	from tp.Detallepedido dp "+
-					"	where dp.id_pedido=? "+
-					"except "+
-					"	select dp.id_insumo "+
-					"	from tp.stockinsumo si, tp.detallepedido dp "+
-					"	where si.id_planta=pl.id_planta and dp.id_insumo=si.id_insumo and dp.cantidad_de_unidades<=si.stock "+
-					");");
+					"select * " + 
+					"from tp.Planta pl " + 
+					"where not exists ( " + 
+					"select dp.id_insumo " + 
+					"from tp.Detallepedido dp " + 
+					"where dp.id_pedido=? " + 
+					"except " + 
+					"select dp.id_insumo " + 
+					"from tp.stockinsumo si, tp.detallepedido dp " + 
+					"where si.id_planta=pl.id_planta and dp.id_insumo=si.id_insumo and dp.cantidad_de_unidades<=si.stock " + 
+					") and exists ( " + 
+					"	(select ca.id_camion " + 
+					"	from tp.camion ca " + 
+					"	where ca.id_planta=pl.id_planta) " + 
+					"	except " + 
+					"	(select ca.id_camion " + 
+					"	from tp.camion ca, tp.pedido ped, tp.envio env" + 
+					"	where ca.id_camion=env.id_camion and env.id_envio=ped.id_envio and ped.estado_pedido='PROCESADA') " + 
+					") ");
 			pstm.setInt(1, Integer.parseInt(id_pedido));
 			rs = pstm.executeQuery();
 			while(rs.next()) {
