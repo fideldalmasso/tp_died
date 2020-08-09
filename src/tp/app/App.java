@@ -24,6 +24,7 @@ public class App extends JFrame {
 	JMenuItem menuItemSalir;
 	JToolBar toolBar;
 	JButton boton_home;
+	JButton boton_volver;
 	JPanel actual = null;
 
 
@@ -84,59 +85,41 @@ public class App extends JFrame {
 		
 		//MENU------------------------------------------------------------------------------------------------
 
-		/*
-		 * this.menuBar = new JMenuBar();
-		 * 
-		 * this.menuArchivo = new JMenu("Archivo"); this.menuItemSalir = new
-		 * JMenuItem("Salir"); this.menuItemSalir.addActionListener( e ->
-		 * System.exit(0)); this.menuArchivo.add(menuItemSalir);
-		 * 
-		 * this.menuEntidades = new JMenu("Entidades"); this.menuItemMarcas = new
-		 * JMenuItem("Marcas"); this.menuItemInsumos = new JMenuItem("Insumos");
-		 * this.menuItemPlantas = new JMenuItem("Plantas");
-		 * 
-		 * 
-		 * //Setea el boton "Marcas"
-		 * 
-		 * this.menuItemMarcas.addActionListener( e -> { cambiarPanel(new
-		 * PanelMarcas()); });
-		 * 
-		 * //Setea el boton "Insumos"
-		 * 
-		 * this.menuItemInsumos.addActionListener( e -> { cambiarPanel(new
-		 * PanelInsumos()); });
-		 * 
-		 * 
-		 * //Setea el botón "Plantas" this.menuItemPlantas.addActionListener( e -> {
-		 * cambiarPanel(new PanelPlantas()); });
-		 * 
-		 * this.menuEntidades.add(menuItemMarcas);
-		 * this.menuEntidades.add(menuItemInsumos);
-		 * this.menuEntidades.add(menuItemPlantas);
-		 * 
-		 * menuBar.add(this.menuArchivo); menuBar.add(this.menuEntidades );
-		 * 
-		 * this.setJMenuBar(menuBar);
-		 */
-
 		//TOOLBAR------------------------------------------------------------------------------------------------
 
-		//boton_home = new JButton("Home"+ new String(Character.toChars(0x1F349)),icono);
 		boton_home = new JButton("Home",PanelPersonalizado.emoji("icon/home.png", 32,32));
-		//boton_home.setBackground(new Color(250, 216, 214));
-		//boton_home.setForeground(Color.BLACK);
 		boton_home.setFocusable(false);
-		//boton_home.setFont(new Font("Comic Sans MS", Font.PLAIN, 12));
-		//System.out.println(boton_home.getFont().getName());
-		//boton_home.setPreferredSize(new Dimension(64, 64));
 		boton_home.addActionListener( e->{
 			cambiarPanel(home);
 		});
+		
+		boton_volver = new JButton("Volver",PanelPersonalizado.emoji("icon/back.png", 32, 32));
+		boton_volver.setFocusable(false);
+		boton_volver.addActionListener( e->{
+			String panelActual = actual.getClass().toString().replace("class tp.gui.", "");
+//			System.out.println(panelActual);
+			switch(panelActual) {
+			case "PanelHome":
+				break;
+			case "PanelAgregarPedido":
+			case "PanelProcesarPedido":
+			case "PanelDetallePedido":
+				cambiarPanel(new PanelPedidos());
+				break;
+			
+			default:
+				cambiarPanel(new PanelHome());
+			}
+			
+		});
+		
 		toolBar = new JToolBar(JToolBar.HORIZONTAL);
-		toolBar.add(boton_home);
-		//toolBar.add(new JButton("Home"));
-
 		toolBar.setFloatable(false);
+
+		toolBar.add(boton_home);
+		toolBar.add(boton_volver);
+		
+
 
 		this.add(toolBar,BorderLayout.NORTH);
 

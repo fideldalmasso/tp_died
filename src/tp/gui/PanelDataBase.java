@@ -102,7 +102,7 @@ public class PanelDataBase extends PanelPersonalizado{
 
 		//NOTA
 		nota.setText("El modo LOAD utiliza normalmente la BD, creando y poblando las tablas solo si es necesario. "
-				+ "El modo RESET elimina, crea y puebla todas las tablas cada vez que se reinicia el programa");
+				+ "El modo RESET elimina, crea y puebla todas las tablas cada vez que se reinicia el programa (la aplicación demorará un poco más en arrancar)");
 		nota.setAutoscrolls(false);
 		nota.setLineWrap(true);
 		nota.setWrapStyleWord(true);
