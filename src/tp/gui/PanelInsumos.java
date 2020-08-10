@@ -11,10 +11,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -25,20 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
-
-import tp.app.App;
-import tp.controller.InsumoController;
 import tp.controller.InsumoGeneralController;
 import tp.controller.InsumoLiquidoController;
-import tp.controller.MarcaController;
 import tp.controller.Mensaje;
 import tp.controller.Utilidades;
 import tp.dao.InsumoDAO;
-import tp.dao.InsumoLiquidoDAO;
 import tp.dao.PlantaDAO;
 import tp.dao.StockInsumoDAO;
 import tp.dominio.Planta;
@@ -49,7 +36,7 @@ public class PanelInsumos extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraci�n de Insumos",SwingConstants.LEFT);
+	private JLabel titulo = new JLabel("Administración de Insumos",SwingConstants.LEFT);
 	
 	private InsumoLiquidoTM tableModelLiquidos;
 	private InsumoGeneralTM tableModelGenerales;
@@ -90,7 +77,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = eliminarPopUp("�Eliminar insumo:"+identificador+"?");
+			int resultado = eliminarPopUp("¿Eliminar insumo:"+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				if(this.texto_densidad.isVisible()) {
 				notificacionPopUp(controllerIL.delete(identificador));
@@ -102,7 +89,7 @@ public class PanelInsumos extends PanelPersonalizado {
 			}
 	}
 	private void cambiarTabla(String tipo) {
-		if(tipo == "L�quidos") {
+		if(tipo == "Líquidos") {
 			tabla.setModel(this.tableModelLiquidos);
 			texto_peso.setVisible(false);
 			texto_densidad.setVisible(true);
@@ -129,7 +116,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		//TITULO
 		titulo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 24));
 		titulo.setForeground(Color.decode("#dd1c1a"));
-		this.comboBoxTipo.addItem("L�quidos");
+		this.comboBoxTipo.addItem("Líquidos");
 		this.comboBoxTipo.addItem("Generales");
 		
 		//TABLA
@@ -141,7 +128,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hac� doble clic para editar el campo o presion� Supr para eliminar");
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 	    this.texto_peso.setVisible(false);
 		
 		tabla.addMouseListener( new MouseAdapter() {
@@ -155,7 +142,7 @@ public class PanelInsumos extends PanelPersonalizado {
 				
 		               switch(column) {
 			            	  case 1:
-			            		  	nuevo = ingresoPopUp("Ingres� otro valor para: "+original);	
+			            		  	nuevo = ingresoPopUp("Ingresá otro valor para: "+original);	
 						            if(nuevo == null) {
 						            	return ; // en caso de que seleccione cancelar
 						            }
@@ -167,7 +154,7 @@ public class PanelInsumos extends PanelPersonalizado {
 						            break;
 				            	   
 			            	  case 2: 
-			            		  nuevo = ingresoComboPopUp("Ingres� otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
+			            		  nuevo = ingresoComboPopUp("Ingresá otro valor para: "+original,Utilidades.enumToStringArray(Unidad.class));
 			            		  try {
 			            			  if( texto_densidad.isVisible()) {
 			            				  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
@@ -180,7 +167,7 @@ public class PanelInsumos extends PanelPersonalizado {
 			            		  break;  
 			            	  case 3:
 			            		  try {
-			            			  nuevo = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+original));
+			            			  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original));
 			            		  }catch(Exception ex) {
 			            			  return;// en caso de que seleccione cancelar
 			            		  }
@@ -192,7 +179,7 @@ public class PanelInsumos extends PanelPersonalizado {
 			            		  break;
 			            	  case 4:
 			            		  try {
-			            			  nuevo = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+original));
+			            			  nuevo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+original));
 			            		  }catch(Exception ex) {
 			            			  return;// en caso de que seleccione cancelar
 			            		  }
@@ -225,7 +212,6 @@ public class PanelInsumos extends PanelPersonalizado {
 			}
 		});
 		
-		String estado = this.comboBoxTipo.getSelectedItem().toString();
 		this.comboBoxTipo.addActionListener(e ->{
 			cambiarTabla(this.comboBoxTipo.getSelectedItem().toString());
 		});
@@ -238,7 +224,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.addActionListener( e ->{	
 			Object novo = this.comboBoxAgregarInsumo.getSelectedItem().toString();
 			Mensaje m ;
-			if( this.comboBoxTipo2.getSelectedItem().toString()== "L�quido") {
+			if( this.comboBoxTipo2.getSelectedItem().toString()== "Líquido") {
 				m = controllerIL.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo ),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
 				  }else {
 					m =  controllerIG.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
@@ -267,7 +253,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		JPanel panel2 = crearPanelInterno("Agregar Insumo");
 		
 	
-		this.comboBoxTipo2.addItem("L�quido");
+		this.comboBoxTipo2.addItem("Líquido");
 		this.comboBoxTipo2.addItem("General");
 		
 		setearFuente(new JComponent[]{texto_descripcion,texto_unidad,texto_costo,texto_densidad,texto_peso,texto_tipo2,texto_tipo});

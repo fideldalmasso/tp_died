@@ -1,14 +1,11 @@
 package tp.dominio;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-import tp.app.App;
-import tp.dao.Registrable;
 import tp.dao.StockInsumoDAO;
 import tp.enumerados.Estado;
 

@@ -7,8 +7,8 @@ public class DetallePedido {
 	private Double precio;
 	
 	public DetallePedido(Insumo insumo, Pedido pedido, Integer cantidad_de_unidades) {
-		/*El sistema autom·ticamente calcular· el precio del item del
-		pedido (precio del insumo * cantidad) y lo mostrar· en
+		/*El sistema autom√°ticamente calcular√° el precio del item del
+		pedido (precio del insumo * cantidad) y lo mostrar√° en
 		pantalla*/
 		this.insumo = insumo;
 		this.pedido = pedido;

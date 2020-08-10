@@ -113,7 +113,6 @@ public class InsumoDAO implements Registrable<Insumo>{
 		Connection con = DataBase.getConexion();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		Optional<Insumo> m = Optional.empty();
 		try {
 			pstm = con.prepareStatement(
 

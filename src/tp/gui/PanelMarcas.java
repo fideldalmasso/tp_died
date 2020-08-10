@@ -30,7 +30,7 @@ public class PanelMarcas extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraci�n de Marcas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Marcas",SwingConstants.CENTER);
 	
 	private MarcaTM tableModel;
 	private MarcaController controller = new MarcaController();
@@ -49,7 +49,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 			
-			int resultado = eliminarPopUp("�Eliminar "+identificador+"?");
+			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
@@ -81,7 +81,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		tabla.setFont(new Font("Comic Sans MS",Font.PLAIN,16));
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.BOLD,17));
 		tabla.setRowHeight(20);
-		tabla.setToolTipText("Hac� doble clic para editar el campo o presion� Supr para eliminar");
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 		
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -90,7 +90,7 @@ public class PanelMarcas extends PanelPersonalizado {
 		               int row = target.getSelectedRow(); // select a row
 		               int column = target.getSelectedColumn(); // select a column
 		               String original = (String)tabla.getValueAt(row, column);
-		               String nuevo = ingresoPopUp("Ingres� otro valor para: "+original);
+		               String nuevo = ingresoPopUp("Ingresá otro valor para: "+original);
 		               if(nuevo!=null && nuevo.length()>0) {
 		            	   notificacionPopUp(controller.update(original,nuevo));
 		            	   actualizarTabla();
@@ -120,7 +120,7 @@ public class PanelMarcas extends PanelPersonalizado {
 
 		
 		//CAMPO NOMBRE
-		campo_nombre.setToolTipText("Presion� Enter para agregar");
+		campo_nombre.setToolTipText("Presioná Enter para agregar");
 		campo_nombre.addActionListener( e->{
 			Mensaje m = controller.add(campo_nombre.getText());
 			notificacionPopUp(m);

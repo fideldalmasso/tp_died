@@ -4,9 +4,7 @@ import java.util.List;
 
 import tp.controller.Mensaje;
 import tp.dao.InsumoDAO;
-import tp.dao.MarcaDAO;
 import tp.dominio.Insumo;
-import tp.dominio.Marca;
 import tp.enumerados.Unidad;
 
 public class InsumoService {

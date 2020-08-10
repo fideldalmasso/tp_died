@@ -16,7 +16,7 @@ public class PlantaController {
 		if(p1.getNombre()!=null && p1.getNombre().length()>0) 
 			return service.add(p1);
 		else
-			return new Mensaje(false,"Error: nombre inválido");
+			return new Mensaje(false,"Error: nombre invÃ¡lido");
 			
 	}
 	
@@ -28,7 +28,7 @@ public class PlantaController {
 		if(nueva!=null && nueva.getNombre().length()>0) 
 			return service.update(original,nueva);
 		else 
-			return new Mensaje(false,"Error: nombre inválido");
+			return new Mensaje(false,"Error: nombre invÃ¡lido");
 	}
 	
 	public List<Planta> getAll(){

@@ -82,7 +82,6 @@ public class PanelAnalisis extends PanelPersonalizado{
 	
 	private static Color color_borde =  Color.decode("#33658a");
 	private static Color color_titulo =  Color.decode("#dd1c1a");
-	private static Color color_letras = Color.BLACK;
 	
 	private void actualizarTabla(JTable tabla, AbstractTableModel modelo) {
 		tabla.setModel(modelo);

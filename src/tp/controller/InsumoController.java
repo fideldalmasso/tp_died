@@ -2,12 +2,9 @@ package tp.controller;
 
 import java.util.List;
 
-import tp.dao.MarcaDAO;
 import tp.dominio.Insumo;
-import tp.dominio.Marca;
 import tp.enumerados.Unidad;
 import tp.service.InsumoService;
-import tp.service.MarcaService;
 
 public class InsumoController {
 
@@ -19,10 +16,10 @@ public class InsumoController {
 	
 	public Mensaje add(String descripcion, Unidad unidadDeMedida, Double costoPorUnidad) {
 		if(unidadDeMedida == null) {
-			return new Mensaje(false,"Error: Unidad vacía");
+			return new Mensaje(false,"Error: Unidad vacÃ­a");
 		}
-		if(costoPorUnidad == null && costoPorUnidad > 0) {
-			return new Mensaje(false,"Error: Costo vacío o nulo");
+		if((costoPorUnidad == null || costoPorUnidad <= 0)) {
+			return new Mensaje(false,"Error: Costo vacÃ­o o nulo");
 		}
 		
 			return service.add(descripcion, unidadDeMedida, costoPorUnidad);
@@ -35,15 +32,15 @@ public class InsumoController {
 	
 	public Mensaje update(String id_original, String id_nuevo, String descripcion_nuevo, Unidad unidadDeMedida_nuevo, Double costoPorUnidad_nuevo) {
 		if(unidadDeMedida_nuevo == null) {
-			return new Mensaje(false,"Error: Unidad vacía");
+			return new Mensaje(false,"Error: Unidad vacÃ­a");
 		}
-		if(costoPorUnidad_nuevo == null && costoPorUnidad_nuevo > 0) {
-			return new Mensaje(false,"Error: Costo vacío o nulo");
+		if((costoPorUnidad_nuevo == null || costoPorUnidad_nuevo <= 0)) {
+			return new Mensaje(false,"Error: Costo vacÃ­o o nulo");
 		}
 		if(id_nuevo!=null && id_nuevo.length()>0) 
 			return service.update(id_original,id_nuevo, descripcion_nuevo, unidadDeMedida_nuevo, costoPorUnidad_nuevo);
 		else 
-			return new Mensaje(false,"Error: ID inválido");
+			return new Mensaje(false,"Error: ID invÃ¡lido");
 	}
 	
 	public List<Insumo> getAll(){

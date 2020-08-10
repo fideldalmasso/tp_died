@@ -5,12 +5,8 @@ import java.util.List;
 import tp.controller.Mensaje;
 import tp.dao.InsumoDAO;
 import tp.dao.InsumoLiquidoDAO;
-import tp.dao.MarcaDAO;
-import tp.dao.PlantaDAO;
 import tp.dominio.Insumo;
 import tp.dominio.InsumoLiquido;
-import tp.dominio.Marca;
-import tp.dominio.Planta;
 import tp.enumerados.Unidad;
 
 public class InsumoLiquidoService {
@@ -29,8 +25,6 @@ public class InsumoLiquidoService {
 		Insumo insumo = new Insumo(descripcion, unidadDeMedida, costoPorUnidad);
 		insumoDao.add(insumo);
 		InsumoLiquido m1 = new InsumoLiquido( insumoDao.getID(insumo.getDescripcion()) ,descripcion, unidadDeMedida, costoPorUnidad,densidad);
-		PlantaDAO plantaDao = new PlantaDAO();
-		List<Planta> lista = plantaDao.getAll();
 		if(dao.add(m1)) {
 			return new Mensaje(true,"");}
 		else

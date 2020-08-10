@@ -1,6 +1,5 @@
 package tp.gui;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +9,6 @@ import tp.controller.PlantaController;
 import tp.controller.RutaController;
 import tp.dominio.Camion;
 import tp.dominio.Empresa;
-import tp.dominio.Modelo;
-import tp.dominio.Planta;
 import tp.dominio.Ruta;
 
 public class CaminoTM extends AbstractTableModel{

@@ -57,7 +57,6 @@ public class PanelProcesarPedido extends PanelPersonalizado{
 	private JButton boton_seleccionar_planta= new JButton("Seleccionar Planta");
 	private static Color color_borde =  Color.decode("#33658a");
 	private static Color color_titulo =  Color.decode("#dd1c1a");
-	private static Color color_letras = Color.BLACK;
 	
 	private void cambiarPanel(PanelPersonalizado p1) {
 		JFrame frame = (JFrame) SwingUtilities.getRoot(this);

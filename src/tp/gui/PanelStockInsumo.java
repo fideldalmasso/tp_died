@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -116,7 +115,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		               switch(column) {
 		               case 2:
 		            	   Integer original = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo1 = ingresoPopUp("Ingres� otro valor para: "+original);
+		            	   String nuevo1 = ingresoPopUp("Ingresá otro valor para: "+original);
 			               if(nuevo1!=null && nuevo1.length()>0) {
 			            	  notificacionPopUp(controller.update(Integer.parseInt(nuevo1),(Integer)tabla.getValueAt(row, 3),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
 			            	   actualizarTabla(planta);
@@ -124,7 +123,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		            	   break;
 		               case 3:
 		            	   Integer original2 = (Integer) tabla.getValueAt(row, column);
-		            	   String nuevo2 = ingresoPopUp("Ingres� otro valor para: "+original2);
+		            	   String nuevo2 = ingresoPopUp("Ingresá otro valor para: "+original2);
 			               if(nuevo2!=null && nuevo2.length()>0) {
 			            	   notificacionPopUp(controller.update((Integer)tabla.getValueAt(row, 2),Integer.parseInt(nuevo2),Integer.parseInt(planta.getId_planta()),Integer.parseInt((String) tabla.getValueAt(row, 0))));
 			            	   actualizarTabla(planta);

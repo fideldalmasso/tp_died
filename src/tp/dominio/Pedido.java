@@ -1,10 +1,8 @@
 package tp.dominio;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import tp.enumerados.Estado;
 
@@ -47,30 +45,13 @@ public class Pedido {
 			}
 		}
 		/*Si no existe una planta que tenga disponible stock de
-		todos los productos se mostrar· un mensaje de error y el pedido
+		todos los productos se mostrar√° un mensaje de error y el pedido
 		pasa a estado CANCELADO*/
 		if(plantasConStock.isEmpty()){
 			this.estado_pedido = Estado.CANCELADA;
 		}
 		return plantasConStock;
 	}
-	
-//	public void crearEnvio(){
-//		//falta crear metodo CalcularCostoEnvio
-//		Boolean eligeLaMasCorta = null;
-//		Boolean eligeLaMasRapida = null;
-//		List<Ruta> rutaSeleccionada = null ;
-//		Double costoEnvio = 0d;
-//		Camion camionConPrioridad = this.planta_origen.getCamionConPrioridad();
-//		if(eligeLaMasCorta) {
-//		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
-//		}else if (eligeLaMasRapida) {
-//		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
-//		}
-//		this.envio = new Envio("un id", camionConPrioridad, costoEnvio , rutaSeleccionada) ;
-//		//camionConPrioridad.agregarKm(kilometers); agrega los kilometros del camino
-//		this.estado_pedido = Estado.PROCESADA;
-//	}
 	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
