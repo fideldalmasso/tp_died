@@ -39,9 +39,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
 	private JLabel titulo = new JLabel("",SwingConstants.CENTER);
-	
-	private JButton boton_volver = new JButton("Back",PanelPersonalizado.emoji("icon/back.png", 32,32));
-	
+		
 	private StockInsumoTM tableModel;
 	private StockInsumoController controller = new StockInsumoController();
 	private JScrollPane scroll_pane;
@@ -147,9 +145,6 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		
 		scroll_pane = new JScrollPane(tabla);
 		
-		this.boton_volver.addActionListener(e -> {
-			cambiarPanel(new PanelPlantas());
-		});
 		
 	//PANEL1
 		
@@ -166,7 +161,7 @@ public class PanelStockInsumo extends PanelPersonalizado{
 		
 	//ORGANIZACION DE PANELES
 		
-		colocar(0,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,10,this,this.boton_volver);
+	
 		colocar(1,0,1,1,0,0,0,10 ,GridBagConstraints.NONE,GridBagConstraints.WEST,this,titulo);
 		colocar(0,1,3,1,1,1,0,0  ,GridBagConstraints.BOTH,10,this,panel1);
 		

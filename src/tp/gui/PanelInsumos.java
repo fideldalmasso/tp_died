@@ -30,6 +30,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import tp.app.App;
 import tp.controller.InsumoController;
 import tp.controller.InsumoGeneralController;
 import tp.controller.InsumoLiquidoController;
@@ -62,8 +63,8 @@ public class PanelInsumos extends PanelPersonalizado {
 	private JLabel texto_costo = new JLabel("Costo Por Unidad:",SwingConstants.RIGHT);
 	private JLabel texto_tipo = new JLabel("Ver Insumos:",SwingConstants.RIGHT);
 	private JLabel texto_tipo2 = new JLabel("Tipo:",SwingConstants.RIGHT);
-	private JLabel texto_densidad = new JLabel("Densidad:",SwingConstants.RIGHT);
-	private JLabel texto_peso = new JLabel("Peso:",SwingConstants.RIGHT);
+	private JLabel texto_densidad = new JLabel("Densidad(Kg./m3):",SwingConstants.RIGHT);
+	private JLabel texto_peso = new JLabel("Peso(Kg.):",SwingConstants.RIGHT);
 	private JLabel espacio = new JLabel("          ",SwingConstants.RIGHT);
 	
 	JComboBox<String> comboBox = new JComboBox<String>();
@@ -71,13 +72,16 @@ public class PanelInsumos extends PanelPersonalizado {
 	JComboBox<String> comboBoxTipo = new JComboBox<String>();
 	JComboBox<String> comboBoxTipo2 = new JComboBox<String>();
 	
-	private JTextField campo_id = new JTextField();
 	private JTextField campo_descripcion = new JTextField();
 	private JTextField campo_costo = new JTextField();
 	private JTextField dyp = new JTextField();
 	
 	private JButton boton_agregar = botonAgregar("Agregar Insumo");
 	private JButton boton_eliminar = botonEliminar("Eliminar Insumo seleccionado");
+	
+	PlantaDAO plantaDao = new PlantaDAO();
+	StockInsumoDAO sid = new StockInsumoDAO();
+	InsumoDAO insumodao = new InsumoDAO();
 	
 	private void intentarEliminar() {
 		int row = tabla.getSelectedRow();
@@ -110,11 +114,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		}
 	}
 	
-	
-	
-	private void actualizarTabla() {
-		tableModelLiquidos.fireTableDataChanged();
-		tableModelLiquidos.recargarTabla();
+	public void actualizarTabla() {
 		tableModelGenerales.fireTableDataChanged();
 		tableModelGenerales.recargarTabla();
 		tabla.repaint();
@@ -150,7 +150,6 @@ public class PanelInsumos extends PanelPersonalizado {
 		               JTable target = (JTable)e.getSource();
 		               int row = target.getSelectedRow(); // select a row
 		               int column = target.getSelectedColumn(); // select a column
-		               //JOptionPane.showMessageDialog(null, tabla.getValueAt(row, column)); // get the value of a row and column.
 		               Object original = (Object)tabla.getValueAt(row, column);
 		               Object nuevo = null;
 				
@@ -232,9 +231,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		});
 		
 		//BOTON AGREGAR
-		PlantaDAO plantaDao = new PlantaDAO();
-		StockInsumoDAO sid = new StockInsumoDAO();
-		InsumoDAO insumodao = new InsumoDAO();
+		
 		List<Planta> lista = plantaDao.getAll();
 		boton_agregar.setForeground(Color.WHITE);
 		boton_agregar.setBackground(Color.BLUE);
@@ -299,6 +296,7 @@ public class PanelInsumos extends PanelPersonalizado {
 		colocar(0,2,4,1,0,0,200,0,GridBagConstraints.NONE,10,this,panel2);
 		
 	}
+	
 	
 	
 }

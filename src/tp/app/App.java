@@ -26,8 +26,10 @@ public class App extends JFrame {
 	JButton boton_home;
 	JButton boton_volver;
 	JPanel actual = null;
+	
 
-
+	
+	
 	public void cambiarPanel(PanelPersonalizado p) {
 		//this.setContentPane(panel);
 		Dimension d = this.getSize();
@@ -52,6 +54,8 @@ public class App extends JFrame {
 		
 	}
 
+
+
 	private App() {
 		this.setTitle("App");
 		this.setLayout(new BorderLayout());
@@ -60,7 +64,7 @@ public class App extends JFrame {
 		this.setMinimumSize(new Dimension(800,800));
 		//this.setSize(800,600);
 		this.setLocationRelativeTo(null);
-		
+	
 		
 	
 		//https://stackoverflow.com/questions/2781939/setting-minimum-size-limit-for-a-window-in-java-swing
@@ -82,7 +86,7 @@ public class App extends JFrame {
 		this.actual = new JPanel();
 		PanelHome home =new PanelHome(); 
 		this.cambiarPanel(home);
-		
+		PanelPlantas pi = new PanelPlantas();
 		//MENU------------------------------------------------------------------------------------------------
 
 		//TOOLBAR------------------------------------------------------------------------------------------------
@@ -100,6 +104,9 @@ public class App extends JFrame {
 //			System.out.println(panelActual);
 			switch(panelActual) {
 			case "PanelHome":
+				break;
+			case "PanelStockInsumo":
+				cambiarPanel(pi);
 				break;
 			case "PanelAgregarPedido":
 			case "PanelProcesarPedido":

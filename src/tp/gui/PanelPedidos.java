@@ -25,6 +25,7 @@ import tp.app.App;
 import tp.controller.Mensaje;
 import tp.controller.PedidoController;
 import tp.controller.Utilidades;
+import tp.dao.DetallePedidoDAO;
 import tp.dominio.Pedido;
 import tp.enumerados.Estado;
 
@@ -144,7 +145,11 @@ public class PanelPedidos extends PanelPersonalizado{
 				Pedido nuevo = new Pedido(original.getId_pedido(),original.getPlanta_origen(), original.getPlanta_destino()
 						,original.getEnvio(),original.getFecha_solicitud(), LocalDate.now(),
 						original.getFecha_maxima(), Estado.ENTREGADA, original.getCosto_pedido());
-				notificacionPopUp(controller.updateEstado(original, nuevo));
+				Boolean flag = controller.updateEstado(original, nuevo).exito();
+				if (flag) {
+					original.getPlanta_destino().actualizarStock((new DetallePedidoDAO()).getAll(original.getId_pedido()));
+				}
+				notificacionPopUp(new Mensaje(flag,""));
 				actualizarTabla();
 			}
 		});

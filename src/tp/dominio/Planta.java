@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import tp.app.App;
 import tp.dao.Registrable;
 import tp.dao.StockInsumoDAO;
 import tp.enumerados.Estado;
@@ -65,6 +66,15 @@ public class Planta{
 	
 	public boolean nombreIgual(String nombre_planta) {
 		return this.nombre.equals(nombre_planta);
+	}
+	
+	public void actualizarStock(List<DetallePedido> lista) {
+		
+		for (DetallePedido dp : lista) {
+		StockInsumo stock = (new StockInsumoDAO()).get(new StockInsumo(this.id_planta,dp.getInsumo().getId_insumo(),0,0)).get();
+		(new StockInsumoDAO()).update(stock.getStock() + dp.getCantidad_de_unidades(), stock.getPuntoDePedido(),Integer.valueOf( this.getId_planta()),Integer.valueOf(dp.getInsumo().getId_insumo()));
+		}
+	
 	}
 
 	@Override
