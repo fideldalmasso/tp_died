@@ -172,7 +172,7 @@ public class PanelInsumos extends PanelPersonalizado {
 			            			  if( texto_densidad.isVisible()) {
 			            				  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4)));
 			            			  }else {
-			            				  notificacionPopUp(controllerIL.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4))); 
+			            				  notificacionPopUp(controllerIG.update((String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 0),(String)tabla.getValueAt(row, 1),Unidad.valueOf((String)nuevo),(Double)tabla.getValueAt(row, 3),(Double)tabla.getValueAt(row, 4))); 
 			            			  }
 			            		  }catch(Exception ex) {
 			            			  return;
