@@ -147,7 +147,7 @@ public abstract class PanelPersonalizado extends JPanel{
 
 	static public void notificacionPopUp(Mensaje m) {
 		if(m.exito()) 
-			JOptionPane.showMessageDialog(null, "Operaci�n exitosa","�xito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
+			JOptionPane.showMessageDialog(null, "Operación exitosa","Éxito",JOptionPane.INFORMATION_MESSAGE,emoji("icon/success.png", 32,32));			
 		else
 			JOptionPane.showMessageDialog(null, m.texto(),"Error",JOptionPane.ERROR_MESSAGE,PanelPersonalizado.emoji("icon/error.png", 32,32));
 	}
@@ -161,7 +161,7 @@ public abstract class PanelPersonalizado extends JPanel{
 		return (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
 	}
 
-	//este m�todo retorna el �ndice seleccionado de la lista 
+	//este método retorna el índice seleccionado de la lista 
 	static public Integer ingresoComboPopUpInt(String mensaje, String[] lista) {
 		String valor = (String) JOptionPane.showInputDialog(null, mensaje, "Ingreso", JOptionPane.OK_CANCEL_OPTION, emoji("icon/pencil.png", 32,32), lista, lista[0]);
 		if(valor == null)
@@ -229,7 +229,7 @@ public abstract class PanelPersonalizado extends JPanel{
 			return boton;
 		}
 
-		//USAR ESTE M�TODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
+		//USAR ESTE MÉTODO SOLO CON JPANEL QUE TENGAN GRIDBAGLAYOUT
 		static public void colocar(
 				int column,
 				int row, 

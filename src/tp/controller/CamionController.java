@@ -20,25 +20,25 @@ public class CamionController {
 			Double costo_por_km, Double costo_por_hora, String fecha_de_compra) {
 
 		if(id_camion == null || id_camion.length()==0) 
-			return new Mensaje(false,"Error: patente inválida");
+			return new Mensaje(false,"Error: patente invÃ¡lida");
 
 		if(id_planta == null || id_planta.length()==0) 
-			return new Mensaje(false,"Error: id_planta inválido");
+			return new Mensaje(false,"Error: id_planta invÃ¡lido");
 
 		if(nombre_modelo == null || nombre_modelo.length()==0) 
-			return new Mensaje(false,"Error: nombre_modelo inválido");
+			return new Mensaje(false,"Error: nombre_modelo invÃ¡lido");
 
 		if(distancia== null)
-			return new Mensaje(false,"Error: distancia_recorrida_en_km inválida");
+			return new Mensaje(false,"Error: distancia_recorrida_en_km invÃ¡lida");
 
 		if(costo_por_km == null)
-			return new Mensaje(false,"Error: costo_por_km inválido");
+			return new Mensaje(false,"Error: costo_por_km invÃ¡lido");
 
 		if(costo_por_hora == null) 
-			return new Mensaje(false,"Error: costo_por_hora inválido");
+			return new Mensaje(false,"Error: costo_por_hora invÃ¡lido");
 
 		if(fecha_de_compra== null || fecha_de_compra.length()==0 || !Utilidades.esFecha(fecha_de_compra)) 
-			return new Mensaje(false,"Error: fecha_de_compra inválida. El formato debe ser DD/MM/AAAA");
+			return new Mensaje(false,"Error: fecha_de_compra invÃ¡lida. El formato debe ser DD/MM/AAAA");
 
 
 		return service.add(id_camion,
@@ -67,19 +67,19 @@ public class CamionController {
 			if(Utilidades.esDouble(valorNuevo))
 				nuevo.setDistancia_recorrida_en_km(Double.parseDouble(valorNuevo));
 			else
-				return new Mensaje(false,"La distancia ingresada es inválida");
+				return new Mensaje(false,"La distancia ingresada es invÃ¡lida");
 			break;
 		case 4:
 			if(Utilidades.esDouble(valorNuevo))
 				nuevo.setCosto_por_km(Double.parseDouble(valorNuevo));
 			else
-				return new Mensaje(false,"El costo por km ingresado es inválido");
+				return new Mensaje(false,"El costo por km ingresado es invÃ¡lido");
 			break;
 		case 5:
 			if(Utilidades.esDouble(valorNuevo))
 				nuevo.setCosto_por_hora(Double.parseDouble(valorNuevo));
 			else
-				return new Mensaje(false,"El costo por hora ingresado es inválido");
+				return new Mensaje(false,"El costo por hora ingresado es invÃ¡lido");
 			break;
 		default:
 			return new Mensaje(false, "Este campo no es modificable");
@@ -102,7 +102,7 @@ public class CamionController {
 	//		if(nueva!=null && nueva.length()>0) 
 	//			return service.update(original,nueva);
 	//		else 
-	//			return new Mensaje(false,"Error: nombre inválido");
+	//			return new Mensaje(false,"Error: nombre invÃ¡lido");
 	//	}
 	//	
 	public List<Camion> getAll(){

@@ -30,7 +30,7 @@ import tp.controller.RutaController;
 public class PanelRutas extends PanelPersonalizado{
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraci�n de Rutas",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Rutas",SwingConstants.CENTER);
 	
 	private RutaTM tableModel;
 	private RutaController controller = new RutaController();
@@ -51,7 +51,6 @@ public class PanelRutas extends PanelPersonalizado{
 	private JLabel texto_peso_maximo = new JLabel("Peso máximo (Kg):",SwingConstants.RIGHT);
 	private JTextField campo_peso_maximo = new JTextField();
 
-	private PlantaController pc;
 	private String[] items;
 	
 	private JLabel texto_planta_origen = new JLabel("Origen: ",SwingConstants.RIGHT);
@@ -82,7 +81,6 @@ public class PanelRutas extends PanelPersonalizado{
 	}
 	
 	private void intentarAgregar() {
-		pc=new PlantaController();
 		String origen, destino;
 		Integer indice_destino = campo_planta_destino.getSelectedIndex(), indice_origen=campo_planta_origen.getSelectedIndex();
 		if(indice_origen==-1) 
@@ -140,13 +138,13 @@ public class PanelRutas extends PanelPersonalizado{
 		               
 		               switch(column) {
 		               case 3:
-		            	   distancia = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+distancia));
+		            	   distancia = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+distancia));
 		            	   break;
 		               case 4:
-		            	   duracion = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+duracion));
+		            	   duracion = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+duracion));
 			               break;
 		               case 5:
-		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingres� otro valor para: "+peso_maximo));
+		            	   peso_maximo = Double.parseDouble(ingresoPopUp("Ingresá otro valor para: "+peso_maximo));
 		            	   break;
 		               }
 		               

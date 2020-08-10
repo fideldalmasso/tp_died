@@ -2,24 +2,17 @@ package tp.gui;
 
 import java.util.List;
 
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
-import tp.controller.InsumoController;
 import tp.controller.InsumoLiquidoController;
-import tp.controller.MarcaController;
-import tp.dominio.Insumo;
 import tp.dominio.InsumoLiquido;
-import tp.dominio.Marca;
 
 public class InsumoLiquidoTM extends AbstractTableModel {
 
 	InsumoLiquidoController controller;
 	
 	private List<InsumoLiquido> data;
-	private String[] columnNames = {"ID", "Descripción","Unidad","Costo x U.","Densidad","Stock total"};
+	private String[] columnNames = {"ID", "DescripciÃ³n","Unidad","Costo x U.","Densidad","Stock total"};
 	
 	public InsumoLiquidoTM() {
 		recargarTabla();

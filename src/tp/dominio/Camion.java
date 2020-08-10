@@ -1,8 +1,6 @@
 package tp.dominio;
 
 import java.time.*;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class Camion{

@@ -1,6 +1,5 @@
 package tp.dominio;
 
-import java.time.Duration;
 
 public class Ruta {
 	private String id_ruta;

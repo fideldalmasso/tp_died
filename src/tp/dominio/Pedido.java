@@ -1,10 +1,8 @@
 package tp.dominio;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import tp.enumerados.Estado;
 
@@ -47,7 +45,7 @@ public class Pedido {
 			}
 		}
 		/*Si no existe una planta que tenga disponible stock de
-		todos los productos se mostrar· un mensaje de error y el pedido
+		todos los productos se mostrar√° un mensaje de error y el pedido
 		pasa a estado CANCELADO*/
 		if(plantasConStock.isEmpty()){
 			this.estado_pedido = Estado.CANCELADA;

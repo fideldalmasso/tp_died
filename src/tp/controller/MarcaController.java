@@ -2,7 +2,6 @@ package tp.controller;
 
 import java.util.List;
 
-import tp.dao.MarcaDAO;
 import tp.dominio.Marca;
 import tp.service.MarcaService;
 
@@ -18,7 +17,7 @@ public class MarcaController {
 		if(nombre!=null && nombre.length()>0) 
 			return service.add(nombre);
 		else
-			return new Mensaje(false,"Error: nombre inválido");
+			return new Mensaje(false,"Error: nombre invÃ¡lido");
 			
 	}
 	
@@ -30,7 +29,7 @@ public class MarcaController {
 		if(nueva!=null && nueva.length()>0) 
 			return service.update(original,nueva);
 		else 
-			return new Mensaje(false,"Error: nombre inválido");
+			return new Mensaje(false,"Error: nombre invÃ¡lido");
 	}
 	
 	public List<Marca> getAll(){

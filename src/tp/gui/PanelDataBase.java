@@ -26,11 +26,11 @@ public class PanelDataBase extends PanelPersonalizado{
 
 	private static final long serialVersionUID = 1L;
 	
-	private JLabel titulo = crearTitulo("Conexi�n a Base de Datos");
+	private JLabel titulo = crearTitulo("Conexión a Base de Datos");
 	private JLabel texto_url = new JLabel("URL:",SwingConstants.RIGHT);
 	private JLabel texto_user= new JLabel("User:",SwingConstants.RIGHT);
 	private JLabel texto_password = new JLabel("Password:",SwingConstants.RIGHT);
-	private JLabel texto_modo = new JLabel("Modo de operaci�n:",SwingConstants.RIGHT);
+	private JLabel texto_modo = new JLabel("Modo de operación:",SwingConstants.RIGHT);
 
 	//CAMPOS ENTRADA
 	private JTextField campo_url = new JTextField();
@@ -74,7 +74,7 @@ public class PanelDataBase extends PanelPersonalizado{
 				notificacionPopUp(new Mensaje(false, "Ingrese un usuario"));
 
 			if(campo_password.getText() == null || campo_password.getText().length()==0)
-				notificacionPopUp(new Mensaje(false, "Ingrese una contrase�a"));
+				notificacionPopUp(new Mensaje(false, "Ingrese una contraseña"));
 
 			DataBase.url = campo_url.getText();
 			DataBase.user = campo_user.getText();
@@ -113,7 +113,7 @@ public class PanelDataBase extends PanelPersonalizado{
 		
 		setearFuente(new JComponent[] {texto_url,texto_user,texto_password,texto_modo});
 
-		JPanel panel1 = crearPanelInterno("Configuraci�n");
+		JPanel panel1 = crearPanelInterno("Configuración");
 		colocar(0,0,1,1,0,0,0,0,GridBagConstraints.NONE,GridBagConstraints.EAST,panel1,texto_url);
 		colocar(1,0,2,1,1,0,0,0,GridBagConstraints.HORIZONTAL,10,panel1,campo_url);
 

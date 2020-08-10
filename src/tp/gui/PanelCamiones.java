@@ -34,7 +34,7 @@ public class PanelCamiones extends PanelPersonalizado {
 
 	private static final long serialVersionUID = 1L;
 
-	private JLabel titulo = new JLabel("Administraci�n de Camiones",SwingConstants.CENTER);
+	private JLabel titulo = new JLabel("Administración de Camiones",SwingConstants.CENTER);
 
 	private CamionTM tableModel;
 	private CamionController controller = new CamionController();
@@ -79,7 +79,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		else {
 			String identificador = (String) tabla.getValueAt(row, 0);
 
-			int resultado = eliminarPopUp("�Eliminar "+identificador+"?");
+			int resultado = eliminarPopUp("¿Eliminar "+identificador+"?");
 			if(resultado == JOptionPane.YES_OPTION) {
 				notificacionPopUp(controller.delete(identificador));
 				actualizarTabla();
@@ -114,7 +114,7 @@ public class PanelCamiones extends PanelPersonalizado {
 		tabla.getTableHeader().setFont(new Font("Comic Sans MS",Font.PLAIN,12));
 		tabla.setRowHeight(20);
 		tabla.getTableHeader().setReorderingAllowed(false);
-		tabla.setToolTipText("Hac� doble clic para editar el campo o presion� Supr para eliminar");
+		tabla.setToolTipText("Hacé doble clic para editar el campo o presioná Supr para eliminar");
 
 		tabla.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -127,14 +127,14 @@ public class PanelCamiones extends PanelPersonalizado {
 					Boolean continuar = true;
 					switch (column) {
 					case 1:
-						int indice = ingresoComboPopUpInt("Seleccion� una planta distinta a "+valorOriginal, desplegable_plantas);
+						int indice = ingresoComboPopUpInt("Seleccioná una planta distinta a "+valorOriginal, desplegable_plantas);
 						if (indice!= -1)
 							valorNuevo = todasLasPlantas.get(indice).getId_planta();
 						break;
 					case 3:
 					case 4:
 					case 5:
-						valorNuevo = ingresoPopUp("Ingres� un valor distinto para "+valorOriginal);
+						valorNuevo = ingresoPopUp("Ingresá un valor distinto para "+valorOriginal);
 						break;
 					default:
 						notificacionPopUp(new Mensaje(false, "Este campo no es modificable"));

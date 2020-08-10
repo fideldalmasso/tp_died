@@ -2,9 +2,6 @@ package tp.dominio;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
-
-import tp.dao.PlantaDAO;
 import tp.dao.StockInsumoDAO;
 import tp.enumerados.Unidad;
 

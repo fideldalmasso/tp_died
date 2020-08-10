@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import tp.dominio.*;
-import tp.enumerados.Unidad;
 
 public class InsumoLiquidoDAO implements Registrable<InsumoLiquido>{
 	
