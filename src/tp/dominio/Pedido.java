@@ -53,23 +53,6 @@ public class Pedido {
 		return plantasConStock;
 	}
 	
-	public void crearEnvio(){
-		//falta crear metodo CalcularCostoEnvio
-		Boolean eligeLaMasCorta = null;
-		Boolean eligeLaMasRapida = null;
-		List<Ruta> rutaSeleccionada = null ;
-		Double costoEnvio = 0d;
-		Camion camionConPrioridad = this.planta_origen.getCamionConPrioridad();
-		if(eligeLaMasCorta) {
-		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
-		}else if (eligeLaMasRapida) {
-		//  costoEnvio = empresa.obtenerCamino(this.plantaOrigen, this.plantaDestino).CalcularCostoEnvio;
-		}
-		this.envio = new Envio("un id", camionConPrioridad, costoEnvio , rutaSeleccionada) ;
-		//camionConPrioridad.agregarKm(kilometers); agrega los kilometros del camino
-		this.estado_pedido = Estado.PROCESADA;
-	}
-	
 	//GETTERS Y SETTERS-----------------------------------------------
 	
 	public String getId_pedido() {
