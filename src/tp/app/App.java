@@ -86,7 +86,7 @@ public class App extends JFrame {
 		this.actual = new JPanel();
 		PanelHome home =new PanelHome(); 
 		this.cambiarPanel(home);
-		PanelPlantas pi = new PanelPlantas();
+//		PanelPlantas pi = new PanelPlantas();
 		//MENU------------------------------------------------------------------------------------------------
 
 		//TOOLBAR------------------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ public class App extends JFrame {
 			case "PanelHome":
 				break;
 			case "PanelStockInsumo":
-				cambiarPanel(pi);
+				cambiarPanel(new PanelPlantas());
 				break;
 			case "PanelAgregarPedido":
 			case "PanelProcesarPedido":

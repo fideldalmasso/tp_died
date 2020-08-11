@@ -101,9 +101,22 @@ public class PanelInsumos extends PanelPersonalizado {
 		}
 	}
 	
+
+	public void actualizarTabla(String tipo) {
+		if(tipo == "Líquidos") {
+			tableModelGenerales.fireTableDataChanged();
+		tableModelGenerales.recargarTabla();}
+		else {
+		tableModelLiquidos.fireTableDataChanged();
+		tableModelLiquidos.recargarTabla();}
+		tabla.repaint();
+		//tabla.validate();
+	}
 	public void actualizarTabla() {
 		tableModelGenerales.fireTableDataChanged();
 		tableModelGenerales.recargarTabla();
+		tableModelLiquidos.fireTableDataChanged();
+		tableModelLiquidos.recargarTabla();
 		tabla.repaint();
 		//tabla.validate();
 	}
@@ -224,15 +237,20 @@ public class PanelInsumos extends PanelPersonalizado {
 		boton_agregar.addActionListener( e ->{	
 			Object novo = this.comboBoxAgregarInsumo.getSelectedItem().toString();
 			Mensaje m ;
-			if( this.comboBoxTipo2.getSelectedItem().toString()== "Líquido") {
-				m = controllerIL.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo ),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
-				  }else {
-					m =  controllerIG.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
-					   }
+			if(this.campo_descripcion.getText().equals("")|| this.campo_costo.getText().equals("") || this.dyp.getText().equals("")) {
+				m = new Mensaje(false, "No debe haber campos incompletos");
+			}else {
+				if( this.comboBoxTipo2.getSelectedItem().toString()== "Líquido") {
+					m = controllerIL.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo ),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
+					  }else {
+						m =  controllerIG.add(campo_descripcion.getText().toString(),Unidad.valueOf((String)novo),Double.parseDouble(campo_costo.getText()),Double.parseDouble(dyp.getText()));
+						   }
+			}
 			notificacionPopUp(m);
 			if(m.exito()) {
 				//Le asigna un stock a cada planta
-				actualizarTabla();
+				actualizarTabla(this.comboBoxTipo2.getSelectedItem().toString());
+
 				for(Planta planta : lista) {
 					sid.add(new StockInsumo(planta.getId_planta(),insumodao.getID(campo_descripcion.getText().toString()),0,0));
 				}
