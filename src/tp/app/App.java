@@ -31,6 +31,9 @@ public class App extends JFrame {
 	
 	
 	public void cambiarPanel(PanelPersonalizado p) {
+		
+		
+		
 		//this.setContentPane(panel);
 		Dimension d = this.getSize();
 		this.remove(actual);

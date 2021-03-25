@@ -41,10 +41,10 @@ public abstract class DataBase {
 			
 		} catch (ClassNotFoundException e) {
 //			e.printStackTrace();
-			return new Mensaje(false,"Driver jdbc inválido");
+			return new Mensaje(false,"Driver jdbc invÃ¡lido");
 		} catch (SQLException e) {
 //			e.printStackTrace();
-			return new Mensaje(false,"No se pudo establecer la conexión con la DB, intente otros datos");
+			return new Mensaje(false,"No se pudo establecer la conexiÃ³n con la DB, intente otros datos");
 		}
 		finally {
 			funciona = false;
@@ -77,7 +77,7 @@ public abstract class DataBase {
 			return new Mensaje(false,"Error de lectura en datosDB.json");
 		} catch (ParseException e) {
 //			e.printStackTrace();
-			return new Mensaje(false,"Archivo datosDB.json inválido");
+			return new Mensaje(false,"Archivo datosDB.json invÃ¡lido");
 		}
 	
 		
@@ -242,7 +242,7 @@ public abstract class DataBase {
 	}
 
 
-	//Quizás resulte útil:
+	//QuizÃ¡s resulte Ãºtil:
 	//https://softwareengineering.stackexchange.com/questions/339598/how-to-write-a-proper-class-to-connect-to-database-in-java
 
 }

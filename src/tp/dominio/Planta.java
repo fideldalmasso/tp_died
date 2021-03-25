@@ -103,7 +103,7 @@ public class Planta{
 		Integer contador = 0;
 		for(DetallePedido dp : p.getLista_detalle_pedidos()) {
 			for(StockInsumo si : this.lista_stock_insumos) {
-				if(si.getInsumo().equals(dp.getInsumo()) && si.getStock() > dp.getCantidad_de_unidades())
+				if(si.getInsumo().equals(dp.getInsumo().getId_insumo()) && si.getStock() > dp.getCantidad_de_unidades())
 					contador++;
 			}
 		}
